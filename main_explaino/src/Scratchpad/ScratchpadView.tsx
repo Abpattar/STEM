@@ -19,7 +19,7 @@ export const ScratchpadView: React.FC<ScratchpadViewProps> = ({
   onBack,
   className = '',
 }) => {
-  const scratchpadUrl = import.meta.env.VITE_SCRATCHPAD_URL || 'http://localhost:5174';
+  const scratchpadUrl = import.meta.env.VITE_SCRATCHPAD_URL || (typeof window !== 'undefined' && window.location.hostname !== 'localhost' ? '/scratchpad/index.html' : 'http://localhost:5174');
   const [iframeKey, setIframeKey] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);

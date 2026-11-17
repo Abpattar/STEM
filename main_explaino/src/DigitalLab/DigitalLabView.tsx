@@ -16,7 +16,7 @@ export const DigitalLabView: React.FC<DigitalLabViewProps> = ({
   onBack,
   className = '',
 }) => {
-  const labUrl = import.meta.env.VITE_DIGITAL_LAB_URL || 'http://localhost:5175';
+  const labUrl = import.meta.env.VITE_DIGITAL_LAB_URL || (typeof window !== 'undefined' && window.location.hostname !== 'localhost' ? '/digitallab/index.html' : 'http://localhost:5175');
   const [iframeKey, setIframeKey] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);

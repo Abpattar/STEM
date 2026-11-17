@@ -23,7 +23,7 @@ export const VoiceAgent: React.FC<VoiceAgentProps> = ({
   onNavigateToTopic,
   className = '',
 }) => {
-  const voiceAgentUrl = import.meta.env.VITE_VOICE_AGENT_URL || 'http://localhost:3000';
+  const voiceAgentUrl = import.meta.env.VITE_VOICE_AGENT_URL || (typeof window !== 'undefined' && window.location.hostname !== 'localhost' ? '/voice' : 'http://localhost:3000');
   const [iframeKey, setIframeKey] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
