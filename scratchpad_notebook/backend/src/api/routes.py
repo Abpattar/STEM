@@ -12,7 +12,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from src.solver.schemas import (
     StructuredProblem, RawSolutionStep, SolutionStep,
-    OperationType, TopicSupport, Validation,
+    OperationType, TopicSupport, Validation, ValidationMethod,
+)
+from src.practice.schemas import (
     AttemptResult, AttemptClassification, MisconceptionId,
 )
 from src.solver import solve, verify_step, TopicSupport as SolverTopicSupport
@@ -93,12 +95,12 @@ class InterpretRequest(BaseModel):
 class PracticeAttemptRequest(BaseModel):
     problem: StructuredProblem
     attempt_ast: Dict[str, Any]
-    current_step: int
+    current_step: int = Field(..., ge=0)
     grade: int = Field(default=7, ge=1, le=10)
 
 
 class PracticeAttemptResponse(BaseModel):
-    result: "AttemptResult"
+    result: AttemptResult
     next_hint: Optional[str] = None
 
 
@@ -738,45 +740,72 @@ async def get_practice_hint(
     problem: StructuredProblem,
     current_step: int = Query(..., ge=0),
     student_attempt: Optional[Dict] = None,
-    grade: int = Query(7, ge=1, le=10)
+    grade: int = Query(7, ge=1, le=10),
+    hint_level: int = Query(1, ge=1, le=4),
 ):
-    """Get the next hint level for a practice attempt."""
-    from src.practice.hint_ladder import generate_hint_ladder
-    from src.solver.schemas import StructuredProblem, SolutionStep
-    
-    # Find the current step
-    # In practice, we'd have the full solution steps
-    # For now, return a hint based on the step number
-    hint = generate_hint_ladder(
-        SolutionStep(
-            step_number=current_step,
-            operation="",
-            equation_ast={},
-            display_math="",
-            explanation="",
-            validation={"is_valid": True, "method": "", "details": ""},
-            hint="",
-            is_final_answer=False,
-            final_answer_text="",
-            diagram_focus=[],
-            diagram_type="none"
-        ),
-        StructuredProblem(
-            problem_type="equation",
-            expressions=[],
-            unknowns=[],
-            given_values={},
-            constraints=[],
-            requested_operation="solve",
-            topic="linear_equations",
-            units={},
-            grade_hint=grade,
-            source="typed"
-        ),
-        grade,
-        current_hint_level=1
+    """Get the requested hint level (1-4) for a practice attempt."""
+    from src.practice.hint_ladder import generate_hint_ladder, should_reveal_step
+
+    first_expr = problem.expressions[0] if problem.expressions else {}
+    expr_latex = first_expr.get("latex", "") if isinstance(first_expr, dict) else ""
+    expr_ast = first_expr.get("ast_json", {}) if isinstance(first_expr, dict) else {}
+
+    step_operation = problem.requested_operation or "solve"
+    step_explanation = (
+        first_expr.get("explanation", "")
+        if isinstance(first_expr, dict)
+        else ""
     )
-    return {"hint": hint, "level": 1}
+    step_validation = Validation(
+        is_valid=True,
+        method=ValidationMethod.MANUAL,
+        details="Practice hint step context",
+    )
+
+    if not step_explanation and expr_ast:
+        try:
+            raw_steps = solve(problem, grade)
+            if raw_steps:
+                target_idx = min(current_step, len(raw_steps) - 1)
+                raw_step = raw_steps[target_idx]
+                step_operation = raw_step.operation.value
+                step_validation = raw_step.validation
+                step_explanation = (
+                    f"Apply '{raw_step.operation.value.replace('_', ' ')}' symmetrically to both sides."
+                )
+        except Exception:
+            pass
+
+    if not step_explanation:
+        step_explanation = (
+            f"Apply the inverse operation for '{step_operation.replace('_', ' ')}' to both sides."
+        )
+
+    step = SolutionStep(
+        step_number=current_step if current_step > 0 else 1,
+        operation=step_operation,
+        equation_ast=expr_ast if isinstance(expr_ast, dict) else {},
+        display_math=expr_latex,
+        explanation=step_explanation,
+        validation=step_validation,
+        hint="",
+        is_final_answer=False,
+        final_answer_text="",
+        diagram_focus=[],
+        diagram_type="none",
+    )
+
+    hint = generate_hint_ladder(
+        step,
+        problem,
+        grade,
+        current_hint_level=hint_level,
+    )
+    return {
+        "hint": hint,
+        "level": hint_level,
+        "show_step_allowed": should_reveal_step(hint_level),
+    }
 
 
 # History endpoints

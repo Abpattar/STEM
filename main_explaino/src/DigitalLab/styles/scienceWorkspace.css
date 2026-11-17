@@ -1,0 +1,238 @@
+/* ============================================================================
+   NILO Science Kingdom — Strictly Scoped Workspace Styles
+   All rules are namespaced under .nilo-science-workspace to prevent any
+   leakage into NILO Dashboard, Navbar, Scratchpad, or global elements.
+   ============================================================================ */
+
+.nilo-science-workspace {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #050811;
+  color: #f8fafc;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Stone & Parchment Laboratory Panels */
+.nilo-science-workspace .stone-panel {
+  background: rgba(28, 25, 23, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(168, 162, 158, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.nilo-science-workspace .wood-panel {
+  background: linear-gradient(145deg, rgba(69, 43, 24, 0.92), rgba(45, 27, 14, 0.95));
+  border: 2px solid rgba(180, 118, 62, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 200, 150, 0.15);
+}
+
+/* Glassmorphic Laboratory Panels */
+.nilo-science-workspace .glass-panel {
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+.nilo-science-workspace .glass-panel-dark {
+  background: rgba(7, 11, 20, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nilo-science-workspace .glass-panel-light {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Luminous Highlights */
+.nilo-science-workspace .glow-cyan {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.35), inset 0 0 12px rgba(6, 182, 212, 0.15);
+}
+
+.nilo-science-workspace .glow-emerald {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.35), inset 0 0 12px rgba(16, 185, 129, 0.15);
+}
+
+.nilo-science-workspace .glow-amber {
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.35), inset 0 0 12px rgba(245, 158, 11, 0.15);
+}
+
+.nilo-science-workspace .glow-purple {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.35), inset 0 0 12px rgba(168, 85, 247, 0.15);
+}
+
+.nilo-science-workspace .chalk-text {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Tailwind v4 -> v3 Scoped Compatibility Helpers */
+.nilo-science-workspace .h-88 {
+  height: 22rem;
+}
+
+.nilo-science-workspace .brightness-85 {
+  filter: brightness(0.85);
+}
+
+.nilo-science-workspace .science-fade-in {
+  animation: scienceFadeIn 0.2s ease-out both;
+}
+
+.nilo-science-workspace .science-zoom-in {
+  animation: scienceZoomIn 0.28s ease-out both;
+}
+
+.nilo-science-workspace .science-slide-up {
+  animation: scienceSlideUp 0.28s ease-out both;
+}
+
+/* Scoped Keyframes */
+@keyframes sciencePulseRing {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+}
+
+@keyframes scienceFloatSubtle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes scienceFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scienceZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scienceSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes waterDropFall {
+  0% {
+    transform: translate(-50%, 0px) scale(0.65);
+    opacity: 0.9;
+  }
+  20% {
+    transform: translate(-50%, 15px) scale(1.05, 1.15);
+    opacity: 1;
+  }
+  85% {
+    transform: translate(-50%, 145px) scale(0.9, 1.35);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 165px) scale(1.3, 0.4);
+    opacity: 0;
+  }
+}
+
+@keyframes waterRippleRing {
+  0% {
+    transform: scale(0.15);
+    opacity: 0.9;
+    border-width: 3px;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+    border-width: 1px;
+  }
+}
+
+@keyframes bulbPump {
+  0%, 100% {
+    transform: scaleX(1) scaleY(1);
+  }
+  50% {
+    transform: scaleX(0.75) scaleY(1.1);
+  }
+}
+
+@keyframes titrationDropFall {
+  0% {
+    transform: translate(-50%, -2px) scale(0.6);
+    opacity: 0.9;
+  }
+  30% {
+    transform: translate(-50%, 12px) scale(1.0, 1.2);
+    opacity: 1;
+  }
+  85% {
+    transform: translate(-50%, 54px) scale(0.85, 1.3);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 62px) scale(1.3, 0.4);
+    opacity: 0;
+  }
+}
+
+.nilo-science-workspace .animate-float {
+  animation: scienceFloatSubtle 3.5s ease-in-out infinite;
+}
+
+/* Scoped Custom Scrollbar inside Science Kingdom only */
+.nilo-science-workspace ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.nilo-science-workspace ::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.nilo-science-workspace ::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 9999px;
+}
+
+.nilo-science-workspace ::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.6);
+}
+

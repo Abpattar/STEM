@@ -4,14 +4,23 @@
   "description": "Unified STEM Learning Platform integrating Explaino, MathNoteBook Scratchpad, VoiceAgent, and Science Kingdom Digital Lab",
   "scripts": {
     "dev:main": "npm --prefix main_explaino run dev",
-    "dev:scratchpad:backend": "cd scratchpad_notebook/backend && .venv\\Scripts\\python -m uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload",
+    "dev:math:backend": "cd scratchpad_notebook/backend && .venv/bin/python -m uvicorn src.main:app --host 127.0.0.1 --port ${MATH_BACKEND_PORT:-8001} --reload",
+    "dev:science:ai": "cd science_ai_backend && ../scratchpad_notebook/backend/.venv/bin/python -m uvicorn main:app --host 127.0.0.1 --port ${SCIENCE_AI_PORT:-8002} --reload",
+    "dev:scratchpad:backend": "npm run dev:math:backend",
     "dev:scratchpad:frontend": "npm --prefix scratchpad_notebook/frontend run dev",
     "dev:scratchpad": "concurrently -n \"SCRATCH-BE,SCRATCH-FE\" -c \"blue,cyan\" \"npm run dev:scratchpad:backend\" \"npm run dev:scratchpad:frontend\"",
     "dev:voice": "npm --prefix voice_agent run dev",
     "dev:lab": "npm --prefix digital_lab run dev",
+    "dev:stem": "concurrently -n \"NILO,MATH-BE,SCI-AI,EXO\" -c \"magenta,blue,cyan,green\" \"npm run dev:main\" \"npm run dev:math:backend\" \"npm run dev:science:ai\" \"npm run dev:voice\"",
     "dev": "concurrently -n \"MAIN,SCRATCH-BE,SCRATCH-FE,VOICE,LAB\" -c \"magenta,blue,cyan,green,yellow\" \"npm run dev:main\" \"npm run dev:scratchpad:backend\" \"npm run dev:scratchpad:frontend\" \"npm run dev:voice\" \"npm run dev:lab\"",
-    "start": "npm run dev",
-    "build": "npm --prefix voice_agent run build"
+    "start": "npm run dev:stem",
+    "build:main": "npm --prefix main_explaino run build",
+    "build:voice": "npm --prefix voice_agent run build",
+    "build:all": "npm run build:main && npm run build:voice",
+    "build": "npm run build:all",
+    "test:math:backend": "cd scratchpad_notebook/backend && .venv/bin/pytest",
+    "test:voice": "npm --prefix voice_agent test",
+    "test:stem": "npm run test:math:backend && npm run test:voice"
   },
   "dependencies": {
     "lucide-react": "^1.73.0",

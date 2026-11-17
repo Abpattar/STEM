@@ -34,7 +34,7 @@ import {
 } from 'lucide-react';
 import { ExoOrb } from './ExoOrb';
 import { ExoTransitionOverlay } from './ExoTransitionOverlay';
-import { ChatSession } from './ChatSession';
+import { VoiceAgent } from '../Voice';
 import { LearnPage } from './LearnPage';
 import { HeroSlider } from './HeroSlider';
 import { ArcadeCabinet3D } from './ArcadeCabinet3D';
@@ -246,14 +246,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
     }, 4000);
   };
 
-  // Fullscreen voice/concept session
+  // Fullscreen canonical EXO Voice Tutor session (unified with center orb & radial menu)
   if (showChatSession) {
     return (
       <div className="fixed inset-0 z-50">
-        <ChatSession
-          userName={userName}
+        <VoiceAgent
+          fullScreen={true}
+          backLabel="Back to Dashboard"
           initialTopic={sessionTopic}
-          onBackToDashboard={() => {
+          initialInteractionMode="voice"
+          onClose={() => {
             setShowChatSession(false);
             setIsTransitioning(false);
             window.scrollTo(0, 0);
@@ -1517,13 +1519,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       )}
 
-      {/* ================= INTERACTIVE VOICE & CONCEPT CHAT INTERFACE ================= */}
+      {/* ================= CANONICAL EXO VOICE TUTOR SESSION ================= */}
       {showChatSession && (
         <div className="fixed inset-0 z-50">
-          <ChatSession
-            userName={userName}
+          <VoiceAgent
+            fullScreen={true}
+            backLabel="Back to Dashboard"
             initialTopic={sessionTopic}
-            onBackToDashboard={() => {
+            initialInteractionMode="voice"
+            onClose={() => {
               setShowChatSession(false);
               setIsTransitioning(false);
               window.scrollTo(0, 0);

@@ -1,0 +1,139 @@
+.concept-learning-drawer {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.drawer-header {
+  margin-bottom: 12px;
+}
+
+.header-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.badge-icon {
+  font-size: 22px;
+}
+
+.drawer-title {
+  margin: 0 0 4px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.drawer-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.concept-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.concept-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.concept-card.expanded {
+  background: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
+}
+
+.concept-card-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.concept-num-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.step-badge {
+  background: #e2e8f0;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 600;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.concept-card.expanded .step-badge {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+.concept-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.concept-domain {
+  font-size: 11px;
+  text-transform: uppercase;
+  background: #f1f5f9;
+  color: #64748b;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.toggle-icon {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.concept-card-body {
+  padding: 10px 14px 14px 46px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.concept-desc {
+  margin: 0 0 10px 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #334155;
+}
+
+.concept-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.concept-id-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #94a3b8;
+}
+

@@ -1,0 +1,2555 @@
+/* ==========================================================================
+   Scoped CSS for MathNoteBook Learning, Practice, Textbook & Accessibility
+   STRICTLY SCOPED under .nilo-math-workspace — zero global CSS leakage!
+   ========================================================================== */
+
+.nilo-math-workspace .workspace-mode-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+}
+
+.nilo-math-workspace .workspace-mode-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nilo-math-workspace .workspace-mode-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.nilo-math-workspace .workspace-mode-sub {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.nilo-math-workspace .workspace-mode-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nilo-math-workspace .workspace-utility-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #1e293b;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nilo-math-workspace .workspace-utility-btn:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.nilo-math-workspace .workspace-utility-btn.isl-cam {
+  border-color: #a7f3d0;
+  color: #047857;
+  background: #ecfdf5;
+}
+
+.nilo-math-workspace .workspace-utility-btn.isl-cam:hover {
+  background: #d1fae5;
+}
+
+.nilo-math-workspace.reduced-distraction .workspace-mode-sub,
+.nilo-math-workspace.reduced-distraction .solution-viz-callout {
+  display: none;
+}
+
+/* ---------- ModeToggle ---------- */
+.nilo-math-workspace .mode-toggle {
+  display: inline-flex;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  padding: 3px;
+  gap: 3px;
+}
+
+.nilo-math-workspace .mode-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nilo-math-workspace .mode-toggle-btn.active {
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25);
+}
+
+.nilo-math-workspace .mode-toggle-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* ---------- Prerequisites & Concept Dependency Graph ---------- */
+.nilo-math-workspace .concept-learning-drawer {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.nilo-math-workspace .drawer-header .header-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.nilo-math-workspace .drawer-header .badge-icon {
+  font-size: 20px;
+}
+
+.nilo-math-workspace .drawer-title {
+  margin: 0 0 4px 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.nilo-math-workspace .drawer-subtitle {
+  margin: 0;
+  font-size: 12.5px;
+  color: #475569;
+  line-height: 1.45;
+}
+
+.nilo-math-workspace .prereq-catalog-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.nilo-math-workspace .prereq-catalog-btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 7px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #334155;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .prereq-catalog-btn.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #1d4ed8;
+}
+
+.nilo-math-workspace .concept-dag-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.nilo-math-workspace .dag-node-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 145px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: #1e293b;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.nilo-math-workspace .dag-node-btn.selected {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18);
+}
+
+.nilo-math-workspace .dag-node-btn.status-mastered {
+  border-color: #10b981;
+  background: #ecfdf5;
+}
+
+.nilo-math-workspace .dag-node-btn.status-learning {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.nilo-math-workspace .dag-node-btn.status-review_needed {
+  border-color: #f59e0b;
+  background: #fffbeb;
+}
+
+.nilo-math-workspace .dag-node-order {
+  font-size: 10px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.nilo-math-workspace .dag-node-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.nilo-math-workspace .dag-node-meta {
+  font-size: 10.5px;
+  color: #475569;
+  text-transform: capitalize;
+}
+
+.nilo-math-workspace .dag-arrow {
+  color: #94a3b8;
+  font-weight: 700;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.nilo-math-workspace .dag-target-node {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 170px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.5px solid #1d4ed8;
+  background: #eff6ff;
+  flex-shrink: 0;
+}
+
+.nilo-math-workspace .dag-target-tag {
+  font-size: 10px;
+  font-weight: 800;
+  color: #1d4ed8;
+  letter-spacing: 0.06em;
+}
+
+.nilo-math-workspace .dag-target-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.nilo-math-workspace .dag-target-id {
+  font-size: 10.5px;
+  color: #475569;
+}
+
+.nilo-math-workspace .prereq-status-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  color: #475569;
+  padding: 6px 10px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.nilo-math-workspace .prereq-session-note {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.nilo-math-workspace .concept-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nilo-math-workspace .concept-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.nilo-math-workspace .concept-card.expanded {
+  background: #ffffff;
+  border-color: #3b82f6;
+}
+
+.nilo-math-workspace .concept-card-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.nilo-math-workspace .concept-num-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nilo-math-workspace .concept-card .step-badge {
+  background: #e2e8f0;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 700;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nilo-math-workspace .concept-card.expanded .step-badge {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .concept-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.nilo-math-workspace .concept-domain {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  background: #f1f5f9;
+  color: #64748b;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.nilo-math-workspace .fsrs-status-pill {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.nilo-math-workspace .fsrs-status-pill.mastered {
+  background: #065f46;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .fsrs-status-pill.learning {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .fsrs-status-pill.review_needed {
+  background: #b45309;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .fsrs-status-pill.explored {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.nilo-math-workspace .fsrs-status-pill.unassessed {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.nilo-math-workspace .concept-card-body {
+  padding: 10px 14px 14px 14px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.nilo-math-workspace .concept-desc {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.nilo-math-workspace .fsrs-metrics-box {
+  background: #0f172a;
+  color: #f8fafc;
+  border-radius: 9px;
+  padding: 12px 14px;
+  border: 1px solid #334155;
+}
+
+.nilo-math-workspace .fsrs-metrics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nilo-math-workspace .fsrs-metrics-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.nilo-math-workspace .fsrs-streak-badge {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.nilo-math-workspace .fsrs-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  text-align: center;
+}
+
+.nilo-math-workspace .fsrs-metric-cell {
+  background: #1e293b;
+  padding: 7px 6px;
+  border-radius: 6px;
+}
+
+.nilo-math-workspace .fsrs-metric-label {
+  display: block;
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.nilo-math-workspace .fsrs-metric-val {
+  font-size: 12.5px;
+}
+
+.nilo-math-workspace .fsrs-metric-val.stability { color: #4ade80; }
+.nilo-math-workspace .fsrs-metric-val.difficulty { color: #fbbf24; }
+.nilo-math-workspace .fsrs-metric-val.recall { color: #38bdf8; }
+.nilo-math-workspace .fsrs-metric-val.interval { color: #c084fc; }
+
+.nilo-math-workspace .fsrs-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.nilo-math-workspace .fsrs-btn {
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .fsrs-btn.again {
+  background: #334155;
+  color: #fca5a5;
+  border: 1px solid #475569;
+}
+
+.nilo-math-workspace .fsrs-btn.good {
+  background: #059669;
+  color: #ffffff;
+  border: none;
+}
+
+.nilo-math-workspace .concept-footer {
+  margin-top: 8px;
+}
+
+.nilo-math-workspace .concept-id-tag {
+  font-family: monospace;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.nilo-math-workspace .prereq-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* ---------- Practice Mode, Hints & Misconceptions ---------- */
+.nilo-math-workspace .practice-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+}
+
+.nilo-math-workspace .practice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.nilo-math-workspace .practice-header h2 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.nilo-math-workspace .practice-subtitle {
+  margin: 0;
+  font-size: 12.5px;
+  color: #475569;
+}
+
+.nilo-math-workspace .practice-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nilo-math-workspace .step-indicator {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1d4ed8;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.nilo-math-workspace .skip-btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .skip-btn.active {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+
+.nilo-math-workspace .skip-btn.danger {
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.nilo-math-workspace .practice-preset-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+}
+
+.nilo-math-workspace .practice-preset-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.nilo-math-workspace .practice-preset-btn {
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #1e293b;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .practice-preset-btn:hover {
+  border-color: #2563eb;
+  color: #1d4ed8;
+}
+
+.nilo-math-workspace .practice-history-drawer {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.nilo-math-workspace .practice-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.nilo-math-workspace .practice-history-header h4 {
+  margin: 0;
+  font-size: 13.5px;
+  color: #0f172a;
+}
+
+.nilo-math-workspace .practice-history-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.nilo-math-workspace .practice-history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nilo-math-workspace .practice-history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.nilo-math-workspace .history-item-meta {
+  display: block;
+  font-size: 11.5px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.nilo-math-workspace .practice-history-msg {
+  font-size: 12px;
+  color: #047857;
+  margin: 6px 0;
+}
+
+.nilo-math-workspace .practice-history-empty,
+.nilo-math-workspace .practice-empty-state {
+  font-size: 13px;
+  color: #475569;
+  padding: 16px;
+  text-align: center;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+}
+
+.nilo-math-workspace .practice-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.nilo-math-workspace .step-preview,
+.nilo-math-workspace .current-step {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.nilo-math-workspace .step-preview h4,
+.nilo-math-workspace .current-step h4 {
+  margin: 0 0 8px 0;
+  font-size: 13.5px;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nilo-math-workspace .practice-op-pill {
+  font-size: 11px;
+  font-weight: 600;
+  background: #eff6ff;
+  color: #1d4ed8;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.nilo-math-workspace .practice-prev-step {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 12.5px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nilo-math-workspace .practice-attempt-input-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nilo-math-workspace .attempt-input-form {
+  display: flex;
+  gap: 8px;
+}
+
+.nilo-math-workspace .attempt-input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: monospace;
+  color: #0f172a;
+  background: #ffffff;
+}
+
+.nilo-math-workspace .attempt-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+}
+
+.nilo-math-workspace .submit-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nilo-math-workspace .attempt-katex-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #334155;
+  padding: 4px 8px;
+  background: #f8fafc;
+  border-radius: 6px;
+}
+
+.nilo-math-workspace .feedback-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nilo-math-workspace .feedback-display {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 9px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+}
+
+.nilo-math-workspace .feedback-display.correct,
+.nilo-math-workspace .feedback-display.alternate {
+  border-color: #10b981;
+  background: #ecfdf5;
+}
+
+.nilo-math-workspace .feedback-display.incorrect {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.nilo-math-workspace .feedback-display.warning {
+  border-color: #f59e0b;
+  background: #fffbeb;
+}
+
+.nilo-math-workspace .feedback-icon {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.nilo-math-workspace .feedback-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nilo-math-workspace .feedback-label {
+  font-weight: 700;
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.nilo-math-workspace .feedback-input-echo {
+  font-size: 11.5px;
+  background: rgba(15, 23, 42, 0.06);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.nilo-math-workspace .feedback-source-badge {
+  font-size: 10.5px;
+  background: #e2e8f0;
+  color: #334155;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.nilo-math-workspace .feedback-message {
+  margin: 4px 0 0 0;
+  font-size: 12.5px;
+  color: #334155;
+}
+
+.nilo-math-workspace .hint-indicator,
+.nilo-math-workspace .misconception-flag {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #92400e;
+}
+
+.nilo-math-workspace .hint-ladder {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nilo-math-workspace .hint-ladder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nilo-math-workspace .hint-ladder-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.nilo-math-workspace .hint-level-counter {
+  font-size: 11.5px;
+  color: #475569;
+  font-weight: 600;
+}
+
+.nilo-math-workspace .hint-level-indicator {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.nilo-math-workspace .hint-level-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+}
+
+.nilo-math-workspace .hint-level-badge.completed {
+  background: #dbeafe;
+  border-color: #93c5fd;
+  color: #1e40af;
+}
+
+.nilo-math-workspace .hint-level-badge.current {
+  background: #2563eb;
+  border-color: #1d4ed8;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .hint-backend-note {
+  font-size: 11.5px;
+  color: #92400e;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.nilo-math-workspace .hint-empty-prompt {
+  margin: 0;
+  font-size: 12.5px;
+  color: #475569;
+}
+
+.nilo-math-workspace .hint-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nilo-math-workspace .hint-current {
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-left: 3px solid #2563eb;
+  border-radius: 7px;
+  padding: 9px 12px;
+}
+
+.nilo-math-workspace .hint-item-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.nilo-math-workspace .hint-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1d4ed8;
+  text-transform: uppercase;
+}
+
+.nilo-math-workspace .hint-source-tag {
+  font-size: 10px;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.nilo-math-workspace .hint-text {
+  margin: 0;
+  font-size: 12.5px;
+  color: #1e293b;
+}
+
+.nilo-math-workspace .hint-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nilo-math-workspace .hint-btn {
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .hint-btn.primary {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+}
+
+.nilo-math-workspace .hint-btn.secondary {
+  background: #ffffff;
+  color: #1d4ed8;
+  border: 1.5px solid #2563eb;
+}
+
+.nilo-math-workspace .hint-btn:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.nilo-math-workspace .revealed-step {
+  background: #eff6ff;
+  border: 1.5px solid #3b82f6;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.nilo-math-workspace .revealed-step h4 {
+  margin: 0 0 8px 0;
+  color: #1d4ed8;
+  font-size: 13.5px;
+}
+
+.nilo-math-workspace .misconception-banner {
+  background: #fff7ed;
+  border: 1.5px solid #f97316;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.nilo-math-workspace .misconception-banner h4 {
+  margin: 0 0 8px 0;
+  font-size: 13.5px;
+  color: #c2410c;
+}
+
+.nilo-math-workspace .misconception-banner ul {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nilo-math-workspace .misconception-item strong {
+  color: #9a3412;
+  font-size: 12.5px;
+}
+
+.nilo-math-workspace .misconception-item p {
+  margin: 2px 0;
+  font-size: 12.5px;
+  color: #431407;
+}
+
+.nilo-math-workspace .misconception-tip {
+  font-size: 11.5px;
+  color: #9a3412;
+  font-weight: 600;
+}
+
+.nilo-math-workspace .practice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+  padding-top: 8px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.nilo-math-workspace .save-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #059669;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .restart-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #2563eb;
+  background: #ffffff;
+  color: #2563eb;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .close-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .practice-complete {
+  text-align: center;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1.5px solid #10b981;
+  background: #ecfdf5;
+}
+
+.nilo-math-workspace .practice-complete h3 {
+  margin: 0 0 6px 0;
+  color: #065f46;
+}
+
+/* ---------- Textbook View ---------- */
+.nilo-math-workspace .textbook-view {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px;
+  background: #0f172a;
+  border-radius: 14px;
+  border: 1px solid #334155;
+  color: #f8fafc;
+}
+
+.nilo-math-workspace .textbook-chapter-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.nilo-math-workspace .textbook-chapter-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #1e293b;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .textbook-chapter-nav-btn.active {
+  background: #2563eb;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .textbook-back-notebook-pill {
+  margin-left: auto;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #475569;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .textbook-header {
+  border-bottom: 1px solid #334155;
+  padding-bottom: 16px;
+}
+
+.nilo-math-workspace .textbook-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.nilo-math-workspace .textbook-chapter-badge {
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.nilo-math-workspace .textbook-curriculum-badge {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.nilo-math-workspace .textbook-chapter-title {
+  margin: 6px 0 12px 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .textbook-outcomes {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.nilo-math-workspace .textbook-outcomes-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #60a5fa;
+  margin-bottom: 6px;
+}
+
+.nilo-math-workspace .textbook-outcomes-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nilo-math-workspace .textbook-outcome-item {
+  font-size: 12.5px;
+  color: #cbd5e1;
+}
+
+.nilo-math-workspace .textbook-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 370px) minmax(0, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 960px) {
+  .nilo-math-workspace .textbook-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.nilo-math-workspace .textbook-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.nilo-math-workspace .textbook-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nilo-math-workspace .textbook-card-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .textbook-prose,
+.nilo-math-workspace .textbook-law-text {
+  font-size: 12.5px;
+  color: #cbd5e1;
+  line-height: 1.5;
+  margin: 0 0 10px 0;
+}
+
+.nilo-math-workspace .textbook-math-block {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #ffffff;
+  overflow-x: auto;
+}
+
+.nilo-math-workspace .textbook-math-block.sub {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.35);
+}
+
+.nilo-math-workspace .textbook-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #60a5fa;
+  margin-bottom: 4px;
+}
+
+.nilo-math-workspace .textbook-axiom-box {
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 3px solid #10b981;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #d1fae5;
+}
+
+.nilo-math-workspace .textbook-proof-steps {
+  margin: 6px 0 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nilo-math-workspace .proof-step-label {
+  display: block;
+  font-size: 11.5px;
+  color: #a7f3d0;
+}
+
+.nilo-math-workspace .textbook-pitfalls-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nilo-math-workspace .textbook-pitfall-item {
+  font-size: 12.5px;
+  color: #fde68a;
+}
+
+.nilo-math-workspace .curated-examples-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nilo-math-workspace .curated-example-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: rgba(255, 255, 255, 0.04);
+  color: #f8fafc;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .curated-example-btn:hover,
+.nilo-math-workspace .curated-example-btn.selected {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #60a5fa;
+}
+
+.nilo-math-workspace .curated-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  background: #334155;
+  color: #93c5fd;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.nilo-math-workspace .curated-text {
+  font-size: 12px;
+}
+
+.nilo-math-workspace .worked-example-tag {
+  color: #60a5fa;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.nilo-math-workspace .worked-example-heading {
+  margin: 4px 0 14px 0;
+  font-size: 17px;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .problem-statement-box {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1.5px solid #3b82f6;
+  border-radius: 9px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+
+.nilo-math-workspace .problem-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #60a5fa;
+  margin-bottom: 4px;
+}
+
+.nilo-math-workspace .problem-statement-text {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  color: #e2e8f0;
+}
+
+.nilo-math-workspace .problem-statement-equation {
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .derivation-table-container {
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
+.nilo-math-workspace .derivation-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.nilo-math-workspace .derivation-table th {
+  background: #0f172a;
+  color: #94a3b8;
+  font-size: 11px;
+  text-transform: uppercase;
+  padding: 10px;
+  border: 1px solid #334155;
+  text-align: left;
+}
+
+.nilo-math-workspace .derivation-table td {
+  padding: 10px;
+  border: 1px solid #334155;
+  vertical-align: middle;
+}
+
+.nilo-math-workspace .step-math-cell {
+  background: rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .step-operation-name {
+  font-size: 11px;
+  color: #60a5fa;
+  margin-bottom: 3px;
+}
+
+.nilo-math-workspace .step-explanation-text {
+  font-size: 12.5px;
+  color: #f1f5f9;
+}
+
+.nilo-math-workspace .step-hint-badge {
+  margin-top: 5px;
+  font-size: 11.5px;
+  color: #fde68a;
+}
+
+.nilo-math-workspace .empty-derivation {
+  text-align: center;
+  padding: 26px 14px;
+  color: #cbd5e1;
+}
+
+.nilo-math-workspace .start-example-btn,
+.nilo-math-workspace .switch-notebook-btn {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .final-conclusion-card {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1.5px solid #10b981;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.nilo-math-workspace .conclusion-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #34d399;
+  margin-bottom: 8px;
+}
+
+.nilo-math-workspace .conclusion-math {
+  text-align: center;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.nilo-math-workspace .conclusion-note {
+  font-size: 12px;
+  color: #a7f3d0;
+  text-align: center;
+}
+
+.nilo-math-workspace .verification-card {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.nilo-math-workspace .verification-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #93c5fd;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.nilo-math-workspace .self-check-question {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  color: #f8fafc;
+}
+
+.nilo-math-workspace .self-check-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nilo-math-workspace .self-check-option-btn {
+  padding: 8px 12px;
+  border-radius: 7px;
+  border: 1px solid #475569;
+  background: #0f172a;
+  color: #e2e8f0;
+  text-align: left;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .self-check-option-btn.correct {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.25);
+  color: #ecfdf5;
+}
+
+.nilo-math-workspace .self-check-option-btn.incorrect {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.25);
+  color: #fef2f2;
+}
+
+.nilo-math-workspace .self-check-option-btn.correct-hint {
+  border-color: #10b981;
+}
+
+.nilo-math-workspace .self-check-explanation {
+  margin: 10px 0 0 0;
+  font-size: 12.5px;
+  color: #cbd5e1;
+}
+
+.nilo-math-workspace .textbook-accessibility-strip {
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nilo-math-workspace .acc-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  display: block;
+}
+
+.nilo-math-workspace .acc-val {
+  font-size: 13px;
+  color: #f8fafc;
+}
+
+.nilo-math-workspace .acc-val.braille {
+  font-family: monospace;
+  font-size: 17px;
+  color: #60a5fa;
+  letter-spacing: 2px;
+}
+
+.nilo-math-workspace .textbook-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+  border-top: 1px solid #334155;
+}
+
+/* ---------- Accessibility Panel, Braille, Speech, Sonification & ISL ---------- */
+.nilo-math-workspace .accessibility-panel {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 14px;
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nilo-math-workspace .a11y-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nilo-math-workspace .a11y-badge {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.nilo-math-workspace .a11y-header-sub {
+  margin: 3px 0 0 0;
+  font-size: 12px;
+  color: #475569;
+}
+
+.nilo-math-workspace .a11y-nilo-bridge {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.nilo-math-workspace .a11y-bridge-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .a11y-bridge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+.nilo-math-workspace .a11y-empty-card {
+  background: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: 9px;
+  padding: 16px;
+  font-size: 13px;
+  color: #475569;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.nilo-math-workspace .a11y-controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.nilo-math-workspace .a11y-control-cluster {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 4px 6px;
+  border-radius: 8px;
+}
+
+.nilo-math-workspace .a11y-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .a11y-btn.active {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #b91c1c;
+}
+
+.nilo-math-workspace .a11y-btn.sonification {
+  border-color: #c4b5fd;
+  color: #5b21b6;
+}
+
+.nilo-math-workspace .a11y-btn.sonification.active {
+  background: #6d28d9;
+  color: #ffffff;
+  border-color: #5b21b6;
+}
+
+.nilo-math-workspace .a11y-btn.isl {
+  border-color: #a7f3d0;
+  color: #047857;
+}
+
+.nilo-math-workspace .a11y-btn.isl.active {
+  background: #059669;
+  color: #ffffff;
+  border-color: #047857;
+}
+
+.nilo-math-workspace .a11y-mini-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #475569;
+  font-weight: 600;
+}
+
+.nilo-math-workspace .a11y-mini-control select {
+  font-size: 11px;
+  padding: 2px 5px;
+  border-radius: 5px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+}
+
+.nilo-math-workspace .a11y-mini-control input[type='range'] {
+  width: 64px;
+}
+
+.nilo-math-workspace .sonification-live-bar {
+  background: #f5f3ff;
+  border: 1px solid #c4b5fd;
+  color: #4c1d95;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+}
+
+.nilo-math-workspace .math-speech-card,
+.nilo-math-workspace .braille-output-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  padding: 12px 14px;
+}
+
+.nilo-math-workspace .braille-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.nilo-math-workspace .braille-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+}
+
+.nilo-math-workspace .a11y-honesty-tag {
+  font-size: 10.5px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.nilo-math-workspace .math-speech-text {
+  margin: 4px 0 6px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.nilo-math-workspace .braille-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nilo-math-workspace .braille-std-toggle {
+  display: inline-flex;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.nilo-math-workspace .braille-std-btn {
+  padding: 3px 8px;
+  border: none;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .braille-std-btn.active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .braille-copy-btn {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .braille-text-display {
+  font-size: 22px;
+  letter-spacing: 3px;
+  font-family: monospace;
+  color: #0f172a;
+  padding: 6px 0;
+  word-break: break-all;
+}
+
+.nilo-math-workspace .braille-steps-wrap {
+  margin-top: 6px;
+}
+
+.nilo-math-workspace .braille-steps-toggle {
+  background: transparent;
+  border: none;
+  color: #2563eb;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.nilo-math-workspace .braille-steps-list {
+  margin: 6px 0 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.nilo-math-workspace .braille-step-chars {
+  font-family: monospace;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.nilo-math-workspace .braille-subtext {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 6px;
+}
+
+/* ---------- ISL Skeleton Viewer & Step Gestures ---------- */
+.nilo-math-workspace .isl-drawer,
+.nilo-math-workspace .step-gestures-panel {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+.nilo-math-workspace .isl-drawer-header,
+.nilo-math-workspace .step-gestures-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.nilo-math-workspace .isl-drawer h5,
+.nilo-math-workspace .step-gestures-header .panel-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.nilo-math-workspace .isl-dialect-badge {
+  font-size: 10.5px;
+  background: #ecfdf5;
+  color: #047857;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #a7f3d0;
+  font-weight: 600;
+}
+
+.nilo-math-workspace .isl-mode-tabs,
+.nilo-math-workspace .isl-layer-tabs,
+.nilo-math-workspace .layer-tabs,
+.nilo-math-workspace .step-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.nilo-math-workspace .isl-mode-tab,
+.nilo-math-workspace .isl-layer-tab,
+.nilo-math-workspace .layer-tab,
+.nilo-math-workspace .step-select-chip {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #475569;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .isl-mode-tab.active,
+.nilo-math-workspace .isl-layer-tab.active,
+.nilo-math-workspace .layer-tab.active,
+.nilo-math-workspace .step-select-chip.active {
+  background: #0d9488;
+  color: #ffffff;
+  border-color: #0f766e;
+}
+
+.nilo-math-workspace .isl-step-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.nilo-math-workspace .selector-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.nilo-math-workspace .step-math-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.nilo-math-workspace .isl-layer-info-card,
+.nilo-math-workspace .layer-details-banner {
+  background: #f0fdfa;
+  border-left: 3px solid #0d9488;
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin: 8px 0;
+  font-size: 12px;
+  color: #134e4a;
+}
+
+.nilo-math-workspace .isl-skeleton-viewer {
+  background: #0b1615;
+  border: 1px solid #1e293b;
+  border-radius: 9px;
+  padding: 10px;
+  color: #f8fafc;
+}
+
+.nilo-math-workspace .skeleton-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.nilo-math-workspace .skeleton-sign-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nilo-math-workspace .sign-letter {
+  background: rgba(76, 235, 216, 0.16);
+  color: #4cebd8;
+  border: 1px solid rgba(76, 235, 216, 0.45);
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-family: monospace;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.nilo-math-workspace .sign-info {
+  font-size: 11.5px;
+  color: #cbd5e1;
+}
+
+.nilo-math-workspace .skeleton-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nilo-math-workspace .skeleton-btn {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.nilo-math-workspace .skeleton-btn.primary {
+  background: #0d9488;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .skeleton-btn.secondary {
+  background: #1e293b;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+}
+
+.nilo-math-workspace .skeleton-btn.stop {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.nilo-math-workspace .skeleton-speed-select {
+  background: #1e293b;
+  color: #f8fafc;
+  border: 1px solid #334155;
+  border-radius: 5px;
+  font-size: 11px;
+  padding: 3px 6px;
+}
+
+.nilo-math-workspace .skeleton-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  background: #0b1615;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.nilo-math-workspace .skeleton-canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.nilo-math-workspace .skeleton-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 22, 21, 0.85);
+  color: #4cebd8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.nilo-math-workspace .skeleton-sequence-strip {
+  margin-top: 8px;
+}
+
+.nilo-math-workspace .strip-label {
+  display: block;
+  font-size: 11px;
+  color: #94a3b8;
+  margin-bottom: 5px;
+}
+
+.nilo-math-workspace .strip-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.nilo-math-workspace .strip-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid #334155;
+  background: #1e293b;
+  color: #f1f5f9;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .strip-chip.active {
+  border-color: #4cebd8;
+  background: rgba(76, 235, 216, 0.18);
+  color: #4cebd8;
+}
+
+.nilo-math-workspace .chip-tag {
+  font-size: 9.5px;
+  opacity: 0.75;
+}
+
+.nilo-math-workspace .isl-success-note {
+  background: #f0fdf4;
+  color: #166534;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-top: 8px;
+  border: 1px solid #bbf7d0;
+}
+
+.nilo-math-workspace .isl-warning {
+  background: #fef2f2;
+  color: #991b1b;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-top: 8px;
+  border: 1px solid #fecaca;
+}
+
+.nilo-math-workspace .isl-disclaimer {
+  margin: 8px 0 0 0;
+  font-size: 11px;
+  color: #64748b;
+  font-style: italic;
+}
+
+.nilo-math-workspace .step-gesture-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 1px solid #a7f3d0;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .step-gesture-btn.active {
+  background: #059669;
+  color: #ffffff;
+  border-color: #047857;
+}
+
+/* ---------- Scoped Modals (StudentProfileModal & LiveISLRecognitionModal) ---------- */
+.nilo-math-workspace .math-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.nilo-math-workspace .math-modal-content {
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 14px;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35);
+  padding: 18px 20px;
+}
+
+.nilo-math-workspace .math-modal-content.isl-live-modal-card {
+  max-width: 650px;
+  background: #0f172a;
+  color: #f8fafc;
+  border-color: #334155;
+}
+
+.nilo-math-workspace .math-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.nilo-math-workspace .isl-live-modal-card .math-modal-header {
+  border-bottom-color: #334155;
+}
+
+.nilo-math-workspace .math-modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.nilo-math-workspace .math-modal-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: #64748b;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+.nilo-math-workspace .math-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.nilo-math-workspace .profile-identity-banner {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #334155;
+}
+
+.nilo-math-workspace .pref-section {
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nilo-math-workspace .pref-section h4 {
+  margin: 0 0 2px 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.nilo-math-workspace .pref-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+}
+
+.nilo-math-workspace .pref-row select {
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 12.5px;
+  background: #ffffff;
+}
+
+.nilo-math-workspace .pref-checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #334155;
+}
+
+.nilo-math-workspace .nilo-global-a11y-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: #f8fafc;
+  padding: 8px 10px;
+  border-radius: 7px;
+  font-size: 11.5px;
+  color: #475569;
+}
+
+.nilo-math-workspace .math-modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.nilo-math-workspace .isl-live-modal-card .math-modal-footer {
+  border-top-color: #334155;
+}
+
+.nilo-math-workspace .isl-live-scope-note {
+  margin: 0 0 12px 0;
+  font-size: 12px;
+  color: #cbd5e1;
+  background: #1e293b;
+  padding: 8px 10px;
+  border-radius: 7px;
+  border: 1px solid #334155;
+}
+
+.nilo-math-workspace .isl-live-error-box {
+  background: #7f1d1d;
+  color: #fecaca;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.nilo-math-workspace .isl-live-video-stage {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  background: #0b1615;
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+.nilo-math-workspace .isl-live-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(11, 22, 21, 0.9);
+  color: #4cebd8;
+  z-index: 10;
+  font-size: 13px;
+}
+
+.nilo-math-workspace .isl-live-video,
+.nilo-math-workspace .isl-live-canvas-overlay {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+.nilo-math-workspace .isl-live-canvas-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.nilo-math-workspace .isl-live-hud {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.88);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+}
+
+.nilo-math-workspace .isl-hud-label {
+  display: block;
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.nilo-math-workspace .isl-hud-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #4cebd8;
+  font-family: monospace;
+}
+
+.nilo-math-workspace .isl-hud-conf {
+  font-size: 11px;
+  color: #a7f3d0;
+  margin-left: 6px;
+}
+
+.nilo-math-workspace .isl-hud-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.nilo-math-workspace .isl-hud-btn {
+  padding: 6px 11px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .isl-hud-btn.primary {
+  background: #10b981;
+  color: #0f172a;
+  border: none;
+}
+
+.nilo-math-workspace .isl-hud-btn.secondary {
+  background: #334155;
+  color: #f8fafc;
+  border: 1px solid #475569;
+}
+
+.nilo-math-workspace .isl-live-stream-section {
+  margin-top: 12px;
+}
+
+.nilo-math-workspace .isl-live-stream-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.nilo-math-workspace .isl-stream-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+.nilo-math-workspace .isl-stream-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nilo-math-workspace .isl-clear-link {
+  background: transparent;
+  border: none;
+  color: #f87171;
+  font-size: 11px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.nilo-math-workspace .isl-autoinsert-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+.nilo-math-workspace .isl-stream-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 32px;
+  align-items: center;
+  background: #1e293b;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.nilo-math-workspace .isl-stream-empty {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.nilo-math-workspace .isl-stream-chip {
+  background: #047857;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  font-weight: 700;
+  font-family: monospace;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.nilo-math-workspace .isl-stream-chip button {
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  color: #fecaca;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 0;
+}
+
+.nilo-math-workspace .isl-current-input-preview {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.nilo-math-workspace .isl-current-input-preview code {
+  color: #f8fafc;
+}
+
+@media (max-width: 640px) {
+  .nilo-math-workspace .fsrs-metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .nilo-math-workspace .attempt-input-form {
+    flex-direction: column;
+  }
+}
+

@@ -1,5 +1,5 @@
 import {NextRequest,after} from "next/server";
-import {buildMessages,chooseContext,localReply,quickMentorReply,type SessionInput} from "@/lib/tutor";
+import {buildMessages,chooseContext,localReply,quickMentorReply,sanitizeLearningContext,type SessionInput} from "@/lib/tutor";
 import {retrieveTextbook} from "@/lib/textbook";
 import {getDB} from "@/lib/mongodb";
 import {eventFrame,parseSSE} from "@/lib/sse";
@@ -16,7 +16,8 @@ function prepare(x:unknown):SessionInput|null{
   .filter((t:unknown)=>!!t&&typeof t==="object"&&["student","exo"].includes((t as {role?:string}).role||"")&&typeof (t as {text?:string}).text==="string")
   .slice(-16).map((t:{role:"student"|"exo";text:string})=>({role:t.role,text:t.text.slice(0,850)})),
   sessionId:typeof b.sessionId==="string"&&/^[0-9a-z-]{12,80}$/i.test(b.sessionId)?b.sessionId:undefined,
-  languageCode:typeof b.languageCode==="string"&&/^(en|hi|kn|ta|te|bn|mr|gu|ml|pa|od)-IN$/.test(b.languageCode)?b.languageCode:"en-IN"};
+  languageCode:typeof b.languageCode==="string"&&/^(en|hi|kn|ta|te|bn|mr|gu|ml|pa|od)-IN$/.test(b.languageCode)?b.languageCode:"en-IN",
+  learningContext:sanitizeLearningContext(b.learningContext)};
 }
 export async function POST(req:NextRequest){
  const ip=(req.headers.get("x-forwarded-for")||"local").split(",")[0].trim(),now=Date.now();
@@ -49,7 +50,7 @@ export async function POST(req:NextRequest){
  const readable=new ReadableStream<Uint8Array>({
   async start(controller){
    const emit=(kind:string,value:unknown)=>{if(!req.signal.aborted)try{controller.enqueue(encoder.encode(eventFrame(kind,value)))}catch{/* disconnected */}};
-   emit("metadata",{concept:lead||null,sources:referenceList,mode:"streaming",stt:"browser"});
+   emit("metadata",{concept:lead||null,sources:referenceList,mode:"streaming",stt:"browser",learningContext:input!.learningContext||null});
    try{
     if(quick){answer=quick;emit("token",{text:quick});}
     else if(!process.env.GROQ_API_KEY){provider="offline-study-notes";answer=localReply(input!,context);emit("token",{text:answer});}

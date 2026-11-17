@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
@@ -32,9 +33,16 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+_raw_cors = os.getenv("CORS_ORIGINS", "").strip()
+_cors_origins = (
+    [o.strip() for o in _raw_cors.split(",") if o.strip()]
+    if _raw_cors
+    else ["http://localhost:5173", "http://127.0.0.1:5173"]
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=_cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -1,0 +1,3091 @@
+/* ============================================================================
+   NILO EXO Native Workspace — Strictly Scoped Styles
+   All rules are namespaced under .nilo-exo-workspace to guarantee zero CSS
+   leakage into NILO Dashboard, Navbar, MathNoteBook, or Science Kingdom.
+   ============================================================================ */
+
+.nilo-exo-workspace {
+  --exo-ink: #253049;
+  --exo-mute: #8996ac;
+  --exo-border: #eaedf4;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  color: var(--exo-ink);
+  background: #fafcff;
+  text-align: left;
+}
+
+.nilo-exo-workspace *,
+.nilo-exo-workspace *::before,
+.nilo-exo-workspace *::after {
+  box-sizing: border-box;
+}
+
+.nilo-exo-workspace button,
+.nilo-exo-workspace input,
+.nilo-exo-workspace select {
+  font: inherit;
+}
+
+.nilo-exo-workspace button {
+  cursor: pointer;
+}
+
+.nilo-exo-workspace button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Main Shell & Sidebar */
+.nilo-exo-workspace .exo-shell {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.nilo-exo-workspace aside.sidebar {
+  width: 256px;
+  flex-shrink: 0;
+  background: #fff;
+  border-right: 1px solid var(--exo-border);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.nilo-exo-workspace .logo {
+  padding: 18px 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nilo-exo-workspace .logo-icon {
+  background: #576be8;
+  color: white;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  flex-shrink: 0;
+}
+
+.nilo-exo-workspace .logo strong {
+  display: block;
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+}
+
+.nilo-exo-workspace .logo strong span {
+  color: #7888eb;
+}
+
+.nilo-exo-workspace .logo small {
+  font-size: 8px;
+  display: block;
+  color: #a7b0c1;
+  letter-spacing: 1.3px;
+  font-weight: 800;
+}
+
+.nilo-exo-workspace .close {
+  display: none;
+}
+
+.nilo-exo-workspace .side-scroll {
+  flex: 1;
+  overflow: auto;
+  padding: 0 12px 18px;
+  scrollbar-width: thin;
+}
+
+.nilo-exo-workspace .eyebrow {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: #a0acc0;
+  font-weight: 800;
+  margin: 8px 5px 12px;
+}
+
+.nilo-exo-workspace .nav {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 11px;
+  color: #8f9bae;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 9px;
+  margin-bottom: 4px;
+}
+
+.nilo-exo-workspace .nav-btn {
+  border: 0;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+}
+
+.nilo-exo-workspace .nav.active,
+.nilo-exo-workspace .nav-btn.active {
+  background: #eef0ff;
+  color: #5e6fea;
+}
+
+.nilo-exo-workspace .line {
+  height: 1px;
+  background: var(--exo-border);
+  margin: 16px 8px;
+}
+
+.nilo-exo-workspace .shelf-control {
+  display: grid;
+  gap: 6px;
+  margin: 5px 0 10px;
+}
+
+.nilo-exo-workspace .shelf-tabs {
+  display: flex;
+  gap: 4px;
+  background: #f4f6fc;
+  border: 1px solid #edf0f9;
+  padding: 4px;
+  border-radius: 9px;
+}
+
+.nilo-exo-workspace .shelf-tabs button {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: #8997ad;
+  font-weight: 700;
+  font-size: 10px;
+  padding: 7px 4px;
+  border-radius: 7px;
+}
+
+.nilo-exo-workspace .shelf-tabs button.selected {
+  color: #566ee1;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(71, 94, 148, 0.12);
+}
+
+.nilo-exo-workspace .subject {
+  background: #f8f9fc;
+  border: 1px solid #edf0f6;
+  border-radius: 10px;
+  padding: 11px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: #626fd8;
+  font-size: 12px;
+}
+
+.nilo-exo-workspace .subject svg {
+  flex-shrink: 0;
+}
+
+.nilo-exo-workspace .subject b {
+  color: #3b4862;
+}
+
+.nilo-exo-workspace .subject small {
+  display: block;
+  color: #9faabc;
+  margin-top: 3px;
+  font-size: 10px;
+}
+
+.nilo-exo-workspace .chapter {
+  border: 0;
+  background: transparent;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 6px 7px;
+  text-align: left;
+  color: #8490a3;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.nilo-exo-workspace .chapter span {
+  color: #b6c0ce;
+  font-size: 10px;
+}
+
+.nilo-exo-workspace .chapter svg {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.nilo-exo-workspace .chapter.chosen {
+  color: #5b6fe8;
+  font-weight: 800;
+}
+
+.nilo-exo-workspace .topic {
+  border: 0;
+  background: transparent;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #95a1b5;
+  width: calc(100% - 7px);
+  margin-left: 7px;
+  padding: 7px 7px 8px 20px;
+  font-size: 11px;
+  border-radius: 7px;
+}
+
+.nilo-exo-workspace .topic.picked {
+  background: #f1f3ff;
+  color: #5468e0;
+  font-weight: 700;
+}
+
+.nilo-exo-workspace .dot {
+  height: 6px;
+  width: 6px;
+  background: #cdd4e4;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.nilo-exo-workspace .picked .dot {
+  background: #6073ef;
+}
+
+.nilo-exo-workspace .sidebar-foot {
+  border-top: 1px solid var(--exo-border);
+  padding: 12px 14px;
+  font-size: 10px;
+  color: #7c8ba6;
+}
+
+.nilo-exo-workspace .online {
+  display: inline-block;
+  background: #40c49b;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.nilo-exo-workspace .achievements-pulse {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  background: #edf5ff;
+  border-radius: 9px;
+  color: #37568b;
+  font-size: 11px;
+}
+
+.nilo-exo-workspace .achievements-pulse span {
+  font-size: 10px;
+  color: #768bad;
+}
+
+/* Main Area */
+.nilo-exo-workspace .exo-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.nilo-exo-workspace .top {
+  height: 52px;
+  background: #fff;
+  border-bottom: 1px solid var(--exo-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 22px;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #a6b1c2;
+}
+
+.nilo-exo-workspace .top > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nilo-exo-workspace .top b {
+  color: #52607c;
+}
+
+.nilo-exo-workspace .beta {
+  font-size: 9px;
+  color: #6576de;
+  background: #f2f3ff;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.nilo-exo-workspace .mobile-menu {
+  display: none;
+}
+
+.nilo-exo-workspace .layout {
+  display: grid;
+  grid-template-columns: minmax(360px, 1fr) 295px;
+  flex: 1;
+  min-height: 0;
+}
+
+.nilo-exo-workspace .conversation {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* Cross-Module NILO Context Banner */
+.nilo-exo-workspace .nilo-context-banner {
+  max-width: 750px;
+  width: calc(100% - 48px);
+  margin: 10px auto 0;
+  padding: 9px 13px;
+  border-radius: 11px;
+  background: linear-gradient(120deg, #eff3ff 0%, #f3fbf8 100%);
+  border: 1px solid #d7e2fb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 11px;
+  color: #3a4f78;
+}
+
+.nilo-exo-workspace .nilo-context-banner strong {
+  color: #273c68;
+}
+
+.nilo-exo-workspace .nilo-context-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.nilo-exo-workspace .nilo-context-banner button {
+  border: 1px solid #c9d7f7;
+  background: #fff;
+  color: #4a62bd;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 7px;
+  padding: 5px 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nilo-exo-workspace .hero {
+  text-align: center;
+  padding-top: 12px;
+}
+
+.nilo-exo-workspace .hero .eyebrow {
+  color: #818dad;
+  margin: 0;
+}
+
+.nilo-exo-workspace .hero h1 {
+  font: 800 24px Manrope, ui-sans-serif, sans-serif;
+  letter-spacing: -1px;
+  margin: 4px 0 3px;
+}
+
+.nilo-exo-workspace .hero h1 span {
+  color: #697cf0;
+}
+
+.nilo-exo-workspace .hero p {
+  font-size: 11px;
+  color: #94a0b2;
+  margin: 0;
+}
+
+.nilo-exo-workspace .orb-space {
+  height: 158px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.nilo-exo-workspace .orb-shell {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 1px solid #e3e8fd;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.nilo-exo-workspace .orb-shell::before {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid #e6e9fd;
+  border-radius: 50%;
+}
+
+.nilo-exo-workspace .orb {
+  height: 68px;
+  width: 68px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 20%,
+    #eff8ff 1%,
+    #a3bdff 15%,
+    #7189f0 33%,
+    #545cc9 65%,
+    #282768 100%
+  );
+  box-shadow: inset -10px -12px 18px #22215d77, inset 3px 4px 10px #ffffffbb,
+    0 12px 20px #6472ba55, 0 0 28px #708cfb33;
+}
+
+.nilo-exo-workspace .listening .orb,
+.nilo-exo-workspace .speaking .orb,
+.nilo-exo-workspace .thinking .orb {
+  animation: exoOrbPulse 1.5s infinite alternate;
+}
+
+@keyframes exoOrbPulse {
+  to {
+    transform: scale(1.1);
+    filter: brightness(1.08);
+  }
+}
+
+.nilo-exo-workspace .orb-caption {
+  font-size: 10px;
+  color: #94a0b4;
+  margin-top: 6px;
+}
+
+.nilo-exo-workspace .voice-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.nilo-exo-workspace .voice-main {
+  border: 1px solid #5268e2;
+  background: #596fe9;
+  color: white;
+  box-shadow: 0 5px 15px rgba(88, 112, 213, 0.22);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 15px;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.nilo-exo-workspace .voice-main.is-active {
+  background: #fff1f2;
+  border-color: #f0b9c3;
+  color: #c54c65;
+  box-shadow: none;
+}
+
+.nilo-exo-workspace .voice-interrupt {
+  border: 1px solid #dbe2f2;
+  background: white;
+  color: #6274a1;
+  border-radius: 24px;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Conversation Thread */
+.nilo-exo-workspace .messages {
+  flex: 1;
+  overflow: auto;
+  max-width: 750px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 4px 24px 12px;
+  scrollbar-width: thin;
+}
+
+.nilo-exo-workspace .day {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 9px;
+  color: #b0b9c8;
+  letter-spacing: 1.3px;
+  font-weight: 800;
+  margin: 0 0 14px;
+}
+
+.nilo-exo-workspace .day::before,
+.nilo-exo-workspace .day::after {
+  content: "";
+  height: 1px;
+  background: #e9edf4;
+  flex: 1;
+}
+
+.nilo-exo-workspace .message {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.nilo-exo-workspace .message > div:last-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.nilo-exo-workspace .message.from-student {
+  flex-direction: row-reverse;
+}
+
+.nilo-exo-workspace .from-student .msg-name {
+  text-align: right;
+}
+
+.nilo-exo-workspace .avatar {
+  height: 29px;
+  width: 29px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 11px;
+}
+
+.nilo-exo-workspace .avatar.exo {
+  background: #e8edff;
+  color: #5d72e6;
+}
+
+.nilo-exo-workspace .avatar.student {
+  background: #dfecfc;
+  color: #6481c0;
+}
+
+.nilo-exo-workspace .msg-name {
+  font-size: 10px;
+  font-weight: 800;
+  color: #4f5e78;
+  margin: 2px 0 5px;
+}
+
+.nilo-exo-workspace .bubble {
+  border: 1px solid #e7ebf4;
+  background: white;
+  color: #536078;
+  padding: 11px 14px;
+  border-radius: 3px 12px 12px 12px;
+  font-size: 12px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.nilo-exo-workspace .from-student .bubble {
+  background: #eef1ff;
+  border-color: #e4e8ff;
+  border-radius: 12px 3px 12px 12px;
+  color: #46598d;
+}
+
+.nilo-exo-workspace .provider {
+  font-size: 9px;
+  color: #b1bdcd;
+  margin-top: 4px;
+}
+
+.nilo-exo-workspace .suggestions {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  padding: 0 18px 10px;
+}
+
+.nilo-exo-workspace .suggestions button {
+  background: white;
+  color: #62718a;
+  border: 1px solid #e2e8f2;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 10px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.nilo-exo-workspace .mentor-journey-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 750px;
+  width: calc(100% - 48px);
+  margin: 0 auto 8px;
+  padding: 10px 14px;
+  background: linear-gradient(112deg, #f0f3ff 0%, #f8f8ff 70%, #f0fcfa 100%);
+  border: 1px solid #e3e7fd;
+  border-radius: 12px;
+}
+
+.nilo-exo-workspace .mentor-journey-bar > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nilo-exo-workspace .tiny-label {
+  display: block;
+  color: #8796b3;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+}
+
+.nilo-exo-workspace .mentor-journey-bar b {
+  font-size: 12px;
+  color: #354565;
+}
+
+.nilo-exo-workspace .mentor-journey-bar small {
+  font-size: 10px;
+  color: #8795ac;
+}
+
+.nilo-exo-workspace .mentor-journey-bar > button,
+.nilo-exo-workspace .primary-lesson-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  gap: 8px;
+  background: #5269e6;
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 14px;
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 6px 14px rgba(82, 105, 230, 0.22);
+}
+
+/* Multilingual & Composer */
+.nilo-exo-workspace .multilingual-panel {
+  max-width: 750px;
+  width: calc(100% - 48px);
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 11px;
+  border: 1px solid #e2e8f5;
+  background: #fafbfe;
+  border-radius: 11px;
+}
+
+.nilo-exo-workspace .multilingual-panel > label {
+  font-size: 11px;
+  color: #526c9b;
+}
+
+.nilo-exo-workspace .multilingual-panel select {
+  padding: 5px;
+  border: 1px solid #becbe5;
+  border-radius: 7px;
+  background: white;
+  color: #334d7f;
+  margin-left: 6px;
+}
+
+.nilo-exo-workspace .multilingual-panel button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #bfd0eb;
+  background: #fff;
+  border-radius: 8px;
+  padding: 6px 9px;
+  font-size: 11px;
+  color: #3e5e94;
+}
+
+.nilo-exo-workspace .multilingual-panel small {
+  flex-basis: 100%;
+  font-size: 10px;
+  color: #8393ae;
+}
+
+.nilo-exo-workspace .speech-warning {
+  font-size: 11px;
+  color: #a15b35;
+}
+
+.nilo-exo-workspace .compose {
+  max-width: 750px;
+  width: 100%;
+  padding: 0 24px 12px;
+  margin: 0 auto;
+}
+
+.nilo-exo-workspace .entry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid #dfe4ef;
+  border-radius: 12px;
+  padding: 7px 9px;
+  box-shadow: 0 4px 14px rgba(24, 48, 87, 0.05);
+}
+
+.nilo-exo-workspace .entry.recording {
+  border-color: #ee819d;
+}
+
+.nilo-exo-workspace .entry input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  font-size: 12px;
+  color: #34445e;
+  background: transparent;
+}
+
+.nilo-exo-workspace .entry input::placeholder {
+  color: #a6b1c1;
+}
+
+.nilo-exo-workspace .entry button {
+  border: 0;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.nilo-exo-workspace .mic {
+  background: #eff1ff;
+  color: #6578e6;
+}
+
+.nilo-exo-workspace .mic.live {
+  background: #fff0f1;
+  color: #e36378;
+}
+
+.nilo-exo-workspace .sound {
+  background: white;
+  color: #98a2b5;
+}
+
+.nilo-exo-workspace .send {
+  background: #6275ed;
+  color: white;
+}
+
+.nilo-exo-workspace .compose-note {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin: 7px 2px 0;
+  color: #a9b5c5;
+  font-size: 10px;
+}
+
+.nilo-exo-workspace .auto-voice {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.nilo-exo-workspace .auto-voice input {
+  accent-color: #6275ed;
+}
+
+.nilo-exo-workspace .error {
+  margin-bottom: 7px;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #fff0f2;
+  color: #b94a5d;
+  font-size: 11px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nilo-exo-workspace .error button {
+  border: 0;
+  background: none;
+  color: inherit;
+}
+
+/* Right Insights Sidebar */
+.nilo-exo-workspace .insights {
+  background: white;
+  border-left: 1px solid var(--exo-border);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.nilo-exo-workspace .insights-title {
+  height: 52px;
+  border-bottom: 1px solid var(--exo-border);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 18px;
+  color: #6678d9;
+  flex-shrink: 0;
+}
+
+.nilo-exo-workspace .insights-title b {
+  font-size: 12px;
+  color: #3c4865;
+}
+
+.nilo-exo-workspace .insights-title span {
+  margin-left: auto;
+  color: #3caf90;
+  background: #eefaf6;
+  padding: 4px 7px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.nilo-exo-workspace .insights-content {
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+.nilo-exo-workspace .panel {
+  padding: 16px 18px;
+  border-bottom: 1px solid #f0f2f7;
+}
+
+.nilo-exo-workspace .panel .eyebrow {
+  margin: 0 0 10px;
+}
+
+.nilo-exo-workspace .focus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(120deg, #f2f4ff, #fafbff);
+  border: 1px solid #eceeff;
+  border-radius: 10px;
+  padding: 11px;
+}
+
+.nilo-exo-workspace .focus-icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #e1e7ff;
+  color: #6579e8;
+  flex-shrink: 0;
+}
+
+.nilo-exo-workspace .focus small {
+  font-size: 9px;
+  color: #8593c4;
+  font-weight: 800;
+}
+
+.nilo-exo-workspace .focus h3 {
+  font: 800 13px Manrope, sans-serif;
+  margin: 4px 0 2px;
+}
+
+.nilo-exo-workspace .focus p {
+  font-size: 10px;
+  color: #9aa6ba;
+  margin: 0;
+}
+
+.nilo-exo-workspace .toggle {
+  display: flex;
+  background: #f4f6fb;
+  border-radius: 8px;
+  margin-top: 10px;
+  padding: 4px;
+}
+
+.nilo-exo-workspace .toggle button {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  padding: 7px;
+  font-size: 11px;
+  color: #99a5b5;
+  font-weight: 700;
+}
+
+.nilo-exo-workspace .toggle button.selected {
+  background: white;
+  box-shadow: 0 1px 6px rgba(20, 41, 85, 0.08);
+  color: #5b6fe2;
+}
+
+.nilo-exo-workspace .check {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  margin: 9px 0;
+  color: #65718a;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.nilo-exo-workspace .check span {
+  border: 1px solid #dce4f8;
+  background: #f5f7ff;
+  color: #8095da;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.nilo-exo-workspace .next {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: #f8f9fd;
+  border: 1px solid #eff1f7;
+  border-radius: 10px;
+  padding: 12px;
+  color: #6678d8;
+}
+
+.nilo-exo-workspace .next > svg {
+  flex-shrink: 0;
+}
+
+.nilo-exo-workspace .next b {
+  display: block;
+  font-size: 11px;
+  color: #43516e;
+}
+
+.nilo-exo-workspace .next p {
+  font-size: 10px;
+  color: #8d9ab0;
+  line-height: 1.55;
+  margin: 4px 0;
+}
+
+.nilo-exo-workspace .next small {
+  font-size: 9px;
+  color: #a8b1c2;
+}
+
+.nilo-exo-workspace .nilo-module-jump-btn {
+  margin-top: 8px;
+  width: 100%;
+  border: 1px solid #cfd9fa;
+  background: linear-gradient(120deg, #eef2ff, #f3faf7);
+  color: #465cc3;
+  border-radius: 9px;
+  padding: 9px 11px;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.nilo-exo-workspace .nilo-module-jump-btn:hover {
+  background: #e7edff;
+}
+
+.nilo-exo-workspace .related {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 0;
+  width: 100%;
+  text-align: left;
+  color: #687690;
+  font-size: 11px;
+  padding: 8px 0;
+}
+
+.nilo-exo-workspace .related svg:last-child {
+  margin-left: auto;
+}
+
+.nilo-exo-workspace .resource-small {
+  font-size: 11px;
+  color: #8491a8;
+  line-height: 1.5;
+}
+
+.nilo-exo-workspace .source-list {
+  display: grid;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.nilo-exo-workspace .source-cite {
+  display: flex;
+  gap: 7px;
+  align-items: flex-start;
+  padding: 8px;
+  border-radius: 8px;
+  background: #f5f7fd;
+  color: #667996;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.nilo-exo-workspace .panel a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #6276de;
+  font-size: 10px;
+  font-weight: 700;
+  margin-top: 12px;
+  text-decoration: none;
+}
+
+/* Journey / Roadmap / Lesson / Dashboard / Textbook Pages */
+.nilo-exo-workspace .journey-page {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px clamp(16px, 4vw, 48px) 54px;
+  background: radial-gradient(ellipse at 83% 12%, #ebefff 0%, transparent 38%), #fafbff;
+}
+
+.nilo-exo-workspace .journey-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 20px;
+}
+
+.nilo-exo-workspace .back-link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  background: transparent;
+  color: #75849f;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 0;
+}
+
+.nilo-exo-workspace .journey-tag {
+  color: #6074db;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nilo-exo-workspace .journey-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto 22px;
+}
+
+.nilo-exo-workspace .journey-intro .eyebrow {
+  margin: 0 0 8px;
+  color: #677cda;
+}
+
+.nilo-exo-workspace .journey-intro h1 {
+  font: 800 clamp(22px, 2.6vw, 34px)/1.22 Manrope, sans-serif;
+  letter-spacing: -1.2px;
+  color: #24324b;
+  max-width: 700px;
+  margin: 0 0 10px;
+}
+
+.nilo-exo-workspace .journey-intro h1 em {
+  font-style: normal;
+  color: #6074e8;
+}
+
+.nilo-exo-workspace .journey-intro p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #8a97ad;
+  max-width: 600px;
+  margin: 0;
+}
+
+.nilo-exo-workspace .recheck {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 9px;
+  border: 1px solid #dae0f0;
+  color: #5b6bd6;
+  background: white;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.nilo-exo-workspace .overview-stats {
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0 auto 20px;
+  background: white;
+  border: 1px solid #e8ecf5;
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+.nilo-exo-workspace .overview-stats > div {
+  padding: 18px 22px;
+  border-right: 1px solid #eff1f5;
+}
+
+.nilo-exo-workspace .overview-stats > div:last-child {
+  border: 0;
+}
+
+.nilo-exo-workspace .overview-stats b {
+  display: block;
+  font: 800 24px Manrope, sans-serif;
+  color: #3f537a;
+  text-transform: capitalize;
+}
+
+.nilo-exo-workspace .overview-stats span {
+  display: block;
+  color: #98a4b8;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.nilo-exo-workspace .journey-card {
+  max-width: 1200px;
+  background: white;
+  border: 1px solid #e8ecf4;
+  border-radius: 15px;
+  padding: 22px;
+  margin: 0 auto 18px;
+  box-shadow: 0 6px 22px rgba(24, 35, 74, 0.04);
+}
+
+.nilo-exo-workspace .section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.nilo-exo-workspace .section-title h2,
+.nilo-exo-workspace .journey-card h2 {
+  font: 800 18px Manrope, sans-serif;
+  letter-spacing: -0.45px;
+  margin: 6px 0 0;
+  color: #34435c;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nilo-exo-workspace .soft-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f0f3ff;
+  color: #7382c9;
+  border-radius: 30px;
+  padding: 7px 12px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.nilo-exo-workspace .roadmap-track {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.nilo-exo-workspace .roadmap-step {
+  min-width: 0;
+}
+
+.nilo-exo-workspace .step-top {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nilo-exo-workspace .step-number {
+  display: grid;
+  place-items: center;
+  height: 30px;
+  width: 30px;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #7c8ea8;
+  background: #edf0f7;
+  flex-shrink: 0;
+}
+
+.nilo-exo-workspace .step-number.current {
+  background: #6478e9;
+  color: white;
+}
+
+.nilo-exo-workspace .step-connector {
+  height: 2px;
+  background: repeating-linear-gradient(
+    to right,
+    #dce3f1 0,
+    #dce3f1 7px,
+    transparent 7px,
+    transparent 12px
+  );
+  flex: 1;
+}
+
+.nilo-exo-workspace .lesson-card {
+  min-height: 210px;
+  border: 1px solid #e8edf6;
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nilo-exo-workspace .lesson-card.featured {
+  background: linear-gradient(155deg, #f3f5ff, #fbfcff);
+  border-color: #bfc9ff;
+}
+
+.nilo-exo-workspace .small-index {
+  color: #8fa0b8;
+  font-size: 9px;
+  letter-spacing: 1px;
+  font-weight: 800;
+}
+
+.nilo-exo-workspace .lesson-card h3 {
+  font: 800 14px Manrope, sans-serif;
+  color: #40516d;
+  margin: 9px 0 6px;
+}
+
+.nilo-exo-workspace .lesson-card p {
+  font-size: 10px;
+  color: #8898ad;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.nilo-exo-workspace .activity-label {
+  margin-top: auto;
+  padding-top: 8px;
+  color: #8191b2;
+  font-size: 9px;
+}
+
+.nilo-exo-workspace .lesson-card button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 9px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 0;
+  background: #eef1ff;
+  color: #5f72db;
+  font-weight: 800;
+  font-size: 10px;
+}
+
+.nilo-exo-workspace .lesson-card.featured button {
+  background: #6479eb;
+  color: white;
+}
+
+/* Evidence, Analysis & Lesson Workspace */
+.nilo-exo-workspace .roadmap-analysis {
+  border: 1px solid #cedbf5;
+  background: linear-gradient(130deg, #fcfdff, #f4f7ff);
+}
+
+.nilo-exo-workspace .analysis-focus {
+  font-size: 14px;
+  color: #385786;
+  margin: 8px 0 4px;
+}
+
+.nilo-exo-workspace .analysis-focus-reason {
+  font-size: 12px;
+  color: #7184a5;
+  margin: 0 0 12px;
+}
+
+.nilo-exo-workspace .analysis-observations {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.nilo-exo-workspace .analysis-observations > div {
+  padding: 12px;
+  border: 1px solid #dfe8f7;
+  background: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nilo-exo-workspace .analysis-observations b {
+  font-size: 20px;
+  color: #415e96;
+}
+
+.nilo-exo-workspace .analysis-observations span {
+  font-size: 11px;
+  color: #7e90aa;
+}
+
+.nilo-exo-workspace .analysis-no-evidence {
+  font-size: 12px;
+  line-height: 1.65;
+  background: #edf4ff;
+  color: #526b96;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.nilo-exo-workspace .analysis-student-quote {
+  margin: 10px 0;
+  padding: 10px;
+  background: white;
+  border-left: 3px solid #839aca;
+  color: #4a638f;
+  font-size: 12px;
+}
+
+.nilo-exo-workspace .analysis-summary-next {
+  font-size: 12px;
+  color: #5d7397;
+  line-height: 1.6;
+}
+
+.nilo-exo-workspace .explain-notice {
+  background: #f7f9fd;
+  border-radius: 10px;
+  padding: 13px;
+  color: #728199;
+  font-size: 12px;
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.nilo-exo-workspace .evidence-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.nilo-exo-workspace .evidence-row {
+  display: flex;
+  gap: 10px;
+  border: 1px solid #eef1f6;
+  padding: 13px;
+  border-radius: 10px;
+  align-items: flex-start;
+}
+
+.nilo-exo-workspace .evidence-row > div {
+  min-width: 0;
+}
+
+.nilo-exo-workspace .evidence-status {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.nilo-exo-workspace .evidence-status.correct {
+  background: #eaf8f2;
+  color: #32966b;
+}
+
+.nilo-exo-workspace .evidence-status.misconception {
+  background: #fff2df;
+  color: #cb8737;
+}
+
+.nilo-exo-workspace .evidence-status.unverified {
+  background: #f0f2f8;
+  color: #8491a8;
+}
+
+.nilo-exo-workspace .evidence-row b {
+  display: block;
+  font-size: 12px;
+  color: #3b4a62;
+  margin: 2px 0 4px;
+}
+
+.nilo-exo-workspace .status-text {
+  font-size: 10px;
+  color: #7a8ba5;
+}
+
+.nilo-exo-workspace .evidence-row p {
+  font-size: 10px;
+  color: #8e9bb0;
+  line-height: 1.55;
+}
+
+.nilo-exo-workspace .evidence-row blockquote {
+  margin: 8px 0 0;
+  font-size: 10px;
+  color: #61718d;
+  background: #f7f9fc;
+  padding: 8px;
+  border-left: 2px solid #a2afea;
+}
+
+.nilo-exo-workspace .engine-note {
+  margin-top: 14px;
+  color: #8998af;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+}
+
+.nilo-exo-workspace .lesson-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: 18px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.nilo-exo-workspace .lesson-highlight {
+  padding: 28px;
+  border-radius: 15px;
+  background: linear-gradient(130deg, #364ea4, #6b75e6);
+  color: white;
+  margin-bottom: 18px;
+}
+
+.nilo-exo-workspace .lesson-highlight span {
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  color: #d2dbff;
+  font-weight: 800;
+}
+
+.nilo-exo-workspace .lesson-highlight h2 {
+  font: 800 22px Manrope, sans-serif;
+  color: white;
+  margin: 6px 0 8px;
+}
+
+.nilo-exo-workspace .lesson-highlight p {
+  color: #f4f5ff;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.nilo-exo-workspace .lesson-source-warning {
+  font-size: 11px !important;
+  margin-top: 12px !important;
+  border-top: 1px solid #cad6fd;
+  padding-top: 10px;
+}
+
+.nilo-exo-workspace .lesson-point {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #edf0f5;
+  color: #5b6b83;
+  font-size: 12px;
+}
+
+.nilo-exo-workspace .lesson-point > span {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: #eef1fe;
+  color: #6b7ee0;
+  font-weight: 800;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.nilo-exo-workspace .worked-math {
+  background: linear-gradient(145deg, #fff, #f8faff);
+}
+
+.nilo-exo-workspace .worked-math .math-problem {
+  font-size: 13px;
+  color: #415177;
+  font-weight: 700;
+  background: #eef3ff;
+  border: 1px solid #dae4ff;
+  padding: 13px;
+  border-radius: 10px;
+}
+
+.nilo-exo-workspace .worked-math ol {
+  list-style: decimal;
+  margin: 13px 0;
+  padding-left: 20px;
+  color: #61718b;
+  font-size: 12px;
+  line-height: 1.85;
+}
+
+.nilo-exo-workspace .worked-math .math-result {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  background: #edf9f4;
+  border: 1px solid #d4efe3;
+  border-radius: 10px;
+}
+
+.nilo-exo-workspace .worked-math .math-result b {
+  color: #277a55;
+  font-size: 13px;
+}
+
+.nilo-exo-workspace .worked-math .math-result small {
+  color: #5a8975;
+  font-size: 11px;
+}
+
+.nilo-exo-workspace .concept-visual {
+  background: linear-gradient(135deg, #fff, #f7f9ff);
+}
+
+.nilo-exo-workspace .visual-canvas {
+  overflow-x: auto;
+  width: 100%;
+  padding: 4px 0;
+}
+
+.nilo-exo-workspace .visual-canvas svg {
+  display: block;
+  min-width: 680px;
+  width: 100%;
+  height: auto;
+}
+
+.nilo-exo-workspace .visual-wait {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #7185bd;
+  font-size: 12px;
+}
+
+.nilo-exo-workspace .diagram-note {
+  font-size: 10px;
+  color: #96a2b4;
+}
+
+/* Three-Lane Learning Hub, Quiz, Videos & Study Room */
+.nilo-exo-workspace .learn-lanes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.nilo-exo-workspace .learn-lanes button {
+  border: 1px solid #dfe5f4;
+  background: #f8faff;
+  border-radius: 10px;
+  padding: 11px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: #576b91;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.nilo-exo-workspace .learn-lanes button.selected {
+  border-color: #8796f2;
+  background: #ecf0ff;
+  color: #475bba;
+}
+
+.nilo-exo-workspace .lane-content {
+  padding: 16px;
+  background: linear-gradient(120deg, #fafcff, #f5f7ff);
+  border: 1px solid #e6ebfa;
+  border-radius: 12px;
+  color: #667793;
+}
+
+.nilo-exo-workspace .lane-content h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #263e69;
+  margin: 0 0 10px;
+}
+
+.nilo-exo-workspace .lane-content p {
+  line-height: 1.75;
+  font-size: 12px;
+}
+
+.nilo-exo-workspace .lane-points {
+  display: grid;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.nilo-exo-workspace .lane-points p {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+}
+
+.nilo-exo-workspace .lane-points span {
+  background: #e7ecff;
+  padding: 3px 9px;
+  border-radius: 7px;
+  color: #6475c5;
+  font-weight: 800;
+}
+
+.nilo-exo-workspace .lane-question {
+  border-left: 3px solid #99a8dd;
+  padding-left: 11px;
+  margin-top: 12px;
+}
+
+.nilo-exo-workspace .future-challenge {
+  background: #fff;
+  border: 1px solid #dae5ff;
+  border-radius: 10px;
+  padding: 12px;
+  margin: 12px 0;
+}
+
+.nilo-exo-workspace .future-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 10px 0;
+}
+
+.nilo-exo-workspace .future-tags span {
+  background: #ecf1fd;
+  color: #6175ad;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 16px;
+  padding: 5px 10px;
+}
+
+.nilo-exo-workspace .lane-footnote {
+  font-size: 11px;
+  color: #9aa7ba;
+}
+
+.nilo-exo-workspace .lane-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.nilo-exo-workspace .lane-actions button,
+.nilo-exo-workspace .lane-practice,
+.nilo-exo-workspace .future-preview button,
+.nilo-exo-workspace .exo-room button:not(.room-options button) {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 9px;
+  padding: 9px 12px;
+  border: 1px solid #d4dcf4;
+  background: #eff2ff;
+  color: #5168ad;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.nilo-exo-workspace .lane-example {
+  background: white;
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px solid #e1e8f8;
+  margin: 10px 0;
+}
+
+.nilo-exo-workspace .lane-diagram {
+  margin: 14px 0;
+  padding: 12px;
+  background: #f5f8fe;
+  border-radius: 12px;
+}
+
+.nilo-exo-workspace .lane-diagram-heading,
+.nilo-exo-workspace .lane-quiz-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.nilo-exo-workspace .lane-diagram-heading b {
+  font-size: 13px;
+  color: #3a5b91;
+}
+
+.nilo-exo-workspace .lane-diagram-scroll,
+.nilo-exo-workspace .journey-graph-scroll,
+.nilo-exo-workspace .visual-roadmap-scroller,
+.nilo-exo-workspace .learning-chart-scroll,
+.nilo-exo-workspace .sd-chart {
+  overflow-x: auto;
+}
+
+.nilo-exo-workspace .lane-diagram svg {
+  min-width: 520px;
+  display: block;
+}
+
+.nilo-exo-workspace .lane-quiz {
+  margin: 16px 0;
+  border: 1px solid #dbe5f7;
+  border-radius: 13px;
+  padding: 14px;
+  background: #f9fbff;
+}
+
+.nilo-exo-workspace .lane-quiz-heading h3 {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  font-size: 14px;
+  color: #355487;
+}
+
+.nilo-exo-workspace .lane-question-item {
+  margin: 10px 0;
+  padding: 12px;
+  border: 1px solid #e0e9f6;
+  border-radius: 10px;
+  background: white;
+}
+
+.nilo-exo-workspace .lane-question-item legend {
+  font-size: 12px;
+  font-weight: 700;
+  color: #384e79;
+}
+
+.nilo-exo-workspace .lane-question-item label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid #e8ecf7;
+  border-radius: 8px;
+  margin-top: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.nilo-exo-workspace .lane-question-item label.chosen {
+  border-color: #7b91c5;
+  background: #eff4ff;
+}
+
+.nilo-exo-workspace .lane-question-item .quiz-correct {
+  color: #267c55;
+  font-size: 12px;
+  margin-top: 7px;
+}
+
+.nilo-exo-workspace .lane-question-item .quiz-review {
+  color: #8d692f;
+  font-size: 12px;
+  margin-top: 7px;
+}
+
+.nilo-exo-workspace .lane-quiz-submit,
+.nilo-exo-workspace .video-reviewed {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  background: #3e67b4;
+  color: white;
+  border-radius: 9px;
+  padding: 9px 13px;
+  font-size: 12px;
+  margin: 9px 0;
+}
+
+.nilo-exo-workspace .video-reviewed {
+  background: #557c92;
+}
+
+.nilo-exo-workspace .quiz-final {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  background: #eef7f1;
+  border: 1px solid #c3e2d0;
+  padding: 12px;
+  border-radius: 9px;
+  margin: 10px 0;
+  font-size: 12px;
+  color: #386d50;
+}
+
+.nilo-exo-workspace .quiz-final button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  border: 1px solid #a6cbaf;
+  background: white;
+  color: #456b55;
+  border-radius: 7px;
+  padding: 6px 10px;
+}
+
+.nilo-exo-workspace .lesson-covered {
+  border: 1px solid #a2d2b2;
+  background: #eff9f2;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 12px;
+  color: #376949;
+}
+
+/* Video Lesson Player */
+.nilo-exo-workspace .video-lesson {
+  border-top: 1px solid #e5e9f4;
+  margin-top: 18px;
+  padding-top: 14px;
+}
+
+.nilo-exo-workspace .video-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.nilo-exo-workspace .video-list button {
+  display: flex;
+  align-items: flex-start;
+  text-align: left;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid #e2e7f4;
+  border-radius: 9px;
+  background: #fff;
+  color: #546991;
+  font-size: 11px;
+}
+
+.nilo-exo-workspace .video-list button.selected {
+  border-color: #7d93f0;
+  background: #f3f5ff;
+}
+
+.nilo-exo-workspace .video-list small {
+  display: block;
+  color: #9aa6b7;
+  margin-top: 4px;
+  font-size: 10px;
+}
+
+.nilo-exo-workspace .video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0b1428;
+}
+
+.nilo-exo-workspace .video-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.nilo-exo-workspace .video-player-actions {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 9px 0;
+}
+
+.nilo-exo-workspace .video-player-actions a,
+.nilo-exo-workspace .video-player-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: 0;
+  padding: 5px 0;
+  color: #5674bb;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.nilo-exo-workspace .video-playback-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  background: #fff1e7;
+  border: 1px solid #efcfa8;
+  color: #a06624;
+  padding: 11px;
+  border-radius: 10px;
+  margin: 9px 0;
+  font-size: 12px;
+}
+
+/* Study Room */
+.nilo-exo-workspace .room-entry {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.nilo-exo-workspace .room-entry input {
+  flex: 1;
+  min-width: 0;
+  border-radius: 9px;
+  border: 1px solid #dfe5f0;
+  background: #fff;
+  padding: 9px 11px;
+  font-size: 12px;
+  color: #263955;
+}
+
+.nilo-exo-workspace .room-code {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: #f2f5ff;
+  padding: 11px 14px;
+  border-radius: 10px;
+}
+
+.nilo-exo-workspace .room-code > b {
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: #4258ae;
+}
+
+.nilo-exo-workspace .room-members {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.nilo-exo-workspace .room-member {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  justify-content: space-between;
+  padding: 9px 11px;
+  background: #f6f8fc;
+  border-radius: 8px;
+  color: #526882;
+  font-size: 12px;
+}
+
+.nilo-exo-workspace .room-member b {
+  margin-left: auto;
+  color: #5067ac;
+}
+
+.nilo-exo-workspace .group-focus {
+  border: 1px solid #e0e9f7;
+  background: #f7faff;
+  border-radius: 11px;
+  padding: 12px;
+  margin: 11px 0;
+}
+
+.nilo-exo-workspace .group-focus-actions {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin: 9px 0;
+}
+
+.nilo-exo-workspace .room-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.nilo-exo-workspace .room-options button {
+  padding: 11px;
+  border: 1px solid #dfe5f5;
+  border-radius: 9px;
+  background: #fff;
+  color: #52648a;
+  text-align: left;
+  font-size: 12px;
+}
+
+.nilo-exo-workspace .room-options button.answer-correct {
+  border-color: #57ab89;
+  background: #effbf6;
+  color: #268261;
+}
+
+.nilo-exo-workspace .room-error {
+  color: #bf4663;
+  background: #fff0f2;
+  padding: 10px;
+  border-radius: 9px;
+  font-size: 12px;
+}
+
+.nilo-exo-workspace .answer-explanation {
+  color: #2d8763;
+  background: #edf9f4;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.nilo-exo-workspace .room-finish {
+  padding: 14px;
+  background: #fbf9ed;
+  border-radius: 11px;
+}
+
+/* Conversation Journey & Learning Curve */
+.nilo-exo-workspace .journey-legend {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: #7282a2;
+  margin: 8px 0 12px;
+}
+
+.nilo-exo-workspace .journey-evidence-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.nilo-exo-workspace .journey-evidence-step {
+  border: 1px solid #dfe7f5;
+  border-left: 4px solid #9baac2;
+  border-radius: 9px;
+  padding: 11px;
+  background: #fff;
+  font-size: 12px;
+}
+
+.nilo-exo-workspace .journey-evidence-step.supported {
+  border-left-color: #389b69;
+}
+
+.nilo-exo-workspace .journey-evidence-step.question {
+  border-left-color: #6d8bbc;
+}
+
+.nilo-exo-workspace .journey-evidence-step.misconception {
+  border-left-color: #cb9053;
+}
+
+.nilo-exo-workspace .journey-evidence-step.off-topic {
+  border-left-color: #b68fb1;
+}
+
+.nilo-exo-workspace .journey-evidence-step blockquote {
+  margin: 7px 0;
+  padding: 6px 8px;
+  background: #f6f8fe;
+  color: #435b83;
+  border-radius: 6px;
+}
+
+.nilo-exo-workspace .realworld-strip {
+  padding: 12px;
+  border-radius: 10px;
+  background: #edf4ff;
+  color: #58749e;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.nilo-exo-workspace .progress-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin: 14px 0;
+}
+
+.nilo-exo-workspace .progress-metrics > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 13px;
+  background: #f8faff;
+  border: 1px solid #e5eafa;
+  border-radius: 11px;
+  color: #7a88a9;
+}
+
+.nilo-exo-workspace .progress-metrics b {
+  font-size: 22px;
+  color: #38578e;
+}
+
+.nilo-exo-workspace .dashboard-explainer,
+.nilo-exo-workspace .dashboard-footnote {
+  font-size: 12px;
+  color: #7082a3;
+  line-height: 1.65;
+}
+
+.nilo-exo-workspace .dashboard-empty {
+  padding: 15px;
+  background: #f7f9fd;
+  border: 1px dashed #cbd6ee;
+  border-radius: 10px;
+  color: #7285a9;
+  font-size: 12px;
+}
+
+.nilo-exo-workspace .dashboard-legend {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: #7688a8;
+  margin: 10px 0;
+}
+
+.nilo-exo-workspace .dashboard-legend i {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #5e72df;
+  margin-right: 5px;
+}
+
+.nilo-exo-workspace .dashboard-topics > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 9px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #e9edfa;
+  padding: 8px 0;
+  font-size: 12px;
+  color: #536b9a;
+}
+
+/* Student Dashboard */
+.nilo-exo-workspace .student-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.nilo-exo-workspace .sd-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(120deg, #e9efff 0%, #f7f9ff 58%, #f0f7f7 100%);
+  border: 1px solid #dfe7f7;
+  border-radius: 18px;
+  padding: 24px 28px;
+}
+
+.nilo-exo-workspace .sd-hero h1 {
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1.2;
+  color: #253e73;
+  margin: 8px 0;
+}
+
+.nilo-exo-workspace .sd-hero h1 em {
+  font-style: normal;
+  color: #6479c9;
+}
+
+.nilo-exo-workspace .sd-hero p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #637697;
+  margin: 0;
+}
+
+.nilo-exo-workspace .sd-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 16px;
+}
+
+.nilo-exo-workspace .sd-hero-actions button,
+.nilo-exo-workspace .sd-continue,
+.nilo-exo-workspace .sd-story-more,
+.nilo-exo-workspace .sd-empty button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #cbd6ec;
+  padding: 9px 13px;
+  background: white;
+  color: #3a588e;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 9px;
+}
+
+.nilo-exo-workspace .sd-hero-actions button:first-child,
+.nilo-exo-workspace .sd-continue {
+  background: #526dc2;
+  color: #fff;
+  border-color: #526dc2;
+}
+
+.nilo-exo-workspace .sd-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 11px;
+}
+
+.nilo-exo-workspace .sd-metrics > div {
+  background: #fff;
+  border: 1px solid #e1e7f4;
+  border-radius: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 14px;
+}
+
+.nilo-exo-workspace .sd-metrics b {
+  font-size: 24px;
+  color: #344e86;
+}
+
+.nilo-exo-workspace .sd-metrics span {
+  font-size: 12px;
+  font-weight: 700;
+  color: #425c8e;
+}
+
+.nilo-exo-workspace .sd-metrics small {
+  font-size: 10px;
+  color: #8999b3;
+}
+
+.nilo-exo-workspace .sd-two-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.nilo-exo-workspace .sd-panel {
+  background: #fff;
+  border: 1px solid #e0e7f4;
+  border-radius: 15px;
+  padding: 18px;
+}
+
+.nilo-exo-workspace .sd-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: #667da9;
+}
+
+.nilo-exo-workspace .sd-heading small {
+  display: block;
+  color: #8ca0b9;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.nilo-exo-workspace .sd-heading h2 {
+  font-size: 16px;
+  color: #344f82;
+  margin: 0;
+}
+
+.nilo-exo-workspace .sd-topics {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.nilo-exo-workspace .sd-topics button {
+  flex: 1;
+  min-width: 125px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+  background: #f7f9ff;
+  border: 1px solid #e1e8f6;
+  border-radius: 10px;
+  padding: 10px;
+  color: #526b95;
+}
+
+.nilo-exo-workspace .sd-topics button.selected {
+  background: #edf2ff;
+  border-color: #a8b9e6;
+}
+
+.nilo-exo-workspace .sd-active-topic {
+  padding: 14px;
+  border: 1px solid #e3eafa;
+  background: #fafbff;
+  border-radius: 12px;
+}
+
+.nilo-exo-workspace .sd-pathways {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.nilo-exo-workspace .sd-lane-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #4b6592;
+}
+
+.nilo-exo-workspace .sd-progress-track {
+  background: #e8edf8;
+  height: 7px;
+  border-radius: 9px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.nilo-exo-workspace .sd-progress-track > div {
+  height: 100%;
+  border-radius: 9px;
+}
+
+.nilo-exo-workspace .sd-next {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  background: #eef5f8;
+  border-radius: 9px;
+  padding: 11px;
+  color: #466e88;
+}
+
+.nilo-exo-workspace .sd-evidence-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.nilo-exo-workspace .sd-evidence-stats > div {
+  border: 1px solid #e6ebf5;
+  background: #f8faff;
+  border-radius: 9px;
+  padding: 9px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nilo-exo-workspace .sd-evidence-stats strong {
+  font-size: 21px;
+  color: #3f5885;
+}
+
+.nilo-exo-workspace .sd-observation {
+  border-radius: 9px;
+  padding: 11px;
+  margin: 10px 0;
+  border-left: 3px solid #8aa1d1;
+  background: #f7f9ff;
+  font-size: 12px;
+}
+
+.nilo-exo-workspace .sd-observation.correct {
+  border-left-color: #50b68a;
+  background: #f1f9f5;
+}
+
+.nilo-exo-workspace .sd-observation.review {
+  border-left-color: #df9d64;
+  background: #fff8f2;
+}
+
+.nilo-exo-workspace .sd-empty,
+.nilo-exo-workspace .sd-empty-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  color: #7890b0;
+  padding: 16px;
+  border: 1px dashed #ccdaf0;
+  border-radius: 11px;
+  background: #f8faff;
+}
+
+.nilo-exo-workspace .sd-story-step {
+  border-left: 3px solid #90a5cb;
+  padding: 9px 11px;
+  margin: 10px 0;
+  background: #f7f9fe;
+  border-radius: 0 9px 9px 0;
+}
+
+.nilo-exo-workspace .sd-disclaimer {
+  font-size: 11px;
+  color: #8c9ab0;
+}
+
+.nilo-exo-workspace .sd-error {
+  padding: 11px;
+  border: 1px solid #edcbb0;
+  border-radius: 10px;
+  background: #fff6ee;
+  color: #905b3d;
+  font-size: 12px;
+}
+
+/* Textbook Explorer */
+.nilo-exo-workspace .textbook-search-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.nilo-exo-workspace .textbook-search-bar input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 13px;
+  border: 1px solid #d7e0f2;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 12px;
+  color: #253049;
+}
+
+.nilo-exo-workspace .textbook-search-bar button {
+  border: 0;
+  background: #5269e6;
+  color: white;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.nilo-exo-workspace .textbook-result-card {
+  border: 1px solid #e4eaf7;
+  background: #fbfcff;
+  border-radius: 11px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.nilo-exo-workspace .textbook-result-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 11px;
+  color: #5b6fe2;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.nilo-exo-workspace .textbook-result-excerpt {
+  font-size: 12px;
+  color: #4b5d7b;
+  line-height: 1.65;
+  margin: 0;
+}
+
+@media (max-width: 1020px) {
+  .nilo-exo-workspace .layout {
+    grid-template-columns: 1fr;
+  }
+  .nilo-exo-workspace .insights {
+    display: none;
+  }
+}
+
+@media (max-width: 780px) {
+  .nilo-exo-workspace aside.sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 30;
+    transform: translateX(-100%);
+    transition: transform 0.2s;
+    box-shadow: 10px 0 25px rgba(32, 48, 80, 0.14);
+  }
+  .nilo-exo-workspace aside.sidebar.open {
+    transform: translateX(0);
+  }
+  .nilo-exo-workspace .close,
+  .nilo-exo-workspace .mobile-menu {
+    display: grid;
+    border: 0;
+    background: transparent;
+    color: #66738c;
+  }
+  .nilo-exo-workspace .overview-stats,
+  .nilo-exo-workspace .sd-metrics,
+  .nilo-exo-workspace .progress-metrics,
+  .nilo-exo-workspace .analysis-observations {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .nilo-exo-workspace .evidence-list,
+  .nilo-exo-workspace .lesson-workspace,
+  .nilo-exo-workspace .sd-two-cols,
+  .nilo-exo-workspace .learn-lanes,
+  .nilo-exo-workspace .video-list,
+  .nilo-exo-workspace .room-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* NILO Cross-Module Context Banner & Module Navigation Jump */
+.nilo-exo-workspace .nilo-context-banner {
+  max-width: 750px;
+  width: calc(100% - 48px);
+  margin: 12px auto 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #d5dff8;
+  background: linear-gradient(135deg, #f3f6ff 0%, #f9f5ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  color: #36456b;
+}
+
+.nilo-exo-workspace .nilo-context-banner-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.nilo-exo-workspace .nilo-context-banner-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #6275ed;
+}
+
+.nilo-exo-workspace .nilo-context-banner strong {
+  font-size: 12px;
+  color: #253049;
+}
+
+.nilo-exo-workspace .nilo-context-banner small {
+  font-size: 11px;
+  color: #697997;
+}
+
+.nilo-exo-workspace .nilo-context-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.nilo-exo-workspace .nilo-context-banner-btn {
+  border: 1px solid #cdd8f6;
+  background: white;
+  color: #4f63da;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.nilo-exo-workspace .nilo-context-banner-btn:hover {
+  background: #edf1ff;
+}
+
+.nilo-exo-workspace .nilo-module-jump {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 11px;
+  border: 1px solid #dce4fa;
+  background: linear-gradient(135deg, #f5f7ff 0%, #fbf7ff 100%);
+}
+
+.nilo-exo-workspace .nilo-module-jump p {
+  margin: 0;
+  font-size: 11px;
+  color: #5c6d8c;
+  line-height: 1.5;
+}
+
+.nilo-exo-workspace .nilo-module-jump-btn {
+  border: 0;
+  background: linear-gradient(135deg, #576be8 0%, #7c5cff 100%);
+  color: #fff;
+  border-radius: 9px;
+  padding: 9px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.nilo-exo-workspace .nilo-module-jump-btn:hover {
+  filter: brightness(1.06);
+}
+
+.nilo-exo-workspace.exo-reduce-motion *,
+.nilo-exo-workspace.exo-reduce-motion *::before,
+.nilo-exo-workspace.exo-reduce-motion *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* ============================================================================
+   Voice-First EXO Stage (Primary Experience + Voice/Text Mode Switch)
+   Strictly scoped under .nilo-exo-workspace
+   ============================================================================ */
+
+.nilo-exo-workspace .exo-top-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nilo-exo-workspace .exo-mode-switch {
+  display: inline-flex;
+  align-items: center;
+  background: #eff2fb;
+  border: 1px solid #dbe2f4;
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.nilo-exo-workspace .exo-mode-switch button {
+  border: 0;
+  background: transparent;
+  color: #5b6a86;
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.nilo-exo-workspace .exo-mode-switch button.active {
+  background: linear-gradient(135deg, #576be8 0%, #7c5cff 100%);
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(98, 117, 237, 0.28);
+}
+
+.nilo-exo-workspace .exo-lang-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #ffffff;
+  border: 1px solid #d7e0f2;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #36456b;
+}
+
+.nilo-exo-workspace .exo-lang-pill select {
+  border: 0;
+  background: transparent;
+  color: #253049;
+  font-size: 11px;
+  font-weight: 700;
+  outline: 0;
+  cursor: pointer;
+}
+
+/* Primary Voice-First Stage */
+.nilo-exo-workspace .exo-voice-stage {
+  max-width: 780px;
+  width: 100%;
+  margin: 14px auto 8px;
+  padding: 22px 24px 18px;
+  border-radius: 22px;
+  background: radial-gradient(circle at 50% 24%, rgba(124, 92, 255, 0.14) 0%, rgba(99, 102, 241, 0.05) 48%, #ffffff 100%);
+  border: 1px solid #e1e6f8;
+  box-shadow: 0 12px 34px rgba(59, 79, 158, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.nilo-exo-workspace .exo-voice-stage-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.nilo-exo-workspace .exo-voice-stage-eyebrow {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #6b7be8;
+}
+
+.nilo-exo-workspace .exo-voice-stage-greeting {
+  margin: 0;
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: 800;
+  color: #1e2742;
+  max-width: 560px;
+}
+
+.nilo-exo-workspace .exo-voice-orb-arena {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  margin: 2px 0;
+}
+
+.nilo-exo-workspace .exo-voice-ring {
+  position: relative;
+  border-radius: 999px;
+  padding: 10px;
+  background: radial-gradient(circle, rgba(124, 92, 255, 0.16) 0%, rgba(236, 72, 153, 0.06) 62%, transparent 74%);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.nilo-exo-workspace .exo-voice-ring[data-voice-state="listening"] {
+  box-shadow: 0 0 0 10px rgba(236, 72, 153, 0.14), 0 0 36px rgba(124, 92, 255, 0.35);
+  animation: exoVoicePulse 1.5s ease-in-out infinite;
+}
+
+.nilo-exo-workspace .exo-voice-ring[data-voice-state="thinking"] {
+  box-shadow: 0 0 0 8px rgba(99, 102, 241, 0.16), 0 0 30px rgba(99, 102, 241, 0.3);
+  animation: exoVoicePulse 1.1s ease-in-out infinite;
+}
+
+.nilo-exo-workspace .exo-voice-ring[data-voice-state="speaking"] {
+  box-shadow: 0 0 0 10px rgba(52, 211, 153, 0.18), 0 0 36px rgba(99, 102, 241, 0.35);
+  animation: exoVoicePulse 1.3s ease-in-out infinite;
+}
+
+@keyframes exoVoicePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.045);
+  }
+}
+
+/* Audio Equalizer Activity Bars */
+.nilo-exo-workspace .exo-audio-bars {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 24px;
+}
+
+.nilo-exo-workspace .exo-audio-bars span {
+  width: 3.5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #c7d2f2;
+  transition: height 0.18s ease, background 0.18s ease;
+}
+
+.nilo-exo-workspace .exo-audio-bars.active-listening span {
+  background: linear-gradient(180deg, #ec4899 0%, #7c5cff 100%);
+  animation: exoBarWave 0.75s ease-in-out infinite;
+}
+
+.nilo-exo-workspace .exo-audio-bars.active-speaking span {
+  background: linear-gradient(180deg, #10b981 0%, #6366f1 100%);
+  animation: exoBarWave 0.65s ease-in-out infinite;
+}
+
+.nilo-exo-workspace .exo-audio-bars.active-thinking span {
+  background: linear-gradient(180deg, #6366f1 0%, #a855f7 100%);
+  animation: exoBarWave 1.1s ease-in-out infinite;
+}
+
+.nilo-exo-workspace .exo-audio-bars span:nth-child(2n) {
+  animation-delay: 0.12s;
+}
+.nilo-exo-workspace .exo-audio-bars span:nth-child(3n) {
+  animation-delay: 0.24s;
+}
+.nilo-exo-workspace .exo-audio-bars span:nth-child(5n) {
+  animation-delay: 0.36s;
+}
+
+@keyframes exoBarWave {
+  0%, 100% {
+    height: 5px;
+  }
+  50% {
+    height: 22px;
+  }
+}
+
+.nilo-exo-workspace .exo-state-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  background: #f1f4ff;
+  color: #3f5185;
+  border: 1px solid #dce3f8;
+}
+
+.nilo-exo-workspace .exo-state-pill.state-listening {
+  background: #fff0f6;
+  color: #be185d;
+  border-color: #fbcfe8;
+}
+
+.nilo-exo-workspace .exo-state-pill.state-thinking {
+  background: #eef2ff;
+  color: #4338ca;
+  border-color: #c7d2fe;
+}
+
+.nilo-exo-workspace .exo-state-pill.state-speaking {
+  background: #ecfdf5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+
+.nilo-exo-workspace .exo-live-transcript {
+  width: 100%;
+  max-width: 620px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px dashed #c7d2fe;
+  color: #312e81;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nilo-exo-workspace .exo-voice-primary-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.nilo-exo-workspace .exo-voice-cta {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #ffffff;
+  background: linear-gradient(135deg, #576be8 0%, #7c5cff 55%, #ec4899 100%);
+  box-shadow: 0 8px 24px rgba(124, 92, 255, 0.34);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.nilo-exo-workspace .exo-voice-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(124, 92, 255, 0.42);
+}
+
+.nilo-exo-workspace .exo-voice-cta.is-active {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  box-shadow: 0 8px 22px rgba(225, 29, 72, 0.32);
+}
+
+.nilo-exo-workspace .exo-voice-secondary-btn {
+  border: 1px solid #d5def4;
+  background: #ffffff;
+  color: #39486b;
+  border-radius: 999px;
+  padding: 9px 15px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nilo-exo-workspace .exo-voice-secondary-btn:hover {
+  background: #f3f6ff;
+  border-color: #b7c6ee;
+}
+
+.nilo-exo-workspace .exo-voice-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 11px;
+  color: #6f7f9e;
+  margin-top: 2px;
+}

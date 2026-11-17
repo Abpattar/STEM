@@ -58,7 +58,7 @@ export interface HomePageProps {
 interface RecentTask {
   id: string;
   title: string;
-  service: 'Speak with Nilo' | 'Scratchpad' | 'Digital Lab' | 'Books' | 'Concept Games' | 'Socratic Chat';
+  service: 'Talk to EXO' | 'Learn with EXO' | 'Scratchpad' | 'Digital Lab' | 'Books' | 'Concept Games';
   serviceType: 'speak' | 'scratchpad' | 'digitallab' | 'books' | 'games' | 'chat';
   timeAgo: string;
   shortcut: string;
@@ -207,17 +207,17 @@ export const FEATURE_GUIDES: Record<string, FeatureGuideItem> = {
     proTip: 'Use Spacebar or Left Click to jump at checkpoints.',
   },
   'chat': {
-    title: 'Feynman AI Tutor Chat',
-    badge: 'Socratic Dialogue',
+    title: 'Talk to EXO',
+    badge: 'AI Voice Tutor',
     badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-500/30',
-    category: 'AI Assistant',
-    description: 'Conversational dialogue agent that asks probing questions to help you explain concepts simply and find gaps.',
+    category: 'EXO AI Tutor',
+    description: 'Voice-first Socratic AI tutor inside NILO that explains concepts simply with analogies, listens to your reasoning, and builds a personalized roadmap.',
     howToUse: [
-      'Open chat and type any difficult topic or problem.',
-      'Explain your reasoning; the AI evaluates conceptual clarity.',
-      'Follow guided hint breakdowns instead of getting direct answers.',
+      'Click Talk to EXO and press Start speaking to ask a question aloud.',
+      'Explain concepts in your own words; EXO listens and checks understanding.',
+      'Switch to Text Mode or open Roadmap & Lessons anytime in the same session.',
     ],
-    proTip: 'Ask "Give me a practice problem" to test your mastery.',
+    proTip: 'Say "I don\'t understand electricity" to experience EXO\'s interactive analogy teaching.',
   },
   'next': {
     title: 'Next Topic: Calvin Cycle & Electron Transport',
@@ -246,17 +246,17 @@ export const FEATURE_GUIDES: Record<string, FeatureGuideItem> = {
     proTip: 'Quickly revisit earlier diagrams if you feel stuck on current concepts.',
   },
   'speak': {
-    title: 'Voice-First Feynman Session',
-    badge: 'Spoken AI Dialogue',
+    title: 'Talk to EXO',
+    badge: 'Voice-First Tutor',
     badgeColor: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-    category: 'Speech Verification',
-    description: 'Spoken dialogue with the holographic ExoOrb to practice verbal explanations and get instantaneous speech verification.',
+    category: 'EXO AI Tutor',
+    description: 'Natural voice dialogue with EXO to understand concepts, ask doubts aloud, and get personalized explanations across 11 languages.',
     howToUse: [
-      'Click the center ExoOrb to start talking.',
-      'Speak your explanation naturally out loud as if teaching a beginner.',
-      'Exo transcribes, analyzes, and responds with constructive audio guidance.',
+      'Click the center ExoOrb or Talk to EXO to open your voice tutor.',
+      'Press Start speaking and ask a question or explain what you know.',
+      'EXO responds verbally with synchronized transcript, analogies, and follow-up checks.',
     ],
-    proTip: 'Wear headphones for optimal acoustic echo cancellation.',
+    proTip: 'Toggle Hands-free auto-send for continuous spoken back-and-forth learning.',
   },
   'system-usage': {
     title: 'Focus Guard & App Tracking',
@@ -301,6 +301,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   // Active Feature View (Modal / Fullscreen view over the wheel)
   const [activeFeature, setActiveFeature] = useState<'chat' | 'resources' | 'games' | 'scratchpad' | 'video' | 'digitallab' | null>(null);
+  const [exoTopic, setExoTopic] = useState<string | undefined>(undefined);
   const [isInspectorClosed, setIsInspectorClosed] = useState(false);
   const { isMenuOpen, toggleMenu, setIsMenuOpen } = useAccessibility();
 
@@ -368,12 +369,12 @@ export const HomePage: React.FC<HomePageProps> = ({
     };
   }, []);
 
-  // 10 Recent Tasks across Nilo Services (Speak with Nilo, Scratchpad, Digital Lab, Books, etc.)
+  // 10 Recent Tasks across NILO Services (Talk to EXO, Scratchpad, Digital Lab, Books, etc.)
   const [tasks, setTasks] = useState<RecentTask[]>([
     {
       id: 'task-1',
       title: 'Photosynthesis & ATP Yield',
-      service: 'Speak with Nilo',
+      service: 'Talk to EXO',
       serviceType: 'speak',
       timeAgo: '5m ago',
       shortcut: 'Control+1',
@@ -428,7 +429,7 @@ export const HomePage: React.FC<HomePageProps> = ({
     {
       id: 'task-6',
       title: 'Faraday’s Induction Derivation',
-      service: 'Speak with Nilo',
+      service: 'Talk to EXO',
       serviceType: 'speak',
       timeAgo: '3h ago',
       shortcut: 'Control+6',
@@ -472,7 +473,7 @@ export const HomePage: React.FC<HomePageProps> = ({
     {
       id: 'task-10',
       title: 'Thermodynamics Dialogue',
-      service: 'Socratic Chat',
+      service: 'Learn with EXO',
       serviceType: 'chat',
       timeAgo: '2 days ago',
       shortcut: 'Control+0',
@@ -499,7 +500,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   // Radial Menu Nodes (8 items, 45° step starting from top 12 o'clock)
   const radialNodes: RadialNode[] = [
-    { id: 0, label: 'Chat', angle: 0, icon: 'chat', description: 'AI Chat & Socratic Tutor', featureKey: 'chat' },
+    { id: 0, label: 'Talk to EXO', angle: 0, icon: 'chat', description: 'Voice-first AI tutor & interactive learning', featureKey: 'chat' },
     { id: 1, label: 'Resources', angle: 45, icon: 'resources', description: 'Verified study guides & formula sheets', featureKey: 'resources' },
     { id: 2, label: 'Next Topic', angle: 90, icon: 'arrow-right', description: 'Jump forward in syllabus', featureKey: 'next' },
     { id: 3, label: 'Scratchpad', angle: 135, icon: 'clipboard', description: 'Multimodal math canvas & step solver', featureKey: 'scratchpad' },
@@ -535,6 +536,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   const handleRadialClick = (node: RadialNode) => {
     setActiveRadialNode(node.id);
+    setHoveredRadialNode(null);
     switch (node.featureKey) {
       case 'chat':
         setActiveFeature('chat');
@@ -574,7 +576,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   const NEW_TASK_TEMPLATES: Array<Omit<RecentTask, 'id' | 'timeAgo'>> = [
     {
       title: 'DNA Replication & Polymerase',
-      service: 'Speak with Nilo',
+      service: 'Talk to EXO',
       serviceType: 'speak',
       shortcut: 'Control+1',
       tags: ['genetics', 'oral-exam'],
@@ -619,7 +621,7 @@ export const HomePage: React.FC<HomePageProps> = ({
     },
     {
       title: 'Entropy & Statistical Mechanics',
-      service: 'Socratic Chat',
+      service: 'Learn with EXO',
       serviceType: 'chat',
       shortcut: 'Control+6',
       tags: ['thermodynamics', 'socratic'],
@@ -654,6 +656,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   const handleOpenTask = (task: RecentTask) => {
     switch (task.serviceType) {
       case 'speak':
+        setExoTopic(task.title);
         handleCenterOrbClick();
         break;
       case 'scratchpad':
@@ -669,6 +672,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         setActiveFeature('games');
         break;
       case 'chat':
+        setExoTopic(task.title);
         setActiveFeature('chat');
         break;
       default:
@@ -986,6 +990,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       <ResourcesView
         onBack={() => setActiveFeature(null)}
         onSelectTopic={(t) => {
+          setExoTopic(t);
           setActiveFeature(null);
           handleCenterOrbClick();
         }}
@@ -994,7 +999,13 @@ export const HomePage: React.FC<HomePageProps> = ({
   }
 
   if (activeFeature === 'chat') {
-    return <ChatView onBack={() => setActiveFeature(null)} />;
+    return (
+      <ChatView
+        topic={exoTopic}
+        onBack={() => setActiveFeature(null)}
+        onNavigateToModule={(mod) => setActiveFeature(mod)}
+      />
+    );
   }
 
   if (activeFeature === 'games') {
@@ -1444,7 +1455,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         }}
         title={
           purplePhase === 'idle'
-            ? "Click to melt orb & open Nilo Voice Agent"
+            ? "Click to talk with EXO"
             : purplePhase === 'peeping'
               ? "Click orb to return to menu"
               : undefined
@@ -1479,13 +1490,14 @@ export const HomePage: React.FC<HomePageProps> = ({
         {/* Clickable center hit target on the stage itself */}
         {!isMeltActive && (
           <div
+            data-testid="nilo-center-exo-orb"
             onMouseEnter={handleOrbEnter}
             onClick={(e) => {
               e.stopPropagation();
               handleCenterOrbClick();
             }}
             className="absolute w-48 h-48 rounded-full cursor-pointer z-45"
-            title="Click to melt orb & open Nilo Voice Agent"
+            title="Click to talk with EXO"
           />
         )}
 
@@ -1632,10 +1644,15 @@ export const HomePage: React.FC<HomePageProps> = ({
       {purplePhase === 'peeping' && (
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-8 px-4 pb-48 overflow-y-auto animate-in fade-in duration-300">
           <VoiceAgent
+            initialTopic={exoTopic}
             onClose={handleResetOrb}
             onNavigateToTopic={(t) => {
               handleResetOrb();
               onStartSession && onStartSession(t);
+            }}
+            onNavigateToModule={(mod) => {
+              handleResetOrb();
+              setActiveFeature(mod);
             }}
           />
         </div>
@@ -1871,11 +1888,16 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                                                               {/* Primary Action Button */}
                                                               <button
+                                                                data-testid="inspector-open-task-btn"
                                                                 onClick={() => handleOpenTask(activeTask)}
                                                                 className="w-full mt-3.5 py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#651A3B] to-[#8E2856] hover:from-[#541530] hover:to-[#792249] text-white font-bold text-xs shadow-xs hover:shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
                                                               >
                                                                 <ExternalLink className="w-3.5 h-3.5" />
-                                                                <span>Open in {activeTask.service}</span>
+                                                                <span>
+                                                                  {activeTask.serviceType === 'speak' || activeTask.serviceType === 'chat'
+                                                                    ? activeTask.service
+                                                                    : `Open in ${activeTask.service}`}
+                                                                </span>
                                                               </button>
                                                           </div>
 

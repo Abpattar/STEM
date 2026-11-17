@@ -272,5 +272,215 @@ class TestPracticeIntegration:
         assert result2.is_final_answer is False  # We don't mark final in checker
 
 
+class TestPracticeHTTPRoutes:
+    """HTTP route integration tests for POST /api/practice/attempt and POST /api/practice/hint."""
+
+    @staticmethod
+    def _client():
+        from fastapi.testclient import TestClient
+        from src.main import app
+        return TestClient(app)
+
+    @staticmethod
+    def _make_problem(ast_json: dict, latex: str = "x = 7 - 3", topic: str = "linear_equations") -> dict:
+        return {
+            "problem_type": "equation",
+            "expressions": [{"ast_json": ast_json, "latex": latex}],
+            "unknowns": ["x"],
+            "given_values": {},
+            "constraints": [],
+            "requested_operation": "solve",
+            "topic": topic,
+            "units": {},
+            "grade_hint": 7,
+            "source": "typed",
+        }
+
+    def test_http_valid_practice_attempt(self):
+        client = self._client()
+        expected_ast = {
+            "type": "eq",
+            "left": {"type": "symbol", "name": "x"},
+            "right": {"type": "number", "value": 4},
+        }
+        resp = client.post(
+            "/api/practice/attempt",
+            json={
+                "problem": self._make_problem(expected_ast, "x = 4"),
+                "attempt_ast": expected_ast,
+                "current_step": 0,
+                "grade": 7,
+            },
+        )
+        assert resp.status_code == 200, resp.text
+        data = resp.json()
+        assert data["result"]["classification"] == "correct_expected"
+        assert data["result"]["misconception_id"] is None
+        assert data["result"]["is_final_answer"] is False
+        assert data["next_hint"] == "Next hint available"
+
+    def test_http_incorrect_mathematical_step(self):
+        client = self._client()
+        expected_ast = {
+            "type": "eq",
+            "left": {"type": "symbol", "name": "x"},
+            "right": {"type": "number", "value": 4},
+        }
+        wrong_ast = {
+            "type": "eq",
+            "left": {"type": "symbol", "name": "x"},
+            "right": {"type": "number", "value": 10},
+        }
+        resp = client.post(
+            "/api/practice/attempt",
+            json={
+                "problem": self._make_problem(expected_ast, "x = 4"),
+                "attempt_ast": wrong_ast,
+                "current_step": 0,
+                "grade": 7,
+            },
+        )
+        assert resp.status_code == 200, resp.text
+        data = resp.json()
+        assert data["result"]["classification"] == "not_equivalent"
+        assert data["result"]["misconception_id"] is None
+        assert "not" in data["result"]["feedback"].lower() or "isn't" in data["result"]["feedback"].lower()
+
+    def test_http_identified_misconception_mc002(self):
+        client = self._client()
+        expected_ast = {
+            "type": "eq",
+            "left": {"type": "symbol", "name": "x"},
+            "right": {"type": "sub", "args": [{"type": "number", "value": 7}, {"type": "number", "value": 3}]},
+        }
+        sign_error_ast = {
+            "type": "eq",
+            "left": {"type": "symbol", "name": "x"},
+            "right": {"type": "add", "args": [{"type": "number", "value": 7}, {"type": "number", "value": 3}]},
+        }
+        resp = client.post(
+            "/api/practice/attempt",
+            json={
+                "problem": self._make_problem(expected_ast, "x = 7 - 3"),
+                "attempt_ast": sign_error_ast,
+                "current_step": 1,
+                "grade": 7,
+            },
+        )
+        assert resp.status_code == 200, resp.text
+        data = resp.json()
+        assert data["result"]["classification"] == "not_equivalent"
+        assert data["result"]["misconception_id"] == "MC-002"
+        assert data["result"]["hint_level"] == 2
+        assert "sign" in data["result"]["feedback"].lower()
+
+    def test_http_valid_hint_request(self):
+        client = self._client()
+        eq_ast = {
+            "type": "eq",
+            "left": {
+                "type": "add",
+                "args": [
+                    {"type": "mul", "args": [{"type": "number", "value": 2}, {"type": "symbol", "name": "x"}]},
+                    {"type": "number", "value": 4},
+                ],
+            },
+            "right": {"type": "number", "value": 10},
+        }
+        resp = client.post(
+            "/api/practice/hint?current_step=1&grade=7",
+            json={"problem": self._make_problem(eq_ast, "2x + 4 = 10"), "student_attempt": None},
+        )
+        assert resp.status_code == 200, resp.text
+        data = resp.json()
+        assert data["level"] == 1
+        assert isinstance(data["hint"], str) and len(data["hint"]) > 0
+        assert data["show_step_allowed"] is False
+
+    def test_http_progressive_hint_levels(self):
+        client = self._client()
+        eq_ast = {
+            "type": "eq",
+            "left": {
+                "type": "add",
+                "args": [{"type": "symbol", "name": "x"}, {"type": "number", "value": 3}],
+            },
+            "right": {"type": "number", "value": 7},
+        }
+        hints_by_level = {}
+        for level in (1, 2, 3, 4):
+            resp = client.post(
+                f"/api/practice/hint?current_step=1&grade=7&hint_level={level}",
+                json={"problem": self._make_problem(eq_ast, "x + 3 = 7")},
+            )
+            assert resp.status_code == 200, resp.text
+            data = resp.json()
+            assert data["level"] == level
+            assert data["show_step_allowed"] is (level >= 3)
+            assert "x = 4" not in data["hint"]
+            hints_by_level[level] = data["hint"]
+
+        # All 4 progressive hint levels produce distinct guidance
+        assert len(set(hints_by_level.values())) == 4
+        assert "left side" in hints_by_level[1].lower()
+        assert "equals sign" in hints_by_level[2].lower()
+        assert "step 1:" in hints_by_level[3].lower()
+        assert "think of it like:" in hints_by_level[4].lower()
+
+    def test_http_invalid_requests_and_error_handling(self):
+        client = self._client()
+        valid_ast = {
+            "type": "eq",
+            "left": {"type": "symbol", "name": "x"},
+            "right": {"type": "number", "value": 4},
+        }
+
+        # 1. Empty problem expressions -> 400
+        empty_prob = self._make_problem(valid_ast, "x = 4")
+        empty_prob["expressions"] = []
+        r_empty = client.post(
+            "/api/practice/attempt",
+            json={"problem": empty_prob, "attempt_ast": valid_ast, "current_step": 0, "grade": 7},
+        )
+        assert r_empty.status_code == 400
+
+        # 2. Negative current_step on /practice/attempt -> 422
+        r_neg_step = client.post(
+            "/api/practice/attempt",
+            json={"problem": self._make_problem(valid_ast), "attempt_ast": valid_ast, "current_step": -1, "grade": 7},
+        )
+        assert r_neg_step.status_code == 422
+
+        # 3. Invalid grade (>10) on /practice/attempt -> 422
+        r_bad_grade = client.post(
+            "/api/practice/attempt",
+            json={"problem": self._make_problem(valid_ast), "attempt_ast": valid_ast, "current_step": 0, "grade": 15},
+        )
+        assert r_bad_grade.status_code == 422
+
+        # 4. Unreadable empty attempt_ast -> 200 with unreadable classification
+        r_unreadable = client.post(
+            "/api/practice/attempt",
+            json={"problem": self._make_problem(valid_ast), "attempt_ast": {}, "current_step": 0, "grade": 7},
+        )
+        assert r_unreadable.status_code == 200
+        assert r_unreadable.json()["result"]["classification"] == "unreadable"
+
+        # 5. Out-of-range hint_level (0 and 5) on /practice/hint -> 422
+        for bad_level in (0, 5):
+            r_bad_hint = client.post(
+                f"/api/practice/hint?current_step=1&grade=7&hint_level={bad_level}",
+                json={"problem": self._make_problem(valid_ast)},
+            )
+            assert r_bad_hint.status_code == 422
+
+        # 6. Negative current_step on /practice/hint -> 422
+        r_neg_hint_step = client.post(
+            "/api/practice/hint?current_step=-1&grade=7&hint_level=1",
+            json={"problem": self._make_problem(valid_ast)},
+        )
+        assert r_neg_hint_step.status_code == 422
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
