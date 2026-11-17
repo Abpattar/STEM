@@ -11,12 +11,14 @@
     "dev:lab": "npm --prefix digital_lab run dev",
     "dev": "concurrently -n \"MAIN,SCRATCH-BE,SCRATCH-FE,VOICE,LAB\" -c \"magenta,blue,cyan,green,yellow\" \"npm run dev:main\" \"npm run dev:scratchpad:backend\" \"npm run dev:scratchpad:frontend\" \"npm run dev:voice\" \"npm run dev:lab\"",
     "start": "npm run dev",
-    "build:scratchpad": "npm --prefix scratchpad_notebook/frontend run build -- --base=/scratchpad/",
-    "build:lab": "npm --prefix digital_lab run build -- --base=/digitallab/",
-    "build:main": "npm --prefix main_explaino run build",
-    "bundle:unified": "node scripts/bundle-unified.mjs",
-    "build:voice": "npm --prefix voice_agent run build",
-    "build": "npm run build:scratchpad && npm run build:lab && npm run build:main && npm run bundle:unified && npm run build:voice"
+    "build": "npm --prefix voice_agent run build"
+  },
+  "dependencies": {
+    "lucide-react": "^1.73.0",
+    "mongodb": "^7.9.0",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
