@@ -1,0 +1,50 @@
+[
+  {
+    "name": "simple_probability",
+    "problem": {
+      "topic": "probability",
+      "grade_hint": 7,
+      "experiment": "rolling a fair six-sided die",
+      "outcomes": ["1", "2", "3", "4", "5", "6"],
+      "favorable_outcomes": ["4", "5", "6"],
+      "requested_quantity": "probability",
+      "topic": "probability"
+    },
+    "expected_steps": [
+      {"operation": "probability", "result": 0.5}
+    ],
+    "final_answer": "Probability = 1/2 = 0.5"
+  },
+  {
+    "name": "card_probability",
+    "problem": {
+      "topic": "probability",
+      "grade_hint": 8,
+      "experiment": "drawing a card from a standard deck",
+      "outcomes": ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"],
+      "favorable_outcomes": ["A", "J", "Q", "K"],
+      "requested_quantity": "probability",
+      "topic": "probability"
+    },
+    "expected_steps": [
+      {"operation": "probability", "result": 4/13}
+    ],
+    "final_answer": "Probability = 4/13"
+  },
+  {
+    "name": "compound_probability",
+    "problem": {
+      "topic": "probability",
+      "grade_hint": 8,
+      "experiment": "flipping two fair coins",
+      "outcomes": ["HH", "HT", "TH", "TT"],
+      "favorable_outcomes": ["HH", "TT"],
+      "requested_quantity": "probability",
+      "topic": "probability"
+    },
+    "expected_steps": [
+      {"operation": "probability", "result": 0.5}
+    ],
+    "final_answer": "Probability = 1/2 = 0.5"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "name": "stem-unified-platform",
+  "version": "1.0.0",
+  "description": "Unified STEM Learning Platform integrating Explaino, MathNoteBook Scratchpad, VoiceAgent, and Science Kingdom Digital Lab",
+  "scripts": {
+    "dev:main": "npm --prefix main_explaino run dev",
+    "dev:scratchpad:backend": "cd scratchpad_notebook/backend && .venv\\Scripts\\python -m uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload",
+    "dev:scratchpad:frontend": "npm --prefix scratchpad_notebook/frontend run dev",
+    "dev:scratchpad": "concurrently -n \"SCRATCH-BE,SCRATCH-FE\" -c \"blue,cyan\" \"npm run dev:scratchpad:backend\" \"npm run dev:scratchpad:frontend\"",
+    "dev:voice": "npm --prefix voice_agent run dev",
+    "dev:lab": "npm --prefix digital_lab run dev",
+    "dev": "concurrently -n \"MAIN,SCRATCH-BE,SCRATCH-FE,VOICE,LAB\" -c \"magenta,blue,cyan,green,yellow\" \"npm run dev:main\" \"npm run dev:scratchpad:backend\" \"npm run dev:scratchpad:frontend\" \"npm run dev:voice\" \"npm run dev:lab\"",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

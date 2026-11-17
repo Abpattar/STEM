@@ -1,0 +1,86 @@
+[
+  {
+    "name": "mean_calculation",
+    "problem": {
+      "topic": "statistics",
+      "grade_hint": 6,
+      "data": [5, 8, 12, 15, 20],
+      "requested_quantity": "mean",
+      "topic": "statistics"
+    },
+    "expected_steps": [
+      {"operation": "mean", "result": 12}
+    ],
+    "final_answer": "Mean = 12"
+  },
+  {
+    "name": "median_odd_count",
+    "problem": {
+      "topic": "statistics",
+      "grade_hint": 6,
+      "data": [3, 7, 9, 15, 21],
+      "requested_quantity": "median",
+      "topic": "statistics"
+    },
+    "expected_steps": [
+      {"operation": "median", "result": 9}
+    ],
+    "final_answer": "Median = 9"
+  },
+  {
+    "name": "median_even_count",
+    "problem": {
+      "topic": "statistics",
+      "grade_hint": 6,
+      "data": [4, 8, 12, 16],
+      "requested_quantity": "median",
+      "topic": "statistics"
+    },
+    "expected_steps": [
+      {"operation": "median", "result": 10}
+    ],
+    "final_answer": "Median = 10"
+  },
+  {
+    "name": "mode_single",
+    "problem": {
+      "topic": "statistics",
+      "grade_hint": 6,
+      "data": [2, 5, 5, 8, 9, 5, 12],
+      "requested_quantity": "mode",
+      "topic": "statistics"
+    },
+    "expected_steps": [
+      {"operation": "mode", "result": 5}
+    ],
+    "final_answer": "Mode = 5"
+  },
+  {
+    "name": "mode_multiple",
+    "problem": {
+      "topic": "statistics",
+      "grade_hint": 6,
+      "data": [2, 2, 4, 4, 6, 8],
+      "requested_quantity": "mode",
+      "topic": "statistics"
+    },
+    "expected_steps": [
+      {"operation": "mode", "result": [2, 4]}
+    ],
+    "final_answer": "Mode = 2, 4"
+  },
+  {
+    "name": "range_calculation",
+    "problem": {
+      "topic": "statistics",
+      "grade_hint": 6,
+      "data": [3, 7, 12, 18, 25],
+      "requested_quantity": "range",
+      "topic": "statistics"
+    },
+    "expected_steps": [
+      {"operation": "range", "result": 22}
+    ],
+    "final_answer": "Range = 22"
+  }
+]

@@ -1,0 +1,30 @@
+# Environments & Secrets
+.env
+*.env
+!.env.example
+.venv/
+env/
+venv/
+
+# Node & Frontend
+node_modules/
+dist/
+build/
+.npm/
+
+# Python & Testing
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Logs & System
+*.log
+.history/
+.DS_Store
+*.swp
+*.swo
+

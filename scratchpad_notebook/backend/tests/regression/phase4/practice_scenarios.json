@@ -1,0 +1,313 @@
+[
+  {
+    "name": "linear_equation_sign_error",
+    "problem": {
+      "problem_type": "equation",
+      "expressions": [{
+        "ast_json": {
+          "type": "eq",
+          "left": {"type": "add", "args": [{"type": "symbol", "name": "x"}, {"type": "number", "value": 3}]},
+          "right": {"type": "number", "value": 7}
+        },
+        "latex": "x + 3 = 7"
+      }],
+      "unknowns": ["x"],
+      "given_values": {},
+      "constraints": [],
+      "requested_operation": "solve",
+      "topic": "linear_equations",
+      "units": {},
+      "grade_hint": 7,
+      "source": "typed"
+    },
+    "expected_step": {
+      "step_number": 1,
+      "operation": "subtract_both_sides",
+      "equation_ast": {
+        "type": "eq",
+        "left": {"type": "add", "args": [{"type": "symbol", "name": "x"}, {"type": "number", "value": 3}]},
+        "right": {"type": "number", "value": 7}
+      },
+      "result_ast": {
+        "type": "eq",
+        "left": {"type": "symbol", "name": "x"},
+        "right": {"type": "sub", "args": [{"type": "number", "value": 7}, {"type": "number", "value": 3}]}
+      }
+    },
+    "test_attempts": [
+      {
+        "description": "Correct expected step",
+        "attempt_ast": {
+          "type": "eq",
+          "left": {"type": "symbol", "name": "x"},
+          "right": {"type": "sub", "args": [{"type": "number", "value": 7}, {"type": "number", "value": 3}]}
+        },
+        "expected_classification": "correct_expected"
+      },
+      {
+        "description": "Sign error - adding instead of subtracting",
+        "attempt_ast": {
+          "type": "eq",
+          "left": {"type": "symbol", "name": "x"},
+          "right": {"type": "add", "args": [{"type": "number", "value": 7}, {"type": "number", "value": 3}]}
+        },
+        "expected_classification": "not_equivalent",
+        "expected_misconception": "MC-002"
+      },
+      {
+        "description": "One-sided operation",
+        "attempt_ast": {
+          "type": "eq",
+          "left": {"type": "symbol", "name": "x"},
+          "right": {"type": "number", "value": 10}
+        },
+        "expected_classification": "not_equivalent",
+        "expected_misconception": "MC-003"
+      },
+      {
+        "description": "Arithmetic slip",
+        "attempt_ast": {
+          "type": "eq",
+          "left": {"type": "symbol", "name": "x"},
+          "right": {"type": "number", "value": 5}
+        },
+        "expected_classification": "not_equivalent",
+        "expected_misconception": "MC-010"
+      }
+    ]
+  },
+  {
+    "name": "quadratic_factorisation",
+    "problem": {
+      "problem_type": "equation",
+      "expressions": [{
+        "ast_json": {
+          "type": "eq",
+          "left": {
+            "type": "add",
+            "args": [
+              {"type": "pow", "base": {"type": "symbol", "name": "x"}, "exp": {"type": "number", "value": 2}},
+              {"type": "mul", "args": [{"type": "number", "value": 5}, {"type": "symbol", "name": "x"}]},
+              {"type": "number", "value": 6}
+            ]
+          },
+          "right": {"type": "number", "value": 0}
+        },
+        "latex": "x^2 + 5x + 6 = 0"
+      }],
+      "unknowns": ["x"],
+      "given_values": {},
+      "constraints": [],
+      "requested_operation": "solve",
+      "topic": "quadratic_equations",
+      "units": {},
+      "grade_hint": 9,
+      "source": "typed"
+    },
+    "expected_step": {
+      "step_number": 1,
+      "operation": "factorise",
+      "equation_ast": {
+        "type": "eq",
+        "left": {
+          "type": "add",
+          "args": [
+            {"type": "pow", "base": {"type": "symbol", "name": "x"}, "exp": {"type": "number", "value": 2}},
+            {"type": "mul", "args": [{"type": "number", "value": 5}, {"type": "symbol", "name": "x"}]},
+            {"type": "number", "value": 6}
+          ]
+        },
+        "right": {"type": "number", "value": 0}
+      },
+      "result_ast": {
+        "type": "eq",
+        "left": {"type": "mul", "args": [
+          {"type": "add", "args": [{"type": "symbol", "name": "x"}, {"type": "number", "value": 2}]},
+          {"type": "add", "args": [{"type": "symbol", "name": "x"}, {"type": "number", "value": 3}]}
+        ]},
+        "right": {"type": "number", "value": 0}
+      }
+    },
+    "test_attempts": [
+      {
+        "description": "Correct factorisation",
+        "attempt_ast": {
+          "type": "eq",
+          "left": {"type": "mul", "args": [
+            {"type": "add", "args": [{"type": "symbol", "name": "x"}, {"type": "number", "value": 2}]},
+            {"type": "add", "args": [{"type": "symbol", "name": "x"}, {"type": "number", "value": 3}]}
+          ]},
+          "right": {"type": "number", "value": 0}
+        },
+        "expected_classification": "correct_expected"
+      },
+      {
+        "description": "Wrong factorisation (missing middle term)",
+        "attempt_ast": {
+          "type": "eq",
+          "left": {"type": "add", "args": [
+            {"type": "pow", "base": {"type": "symbol", "name": "x"}, "exp": {"type": "number", "value": 2}},
+            {"type": "number", "value": 6}
+          ]},
+          "right": {"type": "number", "value": 0}
+        },
+        "expected_classification": "not_equivalent",
+        "expected_misconception": "MC-001"
+      }
+    ]
+  },
+  {
+    "name": "radical_equation_extraneous_root",
+    "problem": {
+      "problem_type": "equation",
+      "expressions": [{
+        "ast_json": {
+          "type": "eq",
+          "left": {
+            "type": "function",
+            "name": "sqrt",
+            "args": [{"type": "symbol", "name": "x"}]
+          },
+          "right": {"type": "sub", "args": [{"type": "symbol", "name": "x"}, {"type": "number", "value": 2}]}
+        },
+        "latex": "\\sqrt{x} = x - 2"
+      }],
+      "unknowns": ["x"],
+      "given_values": {},
+      "constraints": [],
+      "requested_operation": "solve",
+      "topic": "radical_equations",
+      "units": {},
+      "grade_hint": 10,
+      "source": "typed"
+    },
+    "expected_step": {
+      "step_number": 1,
+      "operation": "isolate_radical",
+      "equation_ast": {
+        "type": "eq",
+        "left": {"type": "function", "name": "sqrt", "args": [{"type": "symbol", "name": "x"}]},
+        "right": {"type": "sub", "args": [{"type": "symbol", "name": "x"}, {"type": "number", "value": 2}]}
+      },
+      "result_ast": {
+        "type": "eq",
+        "left": {"type": "function", "name": "sqrt", "args": [{"type": "symbol", "name": "x"}]},
+        "right": {"type": "sub", "args": [{"type": "symbol", "name": "x"}, {"type": "number", "value": 2}]}
+      }
+    },
+    "test_attempts": [
+      {
+        "description": "Correct - isolate radical",
+        "attempt_ast": {
+          "type": "eq",
+          "left": {"type": "function", "name": "sqrt", "args": [{"type": "symbol", "name": "x"}]},
+          "right": {"type": "sub", "args": [{"type": "symbol", "name": "x"}, {"type": "number", "value": 2}]}
+        },
+        "expected_classification": "correct_expected"
+      },
+      {
+        "description": "Forgets to check extraneous root",
+        "attempt_ast": {
+          "type": "eq",
+          "left": {"type": "symbol", "name": "x"},
+          "right": {"type": "number", "value": 1}
+        },
+        "expected_classification": "not_equivalent",
+        "expected_misconception": "MC-008"
+      }
+    ]
+  },
+  {
+    "name": "geometry_area_rectangle",
+    "problem": {
+      "topic": "mensuration_2d",
+      "grade_hint": 5,
+      "shape_type": "rectangle",
+      "measurements": [
+        {"label": "length", "value": 8, "unit": "cm", "measurement_type": "length"},
+        {"label": "width", "value": 5, "unit": "cm", "measurement_type": "length"}
+      ],
+      "requested_quantity": {"type": "area", "target": "area"},
+      "topic": "mensuration_2d"
+    },
+    "expected_step": {
+      "operation": "area_rectangle",
+      "equation_ast": {
+        "type": "eq",
+        "left": {"type": "symbol", "name": "A"},
+        "right": {"type": "mul", "args": [{"type": "symbol", "name": "l"}, {"type": "symbol", "name": "w"}]}
+      },
+      "result_ast": {
+        "type": "eq",
+        "left": {"type": "symbol", "name": "A"},
+        "right": {"type": "number", "value": 40}
+      }
+    },
+    "test_attempts": [
+      {
+        "description": "Correct area calculation",
+        "attempt_ast": {
+          "type": "eq",
+          "left": {"type": "symbol", "name": "A"},
+          "right": {"type": "number", "value": 40}
+        },
+        "expected_classification": "correct_expected"
+      },
+      {
+        "description": "Wrong formula - adding instead of multiplying",
+        "attempt_ast": {
+          "type": "eq",
+          "left": {"type": "symbol", "name": "A"},
+          "right": {"type": "add", "args": [{"type": "number", "value": 8}, {"type": "number", "value": 5}]}
+        },
+        "expected_classification": "not_equivalent",
+        "expected_misconception": "MC-006"
+      }
+    ]
+  },
+  {
+    "name": "probability_simple",
+    "problem": {
+      "topic": "probability",
+      "grade_hint": 7,
+      "experiment": "rolling a fair six-sided die",
+      "outcomes": ["1", "2", "3", "4", "5", "6"],
+      "favorable_outcomes": ["4", "5", "6"],
+      "requested_quantity": "probability",
+      "topic": "probability"
+    },
+    "expected_step": {
+      "operation": "probability",
+      "equation_ast": {
+        "type": "eq",
+        "left": {"type": "symbol", "name": "P"},
+        "right": {"type": "div", "args": [{"type": "number", "value": 3}, {"type": "number", "value": 6}]}
+      },
+      "result_ast": {
+        "type": "eq",
+        "left": {"type": "symbol", "name": "P"},
+        "right": {"type": "number", "value": 0.5}
+      }
+    },
+    "test_attempts": [
+      {
+        "description": "Correct probability",
+        "attempt_ast": {
+          "type": "eq",
+          "left": {"type": "symbol", "name": "P"},
+          "right": {"type": "number", "value": 0.5}
+        },
+        "expected_classification": "correct_expected"
+      },
+      {
+        "description": "Wrong - forgot to simplify fraction",
+        "attempt_ast": {
+          "type": "eq",
+          "left": {"type": "symbol", "name": "P"},
+          "right": {"type": "div", "args": [{"type": "number", "value": 3}, {"type": "number", "value": 6}]}
+        },
+        "expected_classification": "correct_alternate"
+      }
+    ]
+  }
+]

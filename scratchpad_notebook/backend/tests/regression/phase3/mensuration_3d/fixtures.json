@@ -1,0 +1,56 @@
+[
+  {
+    "name": "cuboid_volume_surface_area",
+    "problem": {
+      "topic": "mensuration_3d",
+      "grade_hint": 7,
+      "shape_type": "cuboid",
+      "measurements": [
+        {"label": "length", "value": 5, "unit": "cm", "measurement_type": "length"},
+        {"label": "width", "value": 4, "unit": "cm", "measurement_type": "length"},
+        {"label": "height", "value": 3, "unit": "cm", "measurement_type": "length"}
+      ],
+      "requested_quantity": {"type": "volume", "target": "volume"},
+      "topic": "mensuration_3d"
+    },
+    "expected_steps": [
+      {"operation": "volume_cuboid", "result": 60}
+    ],
+    "final_answer": "Volume = 60 cm³"
+  },
+  {
+    "name": "cylinder_volume_surface_area",
+    "problem": {
+      "topic": "mensuration_3d",
+      "grade_hint": 8,
+      "shape_type": "cylinder",
+      "measurements": [
+        {"label": "radius", "value": 4, "unit": "cm", "measurement_type": "radius"},
+        {"label": "height", "value": 10, "unit": "cm", "measurement_type": "length"}
+      ],
+      "requested_quantity": {"type": "volume", "target": "volume"},
+      "topic": "mensuration_3d"
+    },
+    "expected_steps": [
+      {"operation": "volume_cylinder", "result": 502.65}
+    ],
+    "final_answer": "Volume ≈ 502.65 cm³"
+  },
+  {
+    "name": "sphere_volume_surface_area",
+    "problem": {
+      "topic": "mensuration_3d",
+      "grade_hint": 9,
+      "shape_type": "sphere",
+      "measurements": [
+        {"label": "radius", "value": 5, "unit": "cm", "measurement_type": "radius"}
+      ],
+      "requested_quantity": {"type": "surface_area", "target": "surface_area"},
+      "topic": "mensuration_3d"
+    },
+    "expected_steps": [
+      {"operation": "surface_area_sphere", "result": 314.16}
+    ],
+    "final_answer": "Surface Area ≈ 314.16 cm²"
+  }
+]

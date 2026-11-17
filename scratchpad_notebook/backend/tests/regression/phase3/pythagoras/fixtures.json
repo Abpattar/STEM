@@ -1,0 +1,84 @@
+[
+  {
+    "name": "find_hypotenuse",
+    "problem": {
+      "topic": "pythagoras",
+      "grade_hint": 8,
+      "shapes": [{
+        "type": "right_triangle",
+        "id": "triangle1",
+        "vertices": [
+          {"label": "A", "x": 50, "y": 250},
+          {"label": "B", "x": 200, "y": 250},
+          {"label": "C", "x": 50, "y": 100}
+        ],
+        "measurements": [
+          {"label": "AB", "value": 3, "unit": "cm", "measurement_type": "length"},
+          {"label": "AC", "value": 4, "unit": "cm", "measurement_type": "length"}
+        ],
+        "relationships": [{"type": "right_angle", "elements": ["angle C"]}]
+      }],
+      "requested_quantity": {"type": "length", "target": "BC"},
+      "topic": "pythagoras"
+    },
+    "expected_steps": [
+      {"operation": "apply_pythagoras", "result": 5}
+    ],
+    "final_answer": "BC = 5 cm"
+  },
+  {
+    "name": "find_leg",
+    "problem": {
+      "topic": "pythagoras",
+      "grade_hint": 9,
+      "shapes": [{
+        "type": "right_triangle",
+        "id": "triangle1",
+        "vertices": [
+          {"label": "A", "x": 50, "y": 250},
+          {"label": "B", "x": 200, "y": 250},
+          {"label": "C", "x": 50, "y": 100}
+        ],
+        "measurements": [
+          {"label": "AB", "value": 13, "unit": "cm", "measurement_type": "length"},
+          {"label": "AC", "value": 5, "unit": "cm", "measurement_type": "length"}
+        ],
+        "relationships": [{"type": "right_angle", "elements": ["angle C"]}]
+      }],
+      "requested_quantity": {"type": "length", "target": "BC"},
+      "topic": "pythagoras"
+    },
+    "expected_steps": [
+      {"operation": "apply_pythagoras", "result": 12}
+    ],
+    "final_answer": "BC = 12 cm"
+  },
+  {
+    "name": "verify_right_triangle",
+    "problem": {
+      "topic": "pythagoras",
+      "grade_hint": 9,
+      "shapes": [{
+        "type": "triangle",
+        "id": "triangle1",
+        "vertices": [
+          {"label": "A", "x": 50, "y": 250},
+          {"label": "B", "x": 200, "y": 250},
+          {"label": "C", "x": 50, "y": 100}
+        ],
+        "measurements": [
+          {"label": "AB", "value": 5, "unit": "cm", "measurement_type": "length"},
+          {"label": "AC", "value": 12, "unit": "cm", "measurement_type": "length"},
+          {"label": "BC", "value": 13, "unit": "cm", "measurement_type": "length"}
+        ],
+        "relationships": []
+      }],
+      "requested_quantity": {"type": "boolean", "target": "is_right_triangle"},
+      "topic": "pythagoras"
+    },
+    "expected_steps": [
+      {"operation": "check_pythagoras", "result": true}
+    ],
+    "final_answer": "Yes, it is a right triangle"
+  }
+]

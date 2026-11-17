@@ -1,0 +1,53 @@
+[
+  {
+    "name": "distance_formula",
+    "problem": {
+      "topic": "coordinate_geometry",
+      "grade_hint": 8,
+      "points": [
+        {"label": "A", "x": 1, "y": 2},
+        {"label": "B", "x": 4, "y": 6}
+      ],
+      "requested_quantity": {"type": "distance", "target": "AB"},
+      "topic": "coordinate_geometry"
+    },
+    "expected_steps": [
+      {"operation": "distance_formula", "result": 5}
+    ],
+    "final_answer": "AB = 5 units"
+  },
+  {
+    "name": "midpoint_formula",
+    "problem": {
+      "topic": "coordinate_geometry",
+      "grade_hint": 8,
+      "points": [
+        {"label": "A", "x": 2, "y": 3},
+        {"label": "B", "x": 8, "y": 7}
+      ],
+      "requested_quantity": {"type": "midpoint", "target": "midpoint_AB"},
+      "topic": "coordinate_geometry"
+    },
+    "expected_steps": [
+      {"operation": "midpoint_formula", "result": [5, 5]}
+    ],
+    "final_answer": "Midpoint = (5, 5)"
+  },
+  {
+    "name": "slope_formula",
+    "problem": {
+      "topic": "coordinate_geometry",
+      "grade_hint": 9,
+      "points": [
+        {"label": "A", "x": 1, "y": 2},
+        {"label": "B", "x": 4, "y": 8}
+      ],
+      "requested_quantity": {"type": "slope", "target": "AB"},
+      "topic": "coordinate_geometry"
+    },
+    "expected_steps": [
+      {"operation": "slope_formula", "result": 2}
+    ],
+    "final_answer": "Slope = 2"
+  }
+]

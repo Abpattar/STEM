@@ -1,0 +1,58 @@
+[
+  {
+    "name": "triangle_angle_sum_basic",
+    "problem": {
+      "problem_type": "geometry",
+      "topic": "geometry_angles",
+      "grade_hint": 7,
+      "shapes": [{
+        "type": "triangle",
+        "id": "triangle1",
+        "vertices": [
+          {"label": "A", "x": 50, "y": 250},
+          {"label": "B", "x": 200, "y": 250},
+          {"label": "C", "x": 125, "y": 80}
+        ],
+        "measurements": [
+          {"label": "angle A", "value": 50, "unit": "degrees", "measurement_type": "angle"},
+          {"label": "angle B", "value": 60, "unit": "degrees", "measurement_type": "angle"}
+        ],
+        "relationships": []
+      }],
+      "given_measurements": {},
+      "relationships": [],
+      "requested_quantity": {"type": "angle", "target": "angle C"},
+      "topic": "geometry_angles",
+      "grade_hint": 7
+    },
+    "expected_steps": [
+      {"operation": "angle_sum_triangle", "result": 70}
+    ],
+    "final_answer": "angle C = 70°"
+  },
+  {
+    "name": "parallel_lines_corresponding_angles",
+    "problem": {
+      "topic": "geometry_angles",
+      "grade_hint": 8,
+      "shapes": [{
+        "type": "parallel_lines",
+        "id": "parallel1",
+        "vertices": [
+          {"label": "A", "x": 50, "y": 100},
+          {"label": "B", "x": 350, "y": 100}
+        ],
+        "measurements": [
+          {"label": "angle 1", "value": 50, "unit": "degrees", "measurement_type": "angle"}
+        ],
+        "relationships": [{"type": "parallel", "elements": ["line1", "line2"]}]
+      }],
+      "requested_quantity": {"type": "angle", "target": "angle 2"},
+      "topic": "geometry_angles"
+    },
+    "expected_steps": [
+      {"operation": "corresponding_angles", "result": 50}
+    ],
+    "final_answer": "angle 2 = 50°"
+  }
+]
