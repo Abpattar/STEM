@@ -1,0 +1,8 @@
+*.pdf
+tests/
+test-results/
+playwright-report/
+.env
+.env.local
+.next/
+node_modules/
