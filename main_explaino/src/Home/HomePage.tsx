@@ -33,7 +33,8 @@ import {
   BookOpen,
   Mic,
   Pencil,
-  Activity
+  Activity,
+  HelpCircle
 } from 'lucide-react';
 import { useAccessibility } from '../context/AccessibilityContext';
 import { AccessibilityMenu } from '../components/AccessibilityMenu';
@@ -368,6 +369,8 @@ export const HomePage: React.FC<HomePageProps> = ({
       }
     };
   }, []);
+
+  const [isMainMenuHelpOpen, setIsMainMenuHelpOpen] = useState(false);
 
   // 10 Recent Tasks across NILO Services (Talk to EXO, Scratchpad, Digital Lab, Books, etc.)
   const [tasks, setTasks] = useState<RecentTask[]>([
@@ -1093,6 +1096,17 @@ export const HomePage: React.FC<HomePageProps> = ({
           >
             <Plus className="w-4 h-4" />
           </button>
+
+          <button
+            type="button"
+            data-testid="mainmenu-rail-help-video-btn"
+            onClick={() => setIsMainMenuHelpOpen(true)}
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-[#7C5CFF] bg-purple-50/90 border border-purple-200/80 hover:bg-purple-100 hover:text-[#5B3FD6] transition-all cursor-pointer shadow-2xs"
+            title="Main Menu Guide Video — Explore all features"
+            aria-label="Watch Main Menu Guide Video"
+          >
+            <HelpCircle className="w-4 h-4" />
+          </button>
         </div>
 
         {/* Bottom subtle settings icon */}
@@ -1402,6 +1416,17 @@ export const HomePage: React.FC<HomePageProps> = ({
           title="Redo"
         >
           <Redo2 className="w-4 h-4" />
+        </button>
+        <div className="w-[1px] h-3.5 bg-slate-200 mx-0.5" />
+        <button
+          type="button"
+          data-testid="mainmenu-help-video-btn"
+          onClick={() => setIsMainMenuHelpOpen(true)}
+          className="p-1.5 rounded-lg text-[#7C5CFF] bg-purple-50 hover:bg-purple-100 hover:text-[#5B3FD6] transition-colors cursor-pointer"
+          title="Watch Main Menu Feature Guide Video"
+          aria-label="Watch Main Menu Feature Guide Video"
+        >
+          <HelpCircle className="w-4 h-4" />
         </button>
       </div>
 
@@ -1951,6 +1976,55 @@ export const HomePage: React.FC<HomePageProps> = ({
           )}
                                                                   </div>
       </aside>
+
+      {/* Main Menu Feature Guide Video Modal */}
+      {isMainMenuHelpOpen && (
+        <div
+          data-testid="mainmenu-help-video-modal"
+          className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md"
+          onClick={() => setIsMainMenuHelpOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-4xl rounded-2xl bg-slate-900 border border-purple-400/45 shadow-[0_0_50px_rgba(124,92,255,0.3)] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800 bg-slate-950/90">
+              <div className="flex items-center gap-2 text-purple-300 font-semibold text-xs sm:text-sm">
+                <HelpCircle className="w-4 h-4" />
+                <span>NILO Main Menu &amp; Features Guide</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href="/main-menu-help.mp4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-purple-200 bg-purple-950/70 border border-purple-500/40 hover:bg-purple-900/70 transition-colors"
+                >
+                  <span>Open Video</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setIsMainMenuHelpOpen(false)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                  aria-label="Close help video"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            <div className="bg-black aspect-video w-full">
+              <video
+                src="/main-menu-help.mp4"
+                controls
+                autoPlay
+                playsInline
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
                                                             </div>
                                                             );
