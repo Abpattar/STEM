@@ -1,6 +1,7 @@
 # STEM Unified Learning Platform (NILO)
 
-> Repository: `https://github.com/Abpattar/STEM.git`
+> **Live Demo (Vercel):** https://nilo-stem.vercel.app
+> **Repository:** https://github.com/Abpattar/STEM.git
 
 A unified STEM educational platform built on **NILO** (`main_explaino/`) as the single master React 19 application, natively integrating **MathNoteBook** (mathematics workspace), **Science Kingdom** (3D Physics, Chemistry, and Biology laboratory), and **EXO** (voice-first Socratic AI tutor with Sarvam AI primary speech and automatic browser voice fallback).
 
@@ -220,7 +221,22 @@ npm run test:stem
 
 ## 10. Production Deployment Architecture
 
-In production, deploy:
+### Live Vercel Deployment
+
+The platform is deployed across four Vercel projects behind one public origin:
+
+| Service | Root Directory | Production URL |
+|---|---|---|
+| **NILO Master Frontend** (`nilo-stem`) | `main_explaino/` | https://nilo-stem.vercel.app |
+| **EXO Next.js Backend** (`nilo-exo-backend`) | `voice_agent/` | https://nilo-exo-backend.vercel.app |
+| **MathNoteBook FastAPI** (`nilo-math-backend`) | `scratchpad_notebook/backend/` | https://nilo-math-backend.vercel.app |
+| **Science AI FastAPI** (`nilo-science-ai`) | `science_ai_backend/` | https://nilo-science-ai.vercel.app |
+
+`main_explaino/vercel.json` rewrites `/api/tutor/*`, `/api/math/*`, and `/api/science/*` from `https://nilo-stem.vercel.app` to the three backend deployments, keeping all API calls same-origin with zero secrets in the frontend bundle.
+
+### Self-Hosted Production Option
+
+In self-hosted production, deploy:
 1. **Static SPA (`main_explaino/dist/`)** served by Nginx, Caddy, or a CDN at `/` (with SPA fallback `try_files $uri $uri/ /index.html;`).
 2. **MathNoteBook FastAPI** (`uvicorn src.main:app --host 127.0.0.1 --port 8001 --workers 2`) managed by `systemd`, Supervisor, or Docker.
 3. **Science AI FastAPI** (`uvicorn main:app --host 127.0.0.1 --port 8002 --workers 2`) managed by `systemd`, Supervisor, or Docker.

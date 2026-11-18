@@ -31,7 +31,20 @@ function drawSmoothStroke(ctx: CanvasRenderingContext2D, stroke: Stroke) {
   const pts = stroke.points;
   ctx.moveTo(pts[0].x, pts[0].y);
 
-  if (pts.length === 2) {
+  if (stroke.shapeId || stroke.shapeType) {
+    // Render preset geometric shapes with exact straight segments so vertices stay crisp
+    ctx.lineJoin = stroke.shapeType === 'circle' ? 'round' : 'miter';
+    const first = pts[0];
+    const last = pts[pts.length - 1];
+    const isClosed = pts.length > 2 && Math.hypot(first.x - last.x, first.y - last.y) < 1;
+    const endIdx = isClosed ? pts.length - 1 : pts.length;
+    for (let i = 1; i < endIdx; i++) {
+      ctx.lineTo(pts[i].x, pts[i].y);
+    }
+    if (isClosed) {
+      ctx.closePath();
+    }
+  } else if (pts.length === 2) {
     ctx.lineTo(pts[1].x, pts[1].y);
   } else {
     for (let i = 1; i < pts.length - 1; i++) {
@@ -118,23 +131,16 @@ export function MathCanvas({
 
       const scale = window.devicePixelRatio || 1;
       const padding = 28;
-      const cropX = Math.max(0, (minX - padding) * scale);
-      const cropY = Math.max(0, (minY - padding) * scale);
-      const cropW = Math.min(canvas.width - cropX, (maxX - minX + padding * 2) * scale);
-      const cropH = Math.min(canvas.height - cropY, (maxY - minY + padding * 2) * scale);
-
-      if (cropW <= 0 || cropH <= 0) {
-        return canvas.toDataURL('image/png');
-      }
+      const srcW = Math.max(1, maxX - minX + padding * 2);
+      const srcH = Math.max(1, maxY - minY + padding * 2);
 
       const maxDim = 800;
-      let destW = cropW;
-      let destH = cropH;
-      if (destW > maxDim || destH > maxDim) {
-        const ratio = Math.min(maxDim / destW, maxDim / destH);
-        destW = Math.round(destW * ratio);
-        destH = Math.round(destH * ratio);
+      let exportScale = scale;
+      if (srcW * exportScale > maxDim || srcH * exportScale > maxDim) {
+        exportScale = Math.min(maxDim / srcW, maxDim / srcH);
       }
+      const destW = Math.max(1, Math.round(srcW * exportScale));
+      const destH = Math.max(1, Math.round(srcH * exportScale));
 
       const offscreen = document.createElement('canvas');
       offscreen.width = destW;
@@ -144,7 +150,13 @@ export function MathCanvas({
 
       offCtx.fillStyle = '#ffffff';
       offCtx.fillRect(0, 0, destW, destH);
-      offCtx.drawImage(canvas, cropX, cropY, cropW, cropH, 0, 0, destW, destH);
+      offCtx.save();
+      offCtx.scale(exportScale, exportScale);
+      offCtx.translate(-(minX - padding), -(minY - padding));
+      for (const s of currentStrokes) {
+        drawSmoothStroke(offCtx, s);
+      }
+      offCtx.restore();
 
       return offscreen.toDataURL('image/jpeg', 0.85);
     });
@@ -668,13 +680,13 @@ export function MathCanvas({
         });
       } else if (type === 'circle') {
         const r = 60;
-        const count = 48;
+        const count = 64;
         const pts = [];
         for (let i = 0; i <= count; i++) {
           const a = (i * 2 * Math.PI) / count;
           pts.push({
-            x: Math.round(shapeCx + r * Math.cos(a)),
-            y: Math.round(shapeCy + r * Math.sin(a)),
+            x: shapeCx + r * Math.cos(a),
+            y: shapeCy + r * Math.sin(a),
             timestamp: now + i * 2,
           });
         }

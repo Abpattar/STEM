@@ -6,3 +6,5 @@ __pycache__/
 .history
 uvicorn.log
 
+.vercel
+.env*
