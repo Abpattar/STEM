@@ -527,18 +527,19 @@ async def recognize_typed(request: RecognizeTypedRequest):
             instruction=instruction
         )
     
-    # Pedagogical clarification options when completely ambiguous
+    # Pedagogical clarification options when completely ambiguous (guaranteed solvable, no loops)
+    clarification_payload = interpreter.build_solvable_clarification(text)
+    options = [
+        {"label": opt, "value": opt}
+        for opt in clarification_payload.get("clarification_options", [])
+    ]
     return RecognitionResult(
         candidates=[],
         needs_clarification=True,
         clarification=ClarificationRequest(
             id=str(uuid.uuid4())[:8],
-            question=f"I couldn't quite determine the exact math goal for '{text}'. What would you like to do?",
-            options=[
-                {"label": "Solve for x", "value": text},
-                {"label": "Calculate Area / Perimeter", "value": f"{text}, find area"},
-                {"label": "Simplify Expression", "value": text}
-            ],
+            question=clarification_payload.get("clarification_question") or f"Choose how you would like to solve '{text}':",
+            options=options,
             affected_region={"x": 0, "y": 0, "w": 0, "h": 0},
             symbol_in_question=text[:50]
         ),

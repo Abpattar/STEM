@@ -9,63 +9,193 @@ interface EntranceCorridorProps {
   onEnterLab: (lab: LabType) => void;
 }
 
+// Natural dimensions of /science-assets/futuristic_doors.jpg (1376 x 768)
+const DOOR_IMAGE_WIDTH = 1376;
+const DOOR_IMAGE_HEIGHT = 768;
+const DOOR_IMAGE_ASPECT = DOOR_IMAGE_WIDTH / DOOR_IMAGE_HEIGHT;
+
+interface DoorSpec {
+  id: 'physics' | 'chemistry' | 'biology';
+  title: string;
+  subtitle: string;
+  cta: string;
+  /** Exact percentage bounds of the glowing door frame inside futuristic_doors.jpg */
+  left: string;
+  top: string;
+  width: string;
+  height: string;
+  originX: string;
+  ambientClass: string;
+  frameIdleClass: string;
+  frameHoverClass: string;
+  cardBorderClass: string;
+  cardGlowClass: string;
+  iconWrapClass: string;
+  subtitleClass: string;
+  ctaClass: string;
+  icon: React.ReactNode;
+}
+
+const DOORS: DoorSpec[] = [
+  {
+    id: 'physics',
+    title: 'PHYSICS LAB',
+    subtitle: 'Mechanics, Optics, Circuits & 3D Solar Orrery',
+    cta: 'Enter Physics',
+    left: '7.25%',
+    top: '29.0%',
+    width: '20.7%',
+    height: '45.0%',
+    originX: '17.6%',
+    ambientClass: 'bg-cyan-600/20',
+    frameIdleClass: 'border-cyan-400/25 hover:border-cyan-400/70 bg-transparent',
+    frameHoverClass:
+      'border-cyan-400 bg-cyan-950/25 shadow-[0_0_40px_rgba(6,182,212,0.55),inset_0_0_24px_rgba(6,182,212,0.28)]',
+    cardBorderClass: 'border-cyan-500/45',
+    cardGlowClass: 'shadow-[0_0_24px_rgba(6,182,212,0.4)]',
+    iconWrapClass: 'bg-cyan-950/80 border-cyan-400/60 text-cyan-400',
+    subtitleClass: 'text-cyan-200',
+    ctaClass: 'bg-cyan-400 text-slate-950',
+    icon: <Atom className="w-4 h-4 sm:w-5 sm:h-5" />,
+  },
+  {
+    id: 'chemistry',
+    title: 'CHEMISTRY LAB',
+    subtitle: '3D Workbench, Pipette Reactions & Titration',
+    cta: 'Enter Chemistry',
+    left: '39.5%',
+    top: '29.0%',
+    width: '20.9%',
+    height: '45.0%',
+    originX: '50.0%',
+    ambientClass: 'bg-emerald-600/20',
+    frameIdleClass: 'border-emerald-400/25 hover:border-emerald-400/70 bg-transparent',
+    frameHoverClass:
+      'border-emerald-400 bg-emerald-950/25 shadow-[0_0_40px_rgba(16,185,129,0.55),inset_0_0_24px_rgba(16,185,129,0.28)]',
+    cardBorderClass: 'border-emerald-500/45',
+    cardGlowClass: 'shadow-[0_0_24px_rgba(16,185,129,0.4)]',
+    iconWrapClass: 'bg-emerald-950/80 border-emerald-400/60 text-emerald-400',
+    subtitleClass: 'text-emerald-200',
+    ctaClass: 'bg-emerald-400 text-slate-950',
+    icon: <FlaskConical className="w-4 h-4 sm:w-5 sm:h-5" />,
+  },
+  {
+    id: 'biology',
+    title: 'BIOLOGY LAB',
+    subtitle: 'Compound Microscope & Flower Dissection',
+    cta: 'Enter Biology',
+    left: '72.25%',
+    top: '29.0%',
+    width: '20.2%',
+    height: '45.0%',
+    originX: '82.4%',
+    ambientClass: 'bg-purple-600/20',
+    frameIdleClass: 'border-purple-400/25 hover:border-purple-400/70 bg-transparent',
+    frameHoverClass:
+      'border-purple-400 bg-purple-950/25 shadow-[0_0_40px_rgba(168,85,247,0.55),inset_0_0_24px_rgba(168,85,247,0.28)]',
+    cardBorderClass: 'border-purple-500/45',
+    cardGlowClass: 'shadow-[0_0_24px_rgba(168,85,247,0.4)]',
+    iconWrapClass: 'bg-purple-950/80 border-purple-400/60 text-purple-400',
+    subtitleClass: 'text-purple-200',
+    ctaClass: 'bg-purple-400 text-slate-950',
+    icon: <Microscope className="w-4 h-4 sm:w-5 sm:h-5" />,
+  },
+];
+
 export const EntranceCorridor: React.FC<EntranceCorridorProps> = ({ onEnterLab }) => {
   const { settings } = useAccessibility();
   const [hoveredDoor, setHoveredDoor] = useState<'physics' | 'chemistry' | 'biology' | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [stageSize, setStageSize] = useState<{ width: number; height: number } | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+
+  // Keep the background image and interactive door overlays inside one exact aspect-locked stage
+  // so the clickable squares align pixel-for-pixel with the painted blast doors at any viewport size.
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const updateStageSize = () => {
+      const rect = container.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return;
+
+      const bleed = 1.03;
+      const containerAspect = rect.width / rect.height;
+      let width: number;
+      let height: number;
+
+      if (containerAspect > DOOR_IMAGE_ASPECT) {
+        width = rect.width * bleed;
+        height = width / DOOR_IMAGE_ASPECT;
+      } else {
+        height = rect.height * bleed;
+        width = height * DOOR_IMAGE_ASPECT;
+      }
+
+      setStageSize({ width: Math.ceil(width), height: Math.ceil(height) });
+    };
+
+    updateStageSize();
+
+    let observer: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined') {
+      observer = new ResizeObserver(updateStageSize);
+      observer.observe(container);
+    }
+    window.addEventListener('resize', updateStageSize);
+
+    return () => {
+      window.removeEventListener('resize', updateStageSize);
+      observer?.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
-    const bgEl = bgRef.current;
+    const stageEl = stageRef.current;
     return () => {
-      if (bgEl) {
-        gsap.killTweensOf(bgEl);
+      if (stageEl) {
+        gsap.killTweensOf(stageEl);
       }
     };
   }, []);
 
-  // Mouse parallax effect for futuristic depth
+  // Subtle mouse parallax moving BOTH the corridor image AND the aligned door squares together
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isTransitioning || settings.reduceMotion || !bgRef.current) return;
+    if (isTransitioning || settings.reduceMotion || !stageRef.current) return;
     const { clientX, clientY, currentTarget } = e;
     const rect = currentTarget.getBoundingClientRect();
     const xPct = (clientX - rect.left) / rect.width - 0.5;
     const yPct = (clientY - rect.top) / rect.height - 0.5;
 
-    gsap.to(bgRef.current, {
-      x: -xPct * 16,
-      y: -yPct * 12,
-      duration: 0.7,
+    gsap.to(stageRef.current, {
+      x: -xPct * 12,
+      y: -yPct * 8,
+      duration: 0.65,
       ease: 'power2.out',
       overwrite: 'auto',
     });
   };
 
-  const handleDoorClick = (lab: 'physics' | 'chemistry' | 'biology') => {
+  const handleDoorClick = (door: DoorSpec) => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     soundManager.playDoorSlide();
 
-    if (settings.reduceMotion || !bgRef.current) {
-      onEnterLab(lab);
+    if (settings.reduceMotion || !stageRef.current) {
+      onEnterLab(door.id);
       return;
     }
 
-    let originX = '50%';
-    if (lab === 'physics') originX = '20%';
-    if (lab === 'chemistry') originX = '50%';
-    if (lab === 'biology') originX = '80%';
-
-    gsap.to(bgRef.current, {
+    gsap.to(stageRef.current, {
       scale: 2.3,
-      transformOrigin: `${originX} 55%`,
+      transformOrigin: `${door.originX} 51.5%`,
       opacity: 0,
       duration: 0.85,
       ease: 'power3.in',
       onComplete: () => {
-        onEnterLab(lab);
+        onEnterLab(door.id);
       },
     });
   };
@@ -75,183 +205,126 @@ export const EntranceCorridor: React.FC<EntranceCorridorProps> = ({ onEnterLab }
       ref={containerRef}
       onMouseMove={handleMouseMove}
       data-testid="science-corridor"
-      className="relative w-full h-full overflow-hidden bg-slate-950 select-none flex items-center justify-center pt-14"
+      className="relative w-full h-full overflow-hidden bg-slate-950 select-none flex items-center justify-center"
     >
-      {/* Background High-Res Futuristic Science Kingdom Blast Doors */}
+      {/* Aspect-Locked Corridor Stage: Background + Aligned Door Squares share one coordinate space */}
       <div
-        ref={bgRef}
-        className="absolute inset-0 w-full h-full scale-105 will-change-transform"
+        ref={stageRef}
+        className="relative shrink-0 will-change-transform"
+        style={
+          stageSize
+            ? { width: `${stageSize.width}px`, height: `${stageSize.height}px` }
+            : { width: '100%', height: '100%' }
+        }
       >
         <img
           src="/science-assets/futuristic_doors.jpg"
           alt="Futuristic Science Kingdom Blast Doors"
-          className="w-full h-full object-cover object-center brightness-95"
+          className="w-full h-full object-cover object-center brightness-95 block"
+          draggable={false}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/75" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/75 pointer-events-none" />
 
         {/* Dynamic Atmospheric Ambient Glow matching the hovered Futuristic Door */}
-        <div
-          className={`absolute inset-0 transition-opacity duration-500 pointer-events-none ${
-            hoveredDoor === 'physics' ? 'opacity-30 bg-cyan-600/20' : 'opacity-0'
-          }`}
-        />
-        <div
-          className={`absolute inset-0 transition-opacity duration-500 pointer-events-none ${
-            hoveredDoor === 'chemistry' ? 'opacity-30 bg-emerald-600/20' : 'opacity-0'
-          }`}
-        />
-        <div
-          className={`absolute inset-0 transition-opacity duration-500 pointer-events-none ${
-            hoveredDoor === 'biology' ? 'opacity-30 bg-purple-600/20' : 'opacity-0'
-          }`}
-        />
+        {DOORS.map((door) => (
+          <div
+            key={`ambient-${door.id}`}
+            className={`absolute inset-0 transition-opacity duration-500 pointer-events-none ${
+              hoveredDoor === door.id ? `opacity-30 ${door.ambientClass}` : 'opacity-0'
+            }`}
+          />
+        ))}
+
+        {/* Interactive Blast Door Squares — locked pixel-for-pixel to the 3 painted neon door frames */}
+        {DOORS.map((door) => {
+          const isHovered = hoveredDoor === door.id;
+          return (
+            <div
+              key={door.id}
+              style={{
+                left: door.left,
+                top: door.top,
+                width: door.width,
+                height: door.height,
+              }}
+              className={`absolute z-10 transition-opacity duration-300 ${
+                isTransitioning ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              }`}
+            >
+              {/* Exact Door Frame Hitbox & Glowing Square */}
+              <button
+                type="button"
+                data-testid={`door-${door.id}`}
+                aria-label={`Enter ${door.title}`}
+                onMouseEnter={() => {
+                  setHoveredDoor(door.id);
+                  soundManager.playClick();
+                }}
+                onMouseLeave={() => setHoveredDoor(null)}
+                onClick={() => handleDoorClick(door)}
+                className={`w-full h-full rounded-2xl border-2 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 ${
+                  isHovered ? door.frameHoverClass : door.frameIdleClass
+                }`}
+              />
+
+              {/* Compact Label Card centered neatly beneath its aligned door frame */}
+              <button
+                type="button"
+                onMouseEnter={() => {
+                  setHoveredDoor(door.id);
+                  soundManager.playClick();
+                }}
+                onMouseLeave={() => setHoveredDoor(null)}
+                onClick={() => handleDoorClick(door)}
+                className={`absolute left-1/2 -translate-x-1/2 top-[calc(100%+10px)] w-[96%] max-w-[260px] px-3 py-2.5 sm:px-3.5 sm:py-3 rounded-2xl bg-slate-900/92 border ${door.cardBorderClass} backdrop-blur-md text-center cursor-pointer transition-all duration-300 ${
+                  isHovered ? `scale-105 ${door.cardGlowClass}` : 'opacity-95 hover:opacity-100'
+                }`}
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <span
+                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg border flex items-center justify-center shrink-0 ${door.iconWrapClass}`}
+                  >
+                    {door.icon}
+                  </span>
+                  <h3 className="text-xs sm:text-sm lg:text-base font-black text-white tracking-wider uppercase font-mono truncate">
+                    {door.title}
+                  </h3>
+                </div>
+                <p className={`text-[10px] sm:text-[11px] ${door.subtitleClass} mt-1 line-clamp-1 font-sans`}>
+                  {door.subtitle}
+                </p>
+                <div
+                  className={`mt-2 inline-flex items-center gap-1 text-[10px] sm:text-xs font-mono font-bold px-3 py-1 rounded-full shadow-md ${door.ctaClass}`}
+                >
+                  <span>{door.cta}</span>
+                  <ArrowRight className="w-3 h-3" />
+                </div>
+              </button>
+            </div>
+          );
+        })}
       </div>
 
-      {/* Main Futuristic Title Header */}
+      {/* Main Futuristic Title Header (positioned cleanly above the 3 door frames) */}
       <div
-        className={`absolute top-16 sm:top-20 left-1/2 -translate-x-1/2 text-center z-20 transition-all duration-500 pointer-events-none w-full max-w-2xl px-4 ${
+        className={`absolute top-14 sm:top-16 left-1/2 -translate-x-1/2 text-center z-20 transition-all duration-500 pointer-events-none w-full max-w-2xl px-4 ${
           isTransitioning ? 'opacity-0 -translate-y-6' : 'opacity-100'
         }`}
       >
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-cyan-500/40 text-cyan-400 text-xs font-mono font-bold tracking-widest uppercase mb-2 shadow-[0_0_20px_rgba(6,182,212,0.2)] backdrop-blur-md">
-          <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900/90 border border-cyan-500/40 text-cyan-400 text-[11px] font-mono font-bold tracking-widest uppercase mb-1.5 shadow-[0_0_20px_rgba(6,182,212,0.2)] backdrop-blur-md">
+          <Sparkles className="w-3 h-3 text-cyan-400" />
           <span>Kingdom of Science • High-Tech Digital Wing</span>
         </div>
-        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
-          CHOOSE YOUR <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-emerald-400 to-purple-400">SECTOR</span>
+        <h2 className="text-xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+          CHOOSE YOUR{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-emerald-400 to-purple-400">
+            SECTOR
+          </span>
         </h2>
-        <p className="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto mt-1.5 font-mono drop-shadow-md">
+        <p className="text-slate-300 text-[11px] sm:text-xs max-w-xl mx-auto mt-1 font-mono drop-shadow-md">
           Hover over any airlock blast door to scan systems, or click to enter the laboratory!
         </p>
-      </div>
-
-      {/* Interactive Blast Door Click Hotspots */}
-      <div
-        className={`relative z-10 w-full h-full max-w-7xl mx-auto grid grid-cols-3 gap-2 sm:gap-6 px-4 sm:px-10 pt-36 pb-16 transition-opacity duration-300 ${
-          isTransitioning ? 'opacity-0 pointer-events-none' : 'opacity-100'
-        }`}
-      >
-        {/* DOOR 1: PHYSICS LAB (LEFT — BLUE NEON) */}
-        <button
-          type="button"
-          data-testid="door-physics"
-          onMouseEnter={() => {
-            setHoveredDoor('physics');
-            soundManager.playClick();
-          }}
-          onMouseLeave={() => setHoveredDoor(null)}
-          onClick={() => handleDoorClick('physics')}
-          className="group relative h-full flex flex-col items-center justify-end pb-8 cursor-pointer focus:outline-none text-left"
-        >
-          <div
-            className={`absolute inset-x-2 inset-y-4 rounded-2xl border-2 transition-all duration-300 ${
-              hoveredDoor === 'physics'
-                ? 'border-cyan-400 bg-cyan-950/35 shadow-[0_0_50px_rgba(6,182,212,0.5)] backdrop-blur-[1px]'
-                : 'border-cyan-500/20 hover:border-cyan-400/50 bg-transparent'
-            }`}
-          />
-          <div
-            className={`relative z-20 p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-cyan-500/40 backdrop-blur-md text-center w-[92%] max-w-xs transition-all duration-300 transform ${
-              hoveredDoor === 'physics' ? 'translate-y-0 scale-105 shadow-[0_0_25px_rgba(6,182,212,0.4)]' : 'translate-y-3 opacity-90'
-            }`}
-          >
-            <div className="w-12 h-12 rounded-xl bg-cyan-950/80 border border-cyan-400/60 flex items-center justify-center mx-auto mb-2.5 text-cyan-400">
-              <Atom className="w-6 h-6" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-black text-white tracking-wider uppercase font-mono">
-              PHYSICS LAB
-            </h3>
-            <p className="text-xs text-cyan-200 mt-1 line-clamp-2 font-sans">
-              Classical Mechanics, Optics Bench, DC Circuits, Pendulum, 3D Solar Orrery &amp; Cosmic Gravity.
-            </p>
-            <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-950 bg-cyan-400 px-3.5 py-1.5 rounded-full shadow-lg">
-              <span>Enter Physics</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </div>
-          </div>
-        </button>
-
-        {/* DOOR 2: CHEMISTRY LAB (CENTER — GREEN NEON) */}
-        <button
-          type="button"
-          data-testid="door-chemistry"
-          onMouseEnter={() => {
-            setHoveredDoor('chemistry');
-            soundManager.playClick();
-          }}
-          onMouseLeave={() => setHoveredDoor(null)}
-          onClick={() => handleDoorClick('chemistry')}
-          className="group relative h-full flex flex-col items-center justify-end pb-8 cursor-pointer focus:outline-none text-left"
-        >
-          <div
-            className={`absolute inset-x-2 inset-y-4 rounded-2xl border-2 transition-all duration-300 ${
-              hoveredDoor === 'chemistry'
-                ? 'border-emerald-400 bg-emerald-950/35 shadow-[0_0_50px_rgba(16,185,129,0.5)] backdrop-blur-[1px]'
-                : 'border-emerald-500/20 hover:border-emerald-400/50 bg-transparent'
-            }`}
-          />
-          <div
-            className={`relative z-20 p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-emerald-500/40 backdrop-blur-md text-center w-[92%] max-w-xs transition-all duration-300 transform ${
-              hoveredDoor === 'chemistry' ? 'translate-y-0 scale-105 shadow-[0_0_25px_rgba(16,185,129,0.4)]' : 'translate-y-3 opacity-90'
-            }`}
-          >
-            <div className="w-12 h-12 rounded-xl bg-emerald-950/80 border border-emerald-400/60 flex items-center justify-center mx-auto mb-2.5 text-emerald-400">
-              <FlaskConical className="w-6 h-6" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-black text-white tracking-wider uppercase font-mono">
-              CHEMISTRY LAB
-            </h3>
-            <p className="text-xs text-emerald-200 mt-1 line-clamp-2 font-sans">
-              3D Workbench, Interactive Pipette Reactions, Precipitation, Acid-Base Titration &amp; Indicators.
-            </p>
-            <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-950 bg-emerald-400 px-3.5 py-1.5 rounded-full shadow-lg">
-              <span>Enter Chemistry</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </div>
-          </div>
-        </button>
-
-        {/* DOOR 3: BIOLOGY LAB (RIGHT — PURPLE NEON) */}
-        <button
-          type="button"
-          data-testid="door-biology"
-          onMouseEnter={() => {
-            setHoveredDoor('biology');
-            soundManager.playClick();
-          }}
-          onMouseLeave={() => setHoveredDoor(null)}
-          onClick={() => handleDoorClick('biology')}
-          className="group relative h-full flex flex-col items-center justify-end pb-8 cursor-pointer focus:outline-none text-left"
-        >
-          <div
-            className={`absolute inset-x-2 inset-y-4 rounded-2xl border-2 transition-all duration-300 ${
-              hoveredDoor === 'biology'
-                ? 'border-purple-400 bg-purple-950/35 shadow-[0_0_50px_rgba(168,85,247,0.5)] backdrop-blur-[1px]'
-                : 'border-purple-500/20 hover:border-purple-400/50 bg-transparent'
-            }`}
-          />
-          <div
-            className={`relative z-20 p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-purple-500/40 backdrop-blur-md text-center w-[92%] max-w-xs transition-all duration-300 transform ${
-              hoveredDoor === 'biology' ? 'translate-y-0 scale-105 shadow-[0_0_25px_rgba(168,85,247,0.4)]' : 'translate-y-3 opacity-90'
-            }`}
-          >
-            <div className="w-12 h-12 rounded-xl bg-purple-950/80 border border-purple-400/60 flex items-center justify-center mx-auto mb-2.5 text-purple-400">
-              <Microscope className="w-6 h-6" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-black text-white tracking-wider uppercase font-mono">
-              BIOLOGY LAB
-            </h3>
-            <p className="text-xs text-purple-200 mt-1 line-clamp-2 font-sans">
-              Quartz Compound Microscope, Live Organelle Inspection &amp; 3-Stage Botanical Flower Dissection.
-            </p>
-            <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-950 bg-purple-400 px-3.5 py-1.5 rounded-full shadow-lg">
-              <span>Enter Biology</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </div>
-          </div>
-        </button>
       </div>
     </div>
   );
 };
-

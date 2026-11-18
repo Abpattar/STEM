@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { X, ExternalLink, HelpCircle } from 'lucide-react';
 import './styles/scienceWorkspace.css';
 import { LabType, DialogueStep } from './types/laboratory';
 import { EntranceCorridor } from './components/entrance/EntranceCorridor';
@@ -23,6 +24,7 @@ export const ScienceLabWorkspace: React.FC = () => {
   const [activeDialogues, setActiveDialogues] = useState<DialogueStep[]>([]);
   const [showGuide, setShowGuide] = useState<boolean>(false);
   const [isManualOpen, setIsManualOpen] = useState<boolean>(false);
+  const [isHelpVideoOpen, setIsHelpVideoOpen] = useState<boolean>(false);
   const [isSenkuAiOpen, setIsSenkuAiOpen] = useState<boolean>(false);
   const [hasVisitedLabs, setHasVisitedLabs] = useState<Set<LabType>>(() => new Set());
   const [isLocalMuted, setIsLocalMuted] = useState<boolean>(!settings.soundCues);
@@ -124,6 +126,7 @@ export const ScienceLabWorkspace: React.FC = () => {
         currentLab={currentLab}
         onNavigate={handleNavigate}
         onOpenManual={() => setIsManualOpen(true)}
+        onOpenHelpVideo={() => setIsHelpVideoOpen(true)}
         onAskSenku={() => setIsSenkuAiOpen(true)}
         isMuted={isLocalMuted}
         onToggleMute={handleToggleMute}
@@ -172,6 +175,55 @@ export const ScienceLabWorkspace: React.FC = () => {
         contextLab={currentLab}
         onQuestionAsked={handleSenkuQuestionAsked}
       />
+
+      {/* Science Lab Help Video Modal */}
+      {isHelpVideoOpen && (
+        <div
+          data-testid="science-help-video-modal"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md"
+          onClick={() => setIsHelpVideoOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-4xl rounded-2xl bg-slate-900 border border-cyan-500/40 shadow-[0_0_50px_rgba(6,182,212,0.25)] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800 bg-slate-950/80">
+              <div className="flex items-center gap-2 text-cyan-300 font-mono text-xs sm:text-sm font-bold">
+                <HelpCircle className="w-4 h-4" />
+                <span>Science Lab Walkthrough Video</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href="/help-video.mp4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono font-semibold text-cyan-300 bg-cyan-950/70 border border-cyan-500/40 hover:bg-cyan-900/70 transition-colors"
+                >
+                  <span>Open Video</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setIsHelpVideoOpen(false)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                  aria-label="Close help video"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            <div className="bg-black aspect-video w-full">
+              <video
+                src="/help-video.mp4"
+                controls
+                autoPlay
+                playsInline
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

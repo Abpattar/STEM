@@ -1,12 +1,13 @@
 import React from 'react';
 import { LabType } from '../../types/laboratory';
-import { Volume2, VolumeX, ArrowLeft, BookOpen, Atom, FlaskConical, Microscope, Home, Bot } from 'lucide-react';
+import { Volume2, VolumeX, ArrowLeft, BookOpen, Atom, FlaskConical, Microscope, Home, Bot, HelpCircle } from 'lucide-react';
 import { soundManager } from '../../audio/SoundManager';
 
 interface LabHUDProps {
   currentLab: LabType;
   onNavigate: (lab: LabType) => void;
   onOpenManual: () => void;
+  onOpenHelpVideo: () => void;
   onAskSenku: () => void;
   isMuted: boolean;
   onToggleMute: () => void;
@@ -16,6 +17,7 @@ export const LabHUD: React.FC<LabHUDProps> = ({
   currentLab,
   onNavigate,
   onOpenManual,
+  onOpenHelpVideo,
   onAskSenku,
   isMuted,
   onToggleMute,
@@ -159,6 +161,21 @@ export const LabHUD: React.FC<LabHUDProps> = ({
           <span className="hidden md:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-mono font-black bg-cyan-950/80 text-cyan-300 border border-cyan-600/50">
             <Bot className="w-2.5 h-2.5" /> AI
           </span>
+        </button>
+
+        {/* Help Walkthrough Video Button */}
+        <button
+          type="button"
+          data-testid="hud-help-video"
+          onClick={() => {
+            soundManager.playClick();
+            onOpenHelpVideo();
+          }}
+          className="p-2 rounded-xl bg-slate-900/90 border border-cyan-500/40 hover:border-cyan-400 text-cyan-300 hover:text-white transition-all backdrop-blur-md cursor-pointer"
+          title="Watch Science Lab Help Video"
+          aria-label="Watch Science Lab Help Video"
+        >
+          <HelpCircle className="w-4 h-4" />
         </button>
 
         {/* Lab Manual / Theory Button */}

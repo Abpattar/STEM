@@ -185,17 +185,11 @@ class HandwritingAdapter(BaseAdapter):
                 self._enrich_understanding(umr)
                 return umr
 
-        # Truly unparsable - provide clean pedagogical clarification options
-        clean_cand = clean_text or text_to_parse or "x^2 + 5x + 6 = 0"
+        # Truly unparsable - provide guaranteed-solvable one-click clarification options
+        clarification = interpreter.build_solvable_clarification(text_to_parse)
         umr.understanding.is_ambiguous = True
-        umr.understanding.clarification_question = (
-            f"I couldn't quite determine the exact math goal for '{clean_cand}'. What would you like to do?"
-        )
-        umr.understanding.clarification_options = [
-            clean_cand,
-            f"Solve: {clean_cand}",
-            f"Simplify: {clean_cand}"
-        ]
+        umr.understanding.clarification_question = clarification.get("clarification_question")
+        umr.understanding.clarification_options = clarification.get("clarification_options", [])
 
         return umr
 

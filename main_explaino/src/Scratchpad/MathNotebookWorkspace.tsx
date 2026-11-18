@@ -149,9 +149,10 @@ export const MathNotebookWorkspace: React.FC<MathNotebookWorkspaceProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isRecognizing, setIsRecognizing] = useState(false);
   const [notice, setNotice] = useState<NoticeState | null>(null);
-  const [clarification, setClarification] = useState<{ question: string; options: string[] } | null>(
-    null
-  );
+  const [clarification, setClarification] = useState<{
+    question: string;
+    options: Array<{ label: string; value: string }>;
+  } | null>(null);
   const [profile, setProfile] = useState<StudentProfile>(loadSavedProfile);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isSignModalOpen, setIsSignModalOpen] = useState(false);
@@ -522,12 +523,13 @@ export const MathNotebookWorkspace: React.FC<MathNotebookWorkspaceProps> = ({
         targetTab?: ScreenTab;
         keepMode?: boolean;
         profileOverride?: StudentProfile;
+        fromClarification?: boolean;
       }
     ) => {
       recognizeAbortRef.current?.abort();
 
       const rawInput = typeof overrideText === 'string' ? overrideText : typedInput;
-      const text = cleanExpressionText(rawInput);
+      const text = options?.fromClarification ? rawInput.trim() : cleanExpressionText(rawInput);
 
       setNotice(null);
       setClarification(null);
@@ -535,11 +537,12 @@ export const MathNotebookWorkspace: React.FC<MathNotebookWorkspaceProps> = ({
       soundEffects.playClick(520, 0.08);
 
       try {
-        const shouldSolveCanvas = lastActiveSource === 'canvas' && strokes.length > 0 && !text;
+        const shouldSolveCanvas =
+          !options?.fromClarification && lastActiveSource === 'canvas' && strokes.length > 0 && !text;
         let textToSolve = text;
         let imageB64 = '';
 
-        if (shouldSolveCanvas || strokes.length > 0) {
+        if (!options?.fromClarification && (shouldSolveCanvas || strokes.length > 0)) {
           if (exportCanvasRef.current) {
             imageB64 = exportCanvasRef.current();
           }
@@ -558,9 +561,16 @@ export const MathNotebookWorkspace: React.FC<MathNotebookWorkspaceProps> = ({
               ) {
                 setClarification({
                   question: recData.clarification.question,
-                  options: recData.clarification.options.map((o) =>
-                    typeof o === 'string' ? o : o.label || o.value || o.latex || ''
-                  ),
+                  options: recData.clarification.options
+                    .map((o) =>
+                      typeof o === 'string'
+                        ? { label: o, value: o }
+                        : {
+                            label: o.label || o.value || o.latex || '',
+                            value: o.value || o.latex || o.label || '',
+                          }
+                    )
+                    .filter((o) => o.value.trim().length > 0),
                 });
                 setActiveTab('canvas');
                 setIsLoading(false);
@@ -623,10 +633,17 @@ export const MathNotebookWorkspace: React.FC<MathNotebookWorkspaceProps> = ({
           setCurrentActivity('solving-equation');
         }
 
-        if (orchData.understanding?.is_ambiguous && orchData.understanding.clarification_question) {
+        if (
+          !options?.fromClarification &&
+          orchData.understanding?.is_ambiguous &&
+          orchData.understanding.clarification_question
+        ) {
+          const opts = (orchData.understanding.clarification_options || [])
+            .map((o) => ({ label: o, value: o }))
+            .filter((o) => o.value.trim().length > 0);
           setClarification({
             question: orchData.understanding.clarification_question,
-            options: orchData.understanding.clarification_options || [],
+            options: opts,
           });
           setActiveTab('canvas');
           return;
@@ -785,19 +802,18 @@ export const MathNotebookWorkspace: React.FC<MathNotebookWorkspaceProps> = ({
   }, []);
 
   const handleClarificationSelect = useCallback(
-    (option: string) => {
-      let clean = option;
-      if (clean.includes(':')) {
-        clean = clean.split(':').slice(1).join(':').trim();
+    (option: { label: string; value: string }) => {
+      let clean = (option.value || option.label).trim();
+      if (/^(solve|simplify|evaluate)\s*:/i.test(clean)) {
+        clean = clean.replace(/^(solve|simplify|evaluate)\s*:/i, '').trim();
       }
-      clean = cleanExpressionText(clean);
       clean = clean.replace(/^[+\-*/=\s]+/, '').replace(/[+\-*/\s]+$/, '').trim();
 
       setClarification(null);
       setNotice(null);
       setTypedInput(clean);
       setLastActiveSource('typed');
-      void handleSolve(clean);
+      void handleSolve(clean, { fromClarification: true });
     },
     [handleSolve]
   );
@@ -1040,6 +1056,15 @@ export const MathNotebookWorkspace: React.FC<MathNotebookWorkspaceProps> = ({
                   <h4 className="clarification-title">Clarify what to solve</h4>
                   <p className="clarification-question">{clarification.question}</p>
                 </div>
+                <button
+                  type="button"
+                  className="screen-notice-close"
+                  onClick={() => setClarification(null)}
+                  aria-label="Dismiss clarification"
+                  title="Dismiss"
+                >
+                  ×
+                </button>
               </div>
               {clarification.options.length > 0 && (
                 <div className="clarification-options">
@@ -1050,7 +1075,7 @@ export const MathNotebookWorkspace: React.FC<MathNotebookWorkspaceProps> = ({
                       className="clarification-option-btn"
                       onClick={() => handleClarificationSelect(opt)}
                     >
-                      <span>{opt}</span>
+                      <span>{opt.label}</span>
                     </button>
                   ))}
                 </div>

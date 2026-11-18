@@ -30,7 +30,23 @@ class UniversalMathInterpreter:
     def __init__(self):
         self.transformations = standard_transformations + (implicit_multiplication_application, convert_xor)
 
-    def interpret(self, raw_text: str) -> Dict[str, Any]:
+    @staticmethod
+    def _fmt_num(val: float) -> Any:
+        return int(val) if float(val).is_integer() else round(val, 4)
+
+    @staticmethod
+    def _extract_positive_numbers(text: str) -> List[float]:
+        nums: List[float] = []
+        for m in re.findall(r'(?<![a-zA-Z0-9_])(\d+(?:\.\d+)?)', text):
+            try:
+                v = float(m)
+                if v > 0:
+                    nums.append(v)
+            except ValueError:
+                pass
+        return nums
+
+    def interpret(self, raw_text: str, _allow_clarification: bool = True) -> Dict[str, Any]:
         text = raw_text.strip()
         # Clean common prefixes and repeated conversational verbs
         clean = text
@@ -42,9 +58,10 @@ class UniversalMathInterpreter:
             clean = re.sub(r'\s+with\s+respect\s+to\s+[a-zA-Z]+$', '', clean, flags=re.IGNORECASE).strip()
 
         # 0. PEDAGOGICAL SHAPE CLARIFICATION (when shape is drawn/labeled without an explicit query)
-        clarification = self._detect_shape_clarification(clean, text)
-        if clarification:
-            return clarification
+        if _allow_clarification:
+            clarification = self._detect_shape_clarification(clean, text)
+            if clarification:
+                return clarification
 
         # 1. TRIANGLE ANGLE SUM PATTERNS (e.g. "38°; 90°; ?", "38, 90, x", "triangle with angles 38° and 90°")
         triangle_angles = self._match_triangle_angles(clean)
@@ -92,7 +109,7 @@ class UniversalMathInterpreter:
             return arith
 
         # 10. GENERAL ALGEBRAIC EQUATION / EXPRESSION
-        return self._match_algebra(clean, text)
+        return self._match_algebra(clean, text, _allow_clarification=_allow_clarification)
 
     def _detect_shape_clarification(self, clean: str, original: str) -> Optional[Dict[str, Any]]:
         text_lower = original.lower()
@@ -440,10 +457,11 @@ class UniversalMathInterpreter:
         return None
 
     def _match_circle(self, text: str) -> Optional[Dict[str, Any]]:
-        # e.g. "circle radius 5", "r = 7, find area", "circle radius 5, find circumference"
-        m = re.search(r'(?:circle|radius)\s*(?:with|of|is|=)?\s*(?:r(?:adius)?\s*=\s*)?(\d+(?:\.\d+)?)', text, re.IGNORECASE)
-        if m and any(w in text.lower() for w in ["circle", "radius", "circumference", "diameter", "pi"]):
-            r = float(m.group(1))
+        # e.g. "circle radius 5", "r = 7, find area", "circle radius 5, find circumference", "Circle 5, Area"
+        m = re.search(r'(?:circle|radius)\s*(?:with|of|is|=)?\s*(?:r(?:adius)?\s*=?\s*)?(\d+(?:\.\d+)?)', text, re.IGNORECASE)
+        nums = self._extract_positive_numbers(text)
+        if (m or ("circle" in text.lower() and nums)) and any(w in text.lower() for w in ["circle", "radius", "circumference", "diameter", "pi"]):
+            r = float(m.group(1)) if m else nums[0]
             r_s = int(r) if r.is_integer() else r
             req_type = "circumference" if ("circum" in text.lower() or "perim" in text.lower()) else ("diameter" if "diam" in text.lower() else "area")
             
@@ -478,10 +496,11 @@ class UniversalMathInterpreter:
         return None
 
     def _match_mensuration(self, text: str) -> Optional[Dict[str, Any]]:
-        # 1. Square: e.g. "square side 6 find area", "square side 6 find diagonal"
+        nums = self._extract_positive_numbers(text)
+        # 1. Square: e.g. "square side 6 find area", "square side 6 find diagonal", "Square 6, Area"
         m_sq = re.search(r'square.*?(?:side|s)\s*(?:of|is|=)?\s*(\d+(?:\.\d+)?)', text, re.IGNORECASE)
         if m_sq or ("square" in text.lower() and any(w in text.lower() for w in ["area", "perimeter", "diag", "side"])):
-            s = float(m_sq.group(1)) if m_sq else 5.0
+            s = float(m_sq.group(1)) if m_sq else (nums[0] if nums else 5.0)
             s_s = int(s) if s.is_integer() else s
             req_type = "diagonal" if "diag" in text.lower() else ("perimeter" if "perim" in text.lower() else "area")
             prob = MensurationProblem(
@@ -506,11 +525,11 @@ class UniversalMathInterpreter:
                 "latex": f"A = {s_s}^2" if req_type == "area" else (f"P = 4 \\times {s_s}" if req_type == "perimeter" else f"d = {s_s}\\sqrt{{2}}")
             }
 
-        # 2. Rectangle: e.g. "rectangle length 8 width 5 find area", "rectangle length 8 width 5 find diagonal"
+        # 2. Rectangle: e.g. "rectangle length 8 width 5 find area", "Rectangle with sides 5, 6, Area"
         m_rect = re.search(r'(?:rectangle|rect).*?(?:length|l)\s*(?:of|is|=|:)?\s*(\d+(?:\.\d+)?).*?(?:width|breadth|w)\s*(?:of|is|=|:)?\s*(\d+(?:\.\d+)?)', text, re.IGNORECASE)
-        if m_rect or ("rectangle" in text.lower() and "length" in text.lower()):
-            l = float(m_rect.group(1)) if m_rect else 8.0
-            w = float(m_rect.group(2)) if m_rect else 5.0
+        if m_rect or (("rectangle" in text.lower() or "rect " in text.lower()) and ("length" in text.lower() or len(nums) >= 2)):
+            l = float(m_rect.group(1)) if m_rect else (nums[0] if len(nums) >= 1 else 8.0)
+            w = float(m_rect.group(2)) if m_rect else (nums[1] if len(nums) >= 2 else 5.0)
             l_s = int(l) if l.is_integer() else l
             w_s = int(w) if w.is_integer() else w
             req_type = "diagonal" if "diag" in text.lower() else ("perimeter" if "perim" in text.lower() else "area")
@@ -704,7 +723,127 @@ class UniversalMathInterpreter:
                 }
         return None
 
-    def _match_algebra(self, clean: str, original: str) -> Dict[str, Any]:
+    def build_solvable_clarification(self, raw_text: str) -> Dict[str, Any]:
+        """
+        Build guaranteed-solvable, one-click clarification options for ambiguous
+        or incomplete inputs (such as a triangle given only 2 sides).
+        Every returned option is verified to resolve cleanly without re-clarifying.
+        """
+        text = (raw_text or "").strip()
+        text_lower = text.lower()
+        nums = self._extract_positive_numbers(text)
+
+        question = f"Choose how you would like to solve '{text}':" if text else "Choose a math problem to solve:"
+        candidates: List[str] = []
+
+        if "triangle" in text_lower or "tri" in text_lower:
+            if len(nums) >= 3:
+                a, b, c = nums[0], nums[1], nums[2]
+                a_s, b_s, c_s = self._fmt_num(a), self._fmt_num(b), self._fmt_num(c)
+                if a + b > c and a + c > b and b + c > a:
+                    question = f"What would you like to calculate for the triangle with sides {a_s}, {b_s}, and {c_s}?"
+                    candidates = [
+                        f"Triangle with sides {a_s}, {b_s}, {c_s}, find area",
+                        f"Triangle with sides {a_s}, {b_s}, {c_s}, find perimeter",
+                        f"Triangle with sides {a_s}, {b_s}, {c_s}, find longest side",
+                    ]
+                else:
+                    question = f"Choose a valid triangle interpretation using {a_s} and {b_s}:"
+                    candidates = [
+                        f"Triangle with base {a_s} and height {b_s}, find area",
+                        f"Right triangle with legs {a_s} and {b_s}, find area",
+                        f"Right triangle with legs {a_s} and {b_s}, find hypotenuse",
+                    ]
+            elif len(nums) == 2:
+                a_s, b_s = self._fmt_num(nums[0]), self._fmt_num(nums[1])
+                question = (
+                    f"A triangle with only two values ({a_s} and {b_s}) needs one assumption to solve uniquely. "
+                    "Select one to solve right away:"
+                )
+                candidates = [
+                    f"Triangle with base {a_s} and height {b_s}, find area",
+                    f"Right triangle with legs {a_s} and {b_s}, find area",
+                    f"Right triangle with legs {a_s} and {b_s}, find hypotenuse",
+                ]
+            elif len(nums) == 1:
+                a_s = self._fmt_num(nums[0])
+                question = f"Treat this as an equilateral triangle with side {a_s}?"
+                candidates = [
+                    f"Triangle with sides {a_s}, {a_s}, {a_s}, find area",
+                    f"Triangle with sides {a_s}, {a_s}, {a_s}, find perimeter",
+                ]
+        elif "rectangle" in text_lower or "rect" in text_lower:
+            l_s = self._fmt_num(nums[0]) if len(nums) >= 1 else 8
+            w_s = self._fmt_num(nums[1]) if len(nums) >= 2 else 5
+            question = f"What would you like to calculate for a rectangle ({l_s} × {w_s})?"
+            candidates = [
+                f"Rectangle with length {l_s} and width {w_s}, find area",
+                f"Rectangle with length {l_s} and width {w_s}, find perimeter",
+                f"Rectangle with length {l_s} and width {w_s}, find diagonal",
+            ]
+        elif "square" in text_lower:
+            s_s = self._fmt_num(nums[0]) if nums else 5
+            question = f"What would you like to calculate for a square with side {s_s}?"
+            candidates = [
+                f"Square with side {s_s}, find area",
+                f"Square with side {s_s}, find perimeter",
+                f"Square with side {s_s}, find diagonal",
+            ]
+        elif "circle" in text_lower or "radius" in text_lower:
+            r_s = self._fmt_num(nums[0]) if nums else 5
+            question = f"What would you like to calculate for a circle with radius {r_s}?"
+            candidates = [
+                f"Circle with radius {r_s}, find area",
+                f"Circle with radius {r_s}, find circumference",
+                f"Circle with radius {r_s}, find diameter",
+            ]
+        elif len(nums) >= 2:
+            a_s, b_s = self._fmt_num(nums[0]), self._fmt_num(nums[1])
+            question = f"Pick a calculation using {a_s} and {b_s}:"
+            candidates = [
+                f"Triangle with base {a_s} and height {b_s}, find area",
+                f"Rectangle with length {a_s} and width {b_s}, find area",
+                f"Right triangle with legs {a_s} and {b_s}, find hypotenuse",
+                f"{a_s} + {b_s}",
+            ]
+        elif len(nums) == 1:
+            a_s = self._fmt_num(nums[0])
+            question = f"Pick a calculation using {a_s}:"
+            candidates = [
+                f"Square with side {a_s}, find area",
+                f"Circle with radius {a_s}, find area",
+                f"2x + {a_s} = 0",
+            ]
+
+        # Verify every candidate resolves cleanly with zero chance of looping back into clarification
+        verified_options: List[str] = []
+        for cand in candidates:
+            check = self.interpret(cand, _allow_clarification=False)
+            if not check.get("is_ambiguous") and check.get("domain") != "unknown":
+                verified_options.append(cand)
+
+        if not verified_options:
+            question = "I couldn't parse that expression automatically. Pick a valid problem below or edit the equation box:"
+            verified_options = [
+                "Triangle with base 5 and height 6, find area",
+                "Right triangle with legs 3 and 4, find hypotenuse",
+                "2x + 4 = 10",
+                "x^2 + 5x + 6 = 0",
+            ]
+
+        return {
+            "domain": "unknown",
+            "topic": "unknown",
+            "problem_type": "clarification",
+            "ast": None,
+            "latex": text,
+            "unknowns": [],
+            "is_ambiguous": True,
+            "clarification_question": question,
+            "clarification_options": verified_options,
+        }
+
+    def _match_algebra(self, clean: str, original: str, _allow_clarification: bool = True) -> Dict[str, Any]:
         # Pre-clean expression and standardize syntax
         expr_str = clean
         expr_str = re.sub(r'\\frac\{([^}]+)\}\{([^}]+)\}', r'((\1)/(\2))', expr_str)
@@ -761,22 +900,17 @@ class UniversalMathInterpreter:
                     "unknowns": symbols or ["x"]
                 }
         except Exception:
-            clean_cand = expr_str.replace('**', '^') if expr_str else (clean or "x^2 + 5x + 6 = 0")
-            return {
-                "domain": "unknown",
-                "topic": "unknown",
-                "problem_type": "unknown",
-                "ast": None,
-                "latex": clean_cand,
-                "unknowns": [],
-                "is_ambiguous": True,
-                "clarification_question": f"I couldn't quite determine the exact math goal for '{clean_cand}'. What would you like to do?",
-                "clarification_options": [
-                    clean_cand,
-                    f"Solve: {clean_cand}",
-                    f"Simplify: {clean_cand}"
-                ]
-            }
+            if not _allow_clarification:
+                return {
+                    "domain": "unknown",
+                    "topic": "unknown",
+                    "problem_type": "unknown",
+                    "ast": None,
+                    "latex": original,
+                    "unknowns": [],
+                    "is_ambiguous": True,
+                }
+            return self.build_solvable_clarification(original)
 
     def _expr_to_ast(self, expr: sp.Basic) -> Dict[str, Any]:
         if expr.is_Symbol:
