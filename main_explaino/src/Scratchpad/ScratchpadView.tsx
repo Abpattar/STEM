@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { ArrowLeft, Calculator } from 'lucide-react';
+import { ArrowLeft, Calculator, HelpCircle, ExternalLink, X } from 'lucide-react';
 import { MathNotebookWorkspace } from './MathNotebookWorkspace';
 import { useStudentLearning } from '../context/StudentLearningContext';
 
@@ -14,6 +14,7 @@ export const ScratchpadView: React.FC<ScratchpadViewProps> = ({
 }) => {
   const { navigateToModule } = useStudentLearning();
   const [backendStatus, setBackendStatus] = useState<'checking' | 'online' | 'offline'>('checking');
+  const [isHelpVideoOpen, setIsHelpVideoOpen] = useState(false);
 
   const handleBack = useCallback(() => {
     navigateToModule('nilo', { activity: null });
@@ -70,6 +71,17 @@ export const ScratchpadView: React.FC<ScratchpadViewProps> = ({
         </div>
 
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            data-testid="math-help-video-btn"
+            onClick={() => setIsHelpVideoOpen(true)}
+            className="p-2 rounded-xl text-[#7C5CFF] bg-purple-50/90 border border-purple-200/80 hover:bg-purple-100 hover:text-[#5B3FD6] transition-all cursor-pointer"
+            title="Watch Math Scratchpad Help Video"
+            aria-label="Watch Math Scratchpad Help Video"
+          >
+            <HelpCircle className="w-4 h-4" />
+          </button>
+
           <span
             className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold border ${
               backendStatus === 'online'
@@ -102,6 +114,55 @@ export const ScratchpadView: React.FC<ScratchpadViewProps> = ({
       <div className="relative flex-1 w-full min-h-0 overflow-hidden">
         <MathNotebookWorkspace onBackendStatusChange={setBackendStatus} />
       </div>
+
+      {/* 3. MATH SCRATCHPAD HELP VIDEO MODAL */}
+      {isHelpVideoOpen && (
+        <div
+          data-testid="math-help-video-modal"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md"
+          onClick={() => setIsHelpVideoOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-4xl rounded-2xl bg-slate-900 border border-purple-400/45 shadow-[0_0_50px_rgba(124,92,255,0.3)] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800 bg-slate-950/90">
+              <div className="flex items-center gap-2 text-purple-300 font-semibold text-xs sm:text-sm">
+                <HelpCircle className="w-4 h-4" />
+                <span>Math Scratchpad Help Video</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href="/math-help-video.mp4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-purple-200 bg-purple-950/70 border border-purple-500/40 hover:bg-purple-900/70 transition-colors"
+                >
+                  <span>Open Video</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setIsHelpVideoOpen(false)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                  aria-label="Close help video"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            <div className="bg-black aspect-video w-full">
+              <video
+                src="/math-help-video.mp4"
+                controls
+                autoPlay
+                playsInline
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
