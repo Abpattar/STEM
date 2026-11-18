@@ -54,5 +54,6 @@ Thumbs.db
 */.vercel/
 */*/.vercel/
 
-# Loose source video (served via main_explaino/public/help-video.mp4)
+# Loose source videos (served via main_explaino/public/)
 WhatsApp Video*.mp4
+/VoiceAgent.mp4

@@ -7,6 +7,8 @@ import {
   Maximize2,
   Minimize2,
   Sparkles,
+  HelpCircle,
+  ExternalLink,
 } from 'lucide-react';
 import { ExoWorkspace } from './ExoWorkspace';
 
@@ -33,6 +35,7 @@ export const VoiceAgent: React.FC<VoiceAgentProps> = ({
 }) => {
   const [workspaceKey, setWorkspaceKey] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isHelpVideoOpen, setIsHelpVideoOpen] = useState(false);
 
   const handleRefresh = () => {
     setWorkspaceKey((prev) => prev + 1);
@@ -92,6 +95,17 @@ export const VoiceAgent: React.FC<VoiceAgentProps> = ({
         {/* Action Controls */}
         <div className="flex items-center gap-1.5">
           <button
+            type="button"
+            data-testid="exo-help-video-btn"
+            onClick={() => setIsHelpVideoOpen(true)}
+            className="p-2 rounded-xl text-purple-600 bg-purple-50/80 border border-purple-200/80 hover:bg-purple-100 hover:text-purple-800 transition-all cursor-pointer"
+            title="Watch EXO Voice Agent Help Video"
+            aria-label="Watch EXO Voice Agent Help Video"
+          >
+            <HelpCircle className="w-4 h-4" />
+          </button>
+
+          <button
             onClick={handleRefresh}
             className="p-2 rounded-xl text-slate-500 hover:text-purple-600 hover:bg-purple-50 transition-all cursor-pointer"
             title="Reset EXO Workspace"
@@ -135,6 +149,55 @@ export const VoiceAgent: React.FC<VoiceAgentProps> = ({
           onNavigateToModule={onNavigateToModule}
         />
       </div>
+
+      {/* 3. EXO VOICE AGENT HELP VIDEO MODAL */}
+      {isHelpVideoOpen && (
+        <div
+          data-testid="exo-help-video-modal"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md"
+          onClick={() => setIsHelpVideoOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-4xl rounded-2xl bg-slate-900 border border-purple-400/40 shadow-[0_0_50px_rgba(124,92,255,0.28)] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800 bg-slate-950/90">
+              <div className="flex items-center gap-2 text-purple-300 font-semibold text-xs sm:text-sm">
+                <HelpCircle className="w-4 h-4" />
+                <span>EXO Voice Agent Help Video</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href="/voice-agent-help.mp4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-purple-200 bg-purple-950/70 border border-purple-500/40 hover:bg-purple-900/70 transition-colors"
+                >
+                  <span>Open Video</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setIsHelpVideoOpen(false)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                  aria-label="Close help video"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            <div className="bg-black aspect-video w-full">
+              <video
+                src="/voice-agent-help.mp4"
+                controls
+                autoPlay
+                playsInline
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
