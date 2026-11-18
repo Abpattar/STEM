@@ -13,7 +13,9 @@ import {
   Tv,
   CheckCircle2,
   PanelLeft,
-  PanelLeftClose
+  PanelLeftClose,
+  HelpCircle,
+  ExternalLink
 } from 'lucide-react';
 
 export interface ArcadePageProps {
@@ -424,6 +426,7 @@ export const ArcadePage: React.FC<ArcadePageProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [toastNotice, setToastNotice] = useState<string | null>(null);
   const [activeGameToPlay, setActiveGameToPlay] = useState<string | null>(null);
+  const [isHelpVideoOpen, setIsHelpVideoOpen] = useState<boolean>(false);
 
   // Scroll Container Refs for horizontal carousels
   const categoriesRef = useRef<HTMLDivElement>(null);
@@ -579,6 +582,21 @@ export const ArcadePage: React.FC<ArcadePageProps> = ({
                 </button>
               )}
             </div>
+
+            {/* Help Walkthrough Video Button */}
+            <button
+              type="button"
+              data-testid="arcade-help-video-btn"
+              onClick={() => {
+                arcadeAudio.playButton();
+                setIsHelpVideoOpen(true);
+              }}
+              className="w-9 h-9 rounded-full bg-[#161836] border border-purple-500/45 hover:bg-[#242858] hover:border-purple-400 text-purple-300 hover:text-white flex items-center justify-center transition-colors shadow-sm cursor-pointer shrink-0"
+              title="Watch Games Help Video"
+              aria-label="Watch Games Help Video"
+            >
+              <HelpCircle className="w-4 h-4" />
+            </button>
 
             {/* Notification Bell */}
             <button
@@ -1374,6 +1392,55 @@ export const ArcadePage: React.FC<ArcadePageProps> = ({
           />
         );
       })()}
+
+      {/* Games Help Walkthrough Video Modal */}
+      {isHelpVideoOpen && (
+        <div
+          data-testid="arcade-help-video-modal"
+          className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md"
+          onClick={() => setIsHelpVideoOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-4xl rounded-2xl bg-slate-900 border border-purple-400/45 shadow-[0_0_50px_rgba(168,85,247,0.3)] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800 bg-slate-950/90">
+              <div className="flex items-center gap-2 text-purple-300 font-semibold text-xs sm:text-sm">
+                <HelpCircle className="w-4 h-4" />
+                <span>Arcade Games Help Video</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href="/game-help-video.mp4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-purple-200 bg-purple-950/70 border border-purple-500/40 hover:bg-purple-900/70 transition-colors"
+                >
+                  <span>Open Video</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setIsHelpVideoOpen(false)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                  aria-label="Close help video"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            <div className="bg-black aspect-video w-full">
+              <video
+                src="/game-help-video.mp4"
+                controls
+                autoPlay
+                playsInline
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
